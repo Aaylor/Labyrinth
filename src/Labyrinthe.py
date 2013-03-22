@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import string
 
 class Labyrinthe :
     """Contient "labyrinthe" : le tableau à deux dimensions représentant le labyrinthe"""
