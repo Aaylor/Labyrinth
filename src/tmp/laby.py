@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import tkinter
 
 class Game:
@@ -12,6 +14,8 @@ class Game:
         self.end_pos = (0,0)
         read=_file.read()
         read=read.split('\n')
+        if read[-1] == "":
+            read = read[0:-1]
         self.length = len(read)-1
         for i, line in enumerate(read):
             self.labyrinthe.append([])
@@ -53,7 +57,7 @@ class Game:
             print("")
 
     def move(self, direction):
-        if self.player_pos[0]&1 and self.player_pos[0]+2 < len(self.labyrinthe):
+        if self.player_pos[0]&1 and self.player_pos[0]+2 < (len(self.labyrinthe)-1):
             case = 2
         else:
             case = 1
