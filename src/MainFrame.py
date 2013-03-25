@@ -8,17 +8,15 @@ class MainFrame(Tk) :
         Tk.__init__(self)
 
         #MenuBar
-        menuBar = MenuBar(self)
-        menuBar.pack()
+        self.menuBar = MenuBar(self)
+        self.menuBar.pack()
 
         #Zone d'Affichage
-        #LE CANEVAS D'AFFICHAGE SERA UNE CLASSE
-        frame = Frame(self)
-        canevas = GameScreen(frame)
-        frame.pack()
+        self.gameScreen = GameScreen(self)
+        self.gameScreen.pack()
 
         #Zone de Controle
-        inputArea = InputArea(self)
-        inputArea.pack()
+        self.inputArea = InputArea(self)
+        self.inputArea.pack()
         
         self.mainloop()
