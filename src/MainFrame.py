@@ -10,6 +10,7 @@ class MainFrame(Tk) :
         menuBar.pack()
 
         #Zone d'Affichage
+        #LE CANEVAS D'AFFICHAGE SERA UNE CLASSE
         self.canevas = Canvas(self, bg="ivory", width=800, height=450)
         self.canevas.pack(pady=5)
 
@@ -19,6 +20,7 @@ class MainFrame(Tk) :
         
         self.mainloop()
 
+#A METTRE DANS UNE CLASSE MENUBAR
 class MenuBar(Frame) :
     def __init__(self, mainFrame) :
         Frame.__init__(self, mainFrame)
@@ -39,6 +41,7 @@ class MenuBar(Frame) :
         self.menuBar.add_cascade(label="Aide", menu=aideMenu)
         aideMenu.add_command(label="A propos")
 
+#A METTRE DANS UNE CLASSE INPUTAREA
 class InputArea(Frame) :
     def __init__(self, mainFrame) :
         Frame.__init__(self, mainFrame)
@@ -69,6 +72,6 @@ class InputArea(Frame) :
     
         
         
-
+#A METTRE DANS UNE CLASSE MAIN()
 fenetre = MainFrame()
         
