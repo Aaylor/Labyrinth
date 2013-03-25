@@ -1,6 +1,7 @@
 from tkinter import *
 from MenuBar import *
 from InputArea import *
+from GameScreen import *
 
 class MainFrame(Tk) :
     def __init__(self) :
@@ -12,7 +13,7 @@ class MainFrame(Tk) :
 
         #Zone d'Affichage
         #LE CANEVAS D'AFFICHAGE SERA UNE CLASSE
-        self.canevas = Canvas(self, bg="ivory", width=800, height=450)
+        self.canevas = GameScreen(self)
         self.canevas.pack(pady=5)
 
         #Zone de Controle
