@@ -13,8 +13,9 @@ class MainFrame(Tk) :
 
         #Zone d'Affichage
         #LE CANEVAS D'AFFICHAGE SERA UNE CLASSE
-        self.canevas = GameScreen(self)
-        self.canevas.pack(pady=5)
+        frame = Frame(self)
+        canevas = GameScreen(frame)
+        frame.pack()
 
         #Zone de Controle
         inputArea = InputArea(self)
