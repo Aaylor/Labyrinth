@@ -23,6 +23,9 @@ class GameScreen(Canvas) :
 
     def topView(self) :
         """Configure l'affichage en mode vue du dessus"""
+        tileSol = PhotoImage(file="../img/tile_sol.gif")
+        tileVide = PhotoImage(file="../img/tile_vide.gif")
+        
         #Calcul des ecarts
         largeurFenetre = 800
         hauteurFenetre = 450
@@ -36,16 +39,17 @@ class GameScreen(Canvas) :
             compteurX = 0
             for element in liste :
                 if element == 0 :
-                    couleur = "black"
+                    self.create_image(ecartHorizontal + compteurX*16, ecartVertical + compteurY*16, anchor=NE, image=tileSol)
                 elif element == 1 :
-                    couleur = "blue"
-                self.create_rectangle(ecartHorizontal + compteurX*16, ecartVertical + compteurY*16, ecartHorizontal + (compteurX+1)*16, ecartVertical + (compteurY+1)*16, fill=couleur)
+                    self.create_image(ecartHorizontal + compteurX*16, ecartVertical + compteurY*16, anchor=NE, image=tileVide)
                 compteurX += 1
             compteurY += 1
 
         #Dessin du personnage
         coord = ecartHorizontal + persoPosX*16, ecartVertical + persoPosY*16, ecartHorizontal + (persoPosX+1)*16, ecartVertical + (persoPosY+1)*16
-        self.create_line(coord, fill="red")       
+        self.create_line(coord, fill="red")
+
+        mainloop()
 
     def fpsView(self) :
         """Configure l'affichage en mode FPS"""
