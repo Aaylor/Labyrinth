@@ -24,3 +24,11 @@ class Labyrinthe :
             chaine += str(i)
             chaine += "\n"
         return chaine
+
+    def maxX(self) :
+        """Retourne la largeur maximum du Labyrinthe"""
+        pass
+
+    def maxY(self) :
+        """Retourne hauteur maximum du Labyrinthe"""
+        pass

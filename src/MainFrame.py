@@ -13,11 +13,9 @@ class MainFrame(Tk) :
 
         #Zone d'Affichage
         self.gameScreen = GameScreen(self)
-        self.gameScreen.noGame()
         self.gameScreen.pack()
 
         #Zone de Controle
         self.inputArea = InputArea(self)
         self.inputArea.pack()
         
-        self.mainloop()
