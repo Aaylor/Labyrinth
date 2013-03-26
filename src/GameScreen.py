@@ -8,7 +8,7 @@ maxX = 10
 maxY = 10
 #FAKE PERSONNAGE
 persoPosX = 5
-persoPosY = 7
+persoPosY = 5
 #############"
 
 class GameScreen(Canvas) :
@@ -25,6 +25,7 @@ class GameScreen(Canvas) :
         """Configure l'affichage en mode vue du dessus"""
         tileSol = PhotoImage(file="../img/tile_sol.gif")
         tileVide = PhotoImage(file="../img/tile_vide.gif")
+        persoImg = PhotoImage(file="../img/personnage.gif")
         
         #Calcul des ecarts
         largeurFenetre = 800
@@ -46,8 +47,7 @@ class GameScreen(Canvas) :
             compteurY += 1
 
         #Dessin du personnage
-        coord = ecartHorizontal + persoPosX*16, ecartVertical + persoPosY*16, ecartHorizontal + (persoPosX+1)*16, ecartVertical + (persoPosY+1)*16
-        self.create_line(coord, fill="red")
+        self.create_image(ecartHorizontal + persoPosX*16 + 4, ecartVertical + persoPosY*16 - 16, anchor=NE, image=persoImg)
 
         mainloop()
 
