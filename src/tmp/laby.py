@@ -131,9 +131,10 @@ class Game:
         for values in cur_tree.sons:
             self.construct_tree(first_item, values)
 
-    def give_solution(self, liste, tree):
+    def give_solution(self, liste, tree, indent=0):
         for val in tree.sons:
-            self.give_solution(liste, val)
+            if list(self.end_pos) not in liste:
+                self.give_solution(liste, val, indent+1)
         if tree.value == list(self.end_pos) or (list(self.end_pos) in liste):
             liste.append(tree.value)
 
