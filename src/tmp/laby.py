@@ -90,10 +90,12 @@ class Game:
                     not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]-case][cur_pos[1]] != "1" or (cur_pos[0]-case)&1)
         if direction == 'g':
-            return not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
-                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1)
+            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
+                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1) and \
+                    cur_pos[1]-1 >= 0
         if direction == 'd':
-            return not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1")
+            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1") and \
+                    cur_pos[1]+1 < len(self.labyrinthe[cur_pos[0]])
 
     def move(self, direction):
         if self.is_possible_move(direction, self.player_pos):
