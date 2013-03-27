@@ -53,4 +53,60 @@ class GameScreen(Canvas) :
 
     def fpsView(self) :
         """Configure l'affichage en mode FPS"""
-        pass
+        #C'EST DU TOTAL WIP POUR TESTER
+        #ON CONSIDERE POUR L'INSTANT QUE LE PERSONNAGE REGARDE VERS LE BAS
+        #initialisation des images
+        bg = PhotoImage(file="../img/bg.gif")
+        f1 = PhotoImage(file="../img/f1.gif")
+        f2 = PhotoImage(file="../img/f2.gif")
+        f3 = PhotoImage(file="../img/f3.gif")
+        f4 = PhotoImage(file="../img/f4.gif")
+        f5 = PhotoImage(file="../img/f5.gif")
+        l1 = PhotoImage(file="../img/l1.gif")
+        l2 = PhotoImage(file="../img/l2.gif")
+        l3 = PhotoImage(file="../img/l3.gif")
+        l4 = PhotoImage(file="../img/l4.gif")
+        l5 = PhotoImage(file="../img/l5.gif")
+        r1 = PhotoImage(file="../img/r1.gif")
+        r2 = PhotoImage(file="../img/r2.gif")
+        r3 = PhotoImage(file="../img/r3.gif")
+        r4 = PhotoImage(file="../img/r4.gif")
+        r5 = PhotoImage(file="../img/r5.gif")
+        #RENDU FPS
+        self.create_image(0, 0, anchor=NW, image=bg)
+        #Case en face
+        if(lab[persoPosY+1][persoPosX] == 1) :
+            self.create_image(0, 0, anchor=NW, image=f1)
+        elif(lab[persoPosY+2][persoPosX] == 1) :
+            self.create_image(0, 0, anchor=NW, image=f2)
+        elif(lab[persoPosY+3][persoPosX] == 1) :
+            self.create_image(0, 0, anchor=NW, image=f3)
+        elif(lab[persoPosY+4][persoPosX] == 1) :
+            self.create_image(0, 0, anchor=NW, image=f4)
+        elif(lab[persoPosY+5][persoPosX] == 1) :
+            self.create_image(0, 0, anchor=NW, image=f5)
+        #Case a gauce
+        if(lab[persoPosY+1][persoPosX-1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=l1)
+        if(lab[persoPosY+2][persoPosX-1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=l2)
+        if(lab[persoPosY+3][persoPosX-1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=l3)
+        if(lab[persoPosY+4][persoPosX-1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=l4)
+        if(lab[persoPosY+5][persoPosX-1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=l5)
+        #Case a droite
+        if(lab[persoPosY+1][persoPosX+1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=r1)
+        if(lab[persoPosY+2][persoPosX+1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=r2)
+        if(lab[persoPosY+3][persoPosX+1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=r3)
+        if(lab[persoPosY+4][persoPosX+1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=r4)
+        if(lab[persoPosY+5][persoPosX+1] == 1) :
+            self.create_image(0, 0, anchor=NW, image=r5)
+            
+
+        mainloop()
