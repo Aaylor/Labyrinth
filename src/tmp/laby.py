@@ -79,23 +79,24 @@ class Game:
     def is_possible_move(self, direction, cur_pos):
         if direction == 'b':
             case = self.case_deplacement(cur_pos, 'b')
-            return  cur_pos[0]+case < len(self.labyrinthe) and \
+            print(cur_pos[1], len(self.labyrinthe[cur_pos[0]+case])-1, cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1)
+            return  (cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1 and (cur_pos[0]+case < len(self.labyrinthe))) and \
                     (not('1' in self.labyrinthe[cur_pos[0]+1][cur_pos[1]]) or \
                     not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]+case][cur_pos[1]] != "1" or (cur_pos[0]+case)&1)
         if direction == 'h':
             case = self.case_deplacement(cur_pos, 'h')
-            return  cur_pos[0]-case >= 0 and \
+            return  (cur_pos[1] < len(self.labyrinthe[cur_pos[0]-case])-1 and cur_pos[0]-case >= 0) and \
                     (not('1' in self.labyrinthe[cur_pos[0]-1][cur_pos[1]]) or \
                     not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]-case][cur_pos[1]] != "1" or (cur_pos[0]-case)&1)
         if direction == 'g':
-            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
-                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1) and \
-                    cur_pos[1]-1 >= 0
+            return  cur_pos[1]-1 >= 0 and\
+                    not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
+                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1)
         if direction == 'd':
-            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1") and \
-                    cur_pos[1]+1 < len(self.labyrinthe[cur_pos[0]])
+            return  cur_pos[1]+1 < len(self.labyrinthe[cur_pos[0]]) and \
+                    not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1")
 
     def move(self, direction):
         if self.is_possible_move(direction, self.player_pos):
@@ -133,7 +134,7 @@ class Game:
 
     def give_solution(self, liste, tree, indent=0):
         for val in tree.sons:
-            if list(self.end_pos) not in liste:
+             if list(self.end_pos) not in liste:
                 self.give_solution(liste, val, indent+1)
         if tree.value == list(self.end_pos) or (list(self.end_pos) in liste):
             liste.append(tree.value)

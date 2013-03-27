@@ -49,25 +49,33 @@ class generate_laby(object):
                     if old_value < new_value:
                         new_value, old_value = old_value, new_value
                     self.change_value(old_value, new_value)
-        #self.create_enter_and_exit()
+        self.create_enter_and_exit()
 
     def create_enter_and_exit(self):
         enter_already_placed = False
         for i in range(2):
             random_choice = random.randint(0,1)
             if i&1:
-                x = random.choice([0, len(self.vertical_wall)-1])
-                y = random.randint(0, len(self.vertical_wall[x])-1)
+                x = random.randrange(0, len(self.vertical_wall)-1, 2)
+                y = random.choice([0, len(self.vertical_wall[x])-1])
+                while self.vertical_wall[x][y] != True:
+                    x = random.randrange(0, len(self.vertical_wall)-1, 2)
+                    y = random.choice([0, len(self.vertical_wall[x])-1])
                 self.vertical_wall[x][y] = False
+                print("DONE VER IN ",x , y)
                 if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
-                    self.vertical_wall = 'E'
+                    self.vertical_wall[x][y] = 'E'
                     enter_already_placed = True
             else:
-                x = random.randrange(0, len(self.vertical_wall)-1, 2)
+                x = random.choice([0, len(self.horizontal_wall)-1])
                 y = random.randint(0, len(self.horizontal_wall[x])-1)
+                while self.horizontal_wall[x][y] != True:
+                    x = random.choice([0, len(self.horizontal_wall)-1])
+                    y = random.randint(0, len(self.horizontal_wall[x])-1)
                 self.horizontal_wall[x][y] = False
+                print("DONE HOR IN ",x , y)
                 if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
-                    self.vertical_wall = 'E'
+                    self.horizontal_wall[x][y] = 'E'
                     enter_already_placed = True
 
     def change_value(self, old_value, new_value):
@@ -90,6 +98,7 @@ class generate_laby(object):
 
         for i in range((self.width*2)+1):
             if i&1 and cpt_ver < len(self.vertical_wall):
+                print("CPT_VER", self.vertical_wall[cpt_ver])
                 for value in self.vertical_wall[cpt_ver]:
                     if value == True:
                         _file.write('1')
@@ -100,6 +109,7 @@ class generate_laby(object):
                 _file.write('\n')
                 cpt_ver += 1
             elif not i&1 and cpt_hor < len(self.horizontal_wall):
+                print("CPT_HOR", self.horizontal_wall[cpt_hor])
                 for value in self.horizontal_wall[cpt_hor]:
                     if value == True:
                         _file.write('1')
@@ -112,6 +122,7 @@ class generate_laby(object):
 
 if __name__ == "__main__":
     l = generate_laby(5, 4)
-    print(l.vertical_wall)
-    print(l.horizontal_wall)
     l.save_to_file()
+
+    lab = Game("rand_lab.txt")
+    lab.display()
