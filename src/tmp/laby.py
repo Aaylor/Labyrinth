@@ -4,6 +4,13 @@ import tkinter
 from tree import *
 
 class Game:
+    """
+    Certains mouvements ne sont pas encore possible ...
+    (h, b lorsqu'on part d'un rang pair...)
+    """
+
+
+
     def __init__(self, filename):
         try:
             _file = open(filename, 'r')
@@ -61,39 +68,45 @@ class Game:
                         print("   ", end="")
             print("")
 
-    def is_possible_move(self, direction, cur_pos):
-        if cur_pos[0]&1 and cur_pos[0]+2 < (len(self.labyrinthe)-1):
-            case = 2
-        else:
-            case = 1
+    def case_deplacement(self, cur_pos, direction):
+        if  ((cur_pos[0] == 0 or cur_pos[0] == len(self.labyrinthe)-1) and not cur_pos[0]&1) or \
+            (cur_pos[0]&1 and ((cur_pos[0]+1 == len(self.labyrinthe)-1 and direction == 'b') or \
+            (cur_pos[0]-1 == 0 and direction == 'h'))):
+            return 1
+        return 2
         
+
+    def is_possible_move(self, direction, cur_pos):
         if direction == 'b':
+            case = self.case_deplacement(cur_pos, 'b')
             return  cur_pos[0]+case < len(self.labyrinthe) and \
-                    not('1' in self.labyrinthe[cur_pos[0]+1][cur_pos[1]]) and \
+                    (not('1' in self.labyrinthe[cur_pos[0]+1][cur_pos[1]]) or \
+                    not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]+case][cur_pos[1]] != "1" or (cur_pos[0]+case)&1)
         if direction == 'h':
-            return  not('1' in self.labyrinthe[cur_pos[0]-1][cur_pos[1]]) and \
-                    (self.labyrinthe[cur_pos[0]-2][cur_pos[1]] != "1" or (cur_pos[0]-2)&1) and \
-                    (cur_pos[0]-2 >= 0)
+            case = self.case_deplacement(cur_pos, 'h')
+            return  cur_pos[0]-case >= 0 and \
+                    (not('1' in self.labyrinthe[cur_pos[0]-1][cur_pos[1]]) or \
+                    not(cur_pos[0]&1)) and \
+                    (self.labyrinthe[cur_pos[0]-case][cur_pos[1]] != "1" or (cur_pos[0]-case)&1)
         if direction == 'g':
-            return not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
-                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1)
+            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]]) and \
+                    (self.labyrinthe[cur_pos[0]][cur_pos[1]-1] != "1" or cur_pos[0]&1) and \
+                    cur_pos[1]-1 >= 0
         if direction == 'd':
-            return not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1")
+            return  not('1' in self.labyrinthe[cur_pos[0]][cur_pos[1]+1] == "1") and \
+                    cur_pos[1]+1 < len(self.labyrinthe[cur_pos[0]])
 
     def move(self, direction):
-        if self.player_pos[0]&1 and self.player_pos[0]+2 < (len(self.labyrinthe)-1):
-            case = 2
-        else:
-            case = 1
-        
         if self.is_possible_move(direction, self.player_pos):
             self.labyrinthe[self.player_pos[0]][self.player_pos[1]] = self.labyrinthe[self.player_pos[0]][self.player_pos[1]][0]
             if d == 'b':
+                case = self.case_deplacement(self.player_pos, d)
                 self.player_pos = ( self.player_pos[0]+case, self.player_pos[1] )
                 self.labyrinthe[self.player_pos[0]][self.player_pos[1]] += 'P'
             if d == 'h':
-                self.player_pos = ( self.player_pos[0]-2, self.player_pos[1] )
+                case = self.case_deplacement(self.player_pos, d)
+                self.player_pos = ( self.player_pos[0]-case, self.player_pos[1] )
                 self.labyrinthe[self.player_pos[0]][self.player_pos[1]] += 'P'
             if d == 'g':
                 self.player_pos = ( self.player_pos[0], self.player_pos[1]-1 )
@@ -103,16 +116,13 @@ class Game:
                 self.labyrinthe[self.player_pos[0]][self.player_pos[1]] += 'P'
 
     def construct_tree(self, first_item, cur_tree):
-        if cur_tree.value[0]&1 and cur_tree.value[0]+2 < (len(self.labyrinthe)-1):
-            case = 2
-        else:
-            case = 1
-
         new_value = cur_tree.value
         if self.is_possible_move('b', new_value):
+            case = self.case_deplacement(cur_tree.value, 'b')
             cur_tree.add_son(Tree([new_value[0]+case, new_value[1]]), first_item)
         if self.is_possible_move('h', new_value):
-            cur_tree.add_son(Tree([new_value[0]-2, new_value[1]]), first_item)
+            case = self.case_deplacement(cur_tree.value, 'h')
+            cur_tree.add_son(Tree([new_value[0]-case, new_value[1]]), first_item)
         if self.is_possible_move('g', new_value):
             cur_tree.add_son(Tree([new_value[0], new_value[1]-1]), first_item)
         if self.is_possible_move('d', new_value):
@@ -121,9 +131,10 @@ class Game:
         for values in cur_tree.sons:
             self.construct_tree(first_item, values)
 
-    def give_solution(self, liste, tree):
+    def give_solution(self, liste, tree, indent=0):
         for val in tree.sons:
-            self.give_solution(liste, val)
+            if list(self.end_pos) not in liste:
+                self.give_solution(liste, val, indent+1)
         if tree.value == list(self.end_pos) or (list(self.end_pos) in liste):
             liste.append(tree.value)
 
@@ -145,12 +156,11 @@ if __name__ == "__main__":
     game.construct_tree(t, t)
     #t.display_tree()
 
-    game.display_solution(t)
 
     d = input("Move : ")
     while d != 'q':
         if d == 's':
-            pass
+            game.display_solution(t)
         else:
             game.move(d)
         game.display()
