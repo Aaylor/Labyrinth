@@ -149,13 +149,12 @@ class Game:
         return self.player_pos == self.end_pos
     
 if __name__ == "__main__":
-    game = Game("test.txt")
+    game = Game("rand_lab.txt")
     game.display()
 
     t = Tree(list(game.player_pos))
     game.construct_tree(t, t)
-    #t.display_tree()
-
+    t.display_tree()
 
     d = input("Move : ")
     while d != 'q':
