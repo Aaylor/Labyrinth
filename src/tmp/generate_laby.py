@@ -56,10 +56,10 @@ class generate_laby(object):
         for i in range(2):
             random_choice = random.randint(0,1)
             if i&1:
-                x = random.randrange(0, len(self.vertical_wall)-1, 2)
+                x = random.randrange(1, len(self.vertical_wall)-2, 2)
                 y = random.choice([0, len(self.vertical_wall[x])-1])
                 while self.vertical_wall[x][y] != True:
-                    x = random.randrange(0, len(self.vertical_wall)-1, 2)
+                    x = random.randrange(1, len(self.vertical_wall)-2, 2)
                     y = random.choice([0, len(self.vertical_wall[x])-1])
                 self.vertical_wall[x][y] = False
                 print("DONE VER IN ",x , y)
@@ -68,10 +68,10 @@ class generate_laby(object):
                     enter_already_placed = True
             else:
                 x = random.choice([0, len(self.horizontal_wall)-1])
-                y = random.randint(0, len(self.horizontal_wall[x])-1)
+                y = random.randint(1, len(self.horizontal_wall[x])-2)
                 while self.horizontal_wall[x][y] != True:
                     x = random.choice([0, len(self.horizontal_wall)-1])
-                    y = random.randint(0, len(self.horizontal_wall[x])-1)
+                    y = random.randint(1, len(self.horizontal_wall[x])-2)
                 self.horizontal_wall[x][y] = False
                 print("DONE HOR IN ",x , y)
                 if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
@@ -121,7 +121,7 @@ class generate_laby(object):
                 cpt_hor += 1
 
 if __name__ == "__main__":
-    l = generate_laby(5, 4)
+    l = generate_laby(20, 14)
     l.save_to_file()
 
     lab = Game("rand_lab.txt")

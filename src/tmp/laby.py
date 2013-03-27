@@ -4,13 +4,6 @@ import tkinter
 from tree import *
 
 class Game:
-    """
-    Certains mouvements ne sont pas encore possible ...
-    (h, b lorsqu'on part d'un rang pair...)
-    """
-
-
-
     def __init__(self, filename):
         try:
             _file = open(filename, 'r')
@@ -79,14 +72,15 @@ class Game:
     def is_possible_move(self, direction, cur_pos):
         if direction == 'b':
             case = self.case_deplacement(cur_pos, 'b')
-            print(cur_pos[1], len(self.labyrinthe[cur_pos[0]+case])-1, cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1)
-            return  (cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1 and (cur_pos[0]+case < len(self.labyrinthe))) and \
+            return  ((cur_pos[0]+case < len(self.labyrinthe)) and (cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1 ^ \
+                    (cur_pos[0] == len(self.labyrinthe)-1 and cur_pos[1] < len(self.labyrinthe[cur_pos[0]+case])-1))) and \
                     (not('1' in self.labyrinthe[cur_pos[0]+1][cur_pos[1]]) or \
                     not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]+case][cur_pos[1]] != "1" or (cur_pos[0]+case)&1)
         if direction == 'h':
             case = self.case_deplacement(cur_pos, 'h')
-            return  (cur_pos[1] < len(self.labyrinthe[cur_pos[0]-case])-1 and cur_pos[0]-case >= 0) and \
+            return  (cur_pos[0]-case >= 0) and (cur_pos[1] < len(self.labyrinthe[cur_pos[0]-case])-1 or \
+                    (cur_pos[0] == len(self.labyrinthe)-1 and cur_pos[1] < len(self.labyrinthe[cur_pos[0]-case])-1)) and \
                     (not('1' in self.labyrinthe[cur_pos[0]-1][cur_pos[1]]) or \
                     not(cur_pos[0]&1)) and \
                     (self.labyrinthe[cur_pos[0]-case][cur_pos[1]] != "1" or (cur_pos[0]-case)&1)
@@ -155,7 +149,7 @@ if __name__ == "__main__":
 
     t = Tree(list(game.player_pos))
     game.construct_tree(t, t)
-    t.display_tree()
+    #t.display_tree()
 
     d = input("Move : ")
     while d != 'q':
