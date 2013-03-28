@@ -29,6 +29,7 @@ class Game:
                 if (char == 'E'):
                     self.player_pos = (i, j)
         print(self.end_pos)
+        print(self.labyrinthe)
         _file.close()
 
     def display(self):
