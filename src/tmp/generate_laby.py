@@ -121,7 +121,7 @@ class generate_laby(object):
                 cpt_hor += 1
 
 if __name__ == "__main__":
-    l = generate_laby(20, 14)
+    l = generate_laby(40, 14)
     l.save_to_file()
 
     lab = Game("rand_lab.txt")

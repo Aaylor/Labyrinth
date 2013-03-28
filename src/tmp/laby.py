@@ -41,22 +41,32 @@ class Game:
                     else:
                         if 'P' in j:
                             type_line = "|P "
-                        elif '*' in j:
-                            type_line = "|* "
+                        elif chr(9632) in j:
+                            type_line = "|"+chr(9632)+" "
+                        elif chr(9829) in j:
+                            type_line = "|"+chr(9829)+" "
                         else:
                             type_line = "|  "
                     print(type_line, end="")
                 elif j == 'E':
                     if (i+1)&1:
-                        type_line = " E "
+                        if '*' in j:
+                            type_line = " E*"
+                        else:
+                            type_line = " E "
                     else:
-                        type_line = "E  "
+                        if '*' in j:
+                            type_line = "E* "
+                        else:
+                            type_line = "E  "
                     print(type_line, end="")
                 else:
                     if 'P' in j:
                         print(" P ", end="")
-                    elif '*' in j:
-                        print(" * ", end="")
+                    elif chr(9632) in j:
+                        print(" "+chr(9632)+" ", end="")
+                    elif chr(9829) in j:
+                        print(" "+chr(9829)+" ", end="")
                     else:
                         print("   ", end="")
             print("")
@@ -136,8 +146,10 @@ class Game:
     def display_solution(self, tree):
         liste = [] 
         self.give_solution(liste, tree)
+        print(chr(9829))
         for value in liste:
-            self.labyrinthe[value[0]][value[1]] += '*'
+            #self.labyrinthe[value[0]][value[1]] += chr(9829)
+            self.labyrinthe[value[0]][value[1]] += chr(9632)
         self.display()
 
     def test(self):
