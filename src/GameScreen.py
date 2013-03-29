@@ -1,23 +1,34 @@
+#!/usr/bin/env python3
+
 from tkinter import *
 from laby import *
 
 #A SUPPRIMER
 #GENERATION D'UN FAKE LABYRINTHE
 import random
-maxX = 10
-maxY = 10
-#FAKE PERSONNAGE
-persoPosX = 5
-persoPosY = 5
+
+class Labyrinthe() :
+    def __init__(self) :
+        self.width = 20
+        self.height = 10
+        self.labyrinthe = "11111111111111111111\n100010010010101001011\n01010111101001110010\n110000110000000010001\n11011001000110110010\n110010100111011011111\n00111010010100101001\n001100011111001000001\n11000111100010111011\n11111111111111111111".split("\n")
+                            
+
+class Personnage() :
+    def __init__() :
+        self.posX = 5
+        self.posY = 5
+        
 #############"
+        
+lab = Labyrinthe().labyrinthe
+labWidth = Labyrinthe().width
+labHeight = Labyrinthe().height
 
 class GameScreen(Canvas) :
+    
     def __init__(self, mainFrame) :
         Canvas.__init__(self, mainFrame, bg="ivory", width=800, height=450)
-        game = Game("rand_lab.txt")
-        self.lab = game.labyrinthe
-        self.lab= [[int(i) for i in j] for j in self.lab]
-        print(self.lab)
 
     def noGame(self) :
         """Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
@@ -32,26 +43,55 @@ class GameScreen(Canvas) :
         persoImg = PhotoImage(file="../img/personnage.gif")
         
         #Calcul des ecarts
-        largeurFenetre = 800
-        hauteurFenetre = 450
-        ecartHorizontal = (largeurFenetre - (maxX*16))/2
-        ecartVertical = (hauteurFenetre - (maxY*16))/2
+        #Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
+        ecartHorizontal = (800 - 16*2*labWidth)/2
+        ecartVertical = (450 - 16*labHeight)/2
         
         #Dessin du lab
         compteurX = 0
         compteurY = 0
-        for liste in self.lab :
+        #Parcours vertical
+        while compteurY <= labHeight - 2 :
+            #Parcours horizontal
             compteurX = 0
-            for element in liste :
-                if element == 0 :
-                    self.create_image(ecartHorizontal + compteurX*16, ecartVertical + compteurY*16, anchor=NE, image=tileSol)
-                elif element == 1 :
-                    self.create_image(ecartHorizontal + compteurX*16, ecartVertical + compteurY*16, anchor=NE, image=tileVide)
+            while(compteurX <= labWidth - 2) :
+                #Horizontal : 0
+                if(lab[compteurY][compteurX] == "0") :
+                    #Vertical : 0
+                    if(lab[compteurY+1][compteurX] == "0") :
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+
+                    #Vertical : 1
+                    if(lab[compteurY+1][compteurX] == "1") :
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                #Horizontal : 1
+                elif(lab[compteurY][compteurX] == "1") :
+                    #Vertical : 0
+                    if(lab[compteurY+1][compteurX] == "0") :
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        
+                    #Vertical : 1
+                    if(lab[compteurY+1][compteurX] == "1") :
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileVide)
+                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        
+                #Incrementation de X
                 compteurX += 1
-            compteurY += 1
+            #Incrementation Y
+            compteurY += 2
 
         #Dessin du personnage
-        self.create_image(ecartHorizontal + persoPosX*16 + 4, ecartVertical + persoPosY*16 - 16, anchor=NE, image=persoImg)
 
         mainloop()
 
