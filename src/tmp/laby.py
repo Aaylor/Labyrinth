@@ -147,7 +147,6 @@ class Game:
     def display_solution(self, tree):
         liste = [] 
         self.give_solution(liste, tree)
-        print(chr(9829))
         for value in liste:
             #self.labyrinthe[value[0]][value[1]] += chr(9829)
             self.labyrinthe[value[0]][value[1]] += chr(9632)
