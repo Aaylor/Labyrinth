@@ -11,7 +11,6 @@ class labyrinth(object):
         self.width_on_odd_line = width_on_odd_line
         self.width_on_even_line = width_on_odd_line + 1
         self.height = height
-        self.labyrinth = []
 
     def __str__(self):
         display_labyrinth = ""
