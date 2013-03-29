@@ -10,27 +10,41 @@ class Game:
         except IOError:
             print("File not found...")
             exit(1)
+        bool_enter, bool_exit = False, False
         self.labyrinthe = []
-        self.player_pos = (0,0)
-        self.end_pos = (0,0)
+        self.player_pos, self.end_pos = (0,0), (0,0)
         read=_file.read()
         read=read.split('\n')
         if read[-1] == "":
             read = read[0:-1]
         self.length = len(read)-1
+        print(len(read)-1, len(read[0])-1)
         for i, line in enumerate(read):
             self.labyrinthe.append([])
             for j, char in enumerate(line):
                 self.labyrinthe[i].append(char)
-                if (char == '0' and (j == 0 or j == len(line)-1) and (i&1 or i == 0 or i == self.length)):
+                """
+                if  ((char == '0' and (j == 0 or j == len(line)-1) and (i&1 or i == 0 or i == self.length))) or \
+                    (char == '0' and (i == 0 or i == self.length)):
+                """
+                if char == '0' and ((i == 0 or i == self.length) or (i&1 and (j == 0 or j== len(line)-1))):
+                    print(char == '0', i == 0 or i == self.length, i&1 and (j == 0 or j == len(line)-1))
                     self.end_pos = (i, j)
-                if (char == '0' and (i == 0 or i == self.length)):
-                    self.end_pos = (i, j)
+                    if bool_exit:
+                        print("Exit already exist...")
+                        exit(1)
+                    bool_exit = True
                 if (char == 'E'):
                     self.player_pos = (i, j)
-        print(self.end_pos)
-        print(self.labyrinthe)
+                    if bool_enter:
+                        print("Enter already exist...")
+                        exit(1)
+                    bool_enter = True
         _file.close()
+        if not bool_exit or not bool_enter:
+            print("No entry or no exit...")
+            exit(1)
+
 
     def display(self):
         print(self.player_pos)
