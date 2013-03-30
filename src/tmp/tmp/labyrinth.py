@@ -125,21 +125,20 @@ class generate_random_labyrinth(labyrinth):
         self.__write_on_labyrinth()
 
     def __write_on_labyrinth(self):
-        for i in range((self.height*2)+1):
-            if i&1 and i//2 < len(self.vertical_wall):
-                self.labyrinth.append(list(map(lambda x: '1' if x is True else \
-                                           list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2])))
-            elif not i&1 and i//2 < len(self.horizontal_wall):
-                self.labyrinth.append(list(map(lambda x: '1' if x is True else \
-                                           list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])))
+        self.labyrinth = \
+            [(list(map(lambda x: '1' if x is True else \
+                list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2]))) if i&1 else \
+            (list(map(lambda x: '1' if x is True else \
+                list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
+
     
     def write_on_file(self, filename):
         _file = open("rand_lab.txt", 'w')
         for i in range((self.height*2)+1):
-            if i&1 and (i//2) < len(self.vertical_wall):
+            if i&1:
                 _file.write("".join(map(lambda x: '1' if x is True else \
                                         list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2])) + "\n")
-            elif not i&1 and (i//2) < len(self.horizontal_wall):
+            else:
                 _file.write("".join(map(lambda x: '1' if x is True else \
                                         list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])) + "\n")
 
