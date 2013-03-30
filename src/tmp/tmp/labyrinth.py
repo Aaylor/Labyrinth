@@ -14,6 +14,7 @@ class labyrinth(object):
 
     def __str__(self):
         display_labyrinth = ""
+        print(self.labyrinth)
         for i, k in enumerate(self.labyrinth):
             for j in k:
                 if '1' in j:
@@ -52,6 +53,7 @@ class labyrinth(object):
                         display_labyrinth += "   "
             display_labyrinth += "\n"
         return display_labyrinth
+    
 
 
 class generate_random_labyrinth(labyrinth):
@@ -70,6 +72,8 @@ class generate_random_labyrinth(labyrinth):
 
     def __create_labyrinth(self):
         tmp_labyrinth = [[(j + (self.width * i)) for j in range(self.width)] for i in range(self.height)]
+        """
+        WHY NOT WORK ? #TODO Check algorithm....
         while not self.__end_of_init(tmp_labyrinth):
             random_choice = random.randint(0,1)
             if random_choice == 0:
@@ -94,33 +98,50 @@ class generate_random_labyrinth(labyrinth):
                     if old_value < new_value:
                         new_value, old_value = old_value, new_value
                         self.__change_value(old_value, new_value, tmp_labyrinth)
+        """
+        while not self.__end_of_init(tmp_labyrinth):
+            random_choice = random.randint(0,1)
+            if random_choice == 0:
+                x, y = random.randint(0,self.height-1), random.randint(1,self.width-1)
+                while not self.vertical_wall[x][y]:
+                    x, y = random.randint(0,self.height-1), random.randint(1,self.width-1)
+                new_value, old_value = tmp_labyrinth[x][y], tmp_labyrinth[x][y-1]
+                if new_value != old_value:
+                    self.vertical_wall[x][y] = False
+                    if old_value < new_value:
+                        new_value, old_value = old_value, new_value
+                    self.__change_value(old_value, new_value, tmp_labyrinth)
+            else:
+                x, y = [random.randint(1,self.height-1), random.randint(0,self.width-1)]
+                while not self.horizontal_wall[x][y]:
+                    x, y = [random.randint(1,self.height-1), random.randint(0,self.width-1)]
+                new_value, old_value = tmp_labyrinth[x][y], tmp_labyrinth[x-1][y]
+                if new_value != old_value:
+                    self.horizontal_wall[x][y] = False
+                    if old_value < new_value:
+                        new_value, old_value = old_value, new_value
+                    self.__change_value(old_value, new_value, tmp_labyrinth)
         self.__create_entry_and_exit()
         self.__write_on_labyrinth()
 
     def __write_on_labyrinth(self):
-        cpt_hor = 0
-        cpt_ver = 0
-
-        for i in range((self.width*2)+1):
-            self.labyrinth.append([])
-            if i&1 and cpt_ver < len(self.vertical_wall):
-                for value in self.vertical_wall[cpt_ver]:
-                    if value == True:
-                        self.labyrinth[i].append('1')
-                    elif value == 'E':
-                        self.labyrinth[i].append('E')
-                    else:
-                        self.labyrinth[i].append('0')
-                cpt_ver += 1
-            elif not i&1 and cpt_hor < len(self.horizontal_wall):
-                for value in self.horizontal_wall[cpt_hor]:
-                    if value == True:
-                        self.labyrinth[i].append('1')
-                    elif value == 'E':
-                        self.labyrinth[i].append('E')
-                    else:
-                        self.labyrinth[i].append('0')
-                cpt_hor += 1
+        for i in range((self.height*2)+1):
+            if i&1 and i//2 < len(self.vertical_wall):
+                self.labyrinth.append(list(map(lambda x: '1' if x is True else \
+                                           list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2])))
+            elif not i&1 and i//2 < len(self.horizontal_wall):
+                self.labyrinth.append(list(map(lambda x: '1' if x is True else \
+                                           list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])))
+    
+    def write_on_file(self, filename):
+        _file = open("rand_lab.txt", 'w')
+        for i in range((self.height*2)+1):
+            if i&1 and (i//2) < len(self.vertical_wall):
+                _file.write("".join(map(lambda x: '1' if x is True else \
+                                        list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2])) + "\n")
+            elif not i&1 and (i//2) < len(self.horizontal_wall):
+                _file.write("".join(map(lambda x: '1' if x is True else \
+                                        list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])) + "\n")
 
     def __create_entry_and_exit(self):
         for i in range(2):

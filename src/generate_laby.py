@@ -62,7 +62,6 @@ class generate_laby(object):
                     x = random.randrange(1, len(self.vertical_wall)-2, 2)
                     y = random.choice([0, len(self.vertical_wall[x])-1])
                 self.vertical_wall[x][y] = False
-                print("DONE VER IN ",x , y)
                 if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
                     self.vertical_wall[x][y] = 'E'
                     enter_already_placed = True
@@ -73,7 +72,6 @@ class generate_laby(object):
                     x = random.choice([0, len(self.horizontal_wall)-1])
                     y = random.randint(1, len(self.horizontal_wall[x])-2)
                 self.horizontal_wall[x][y] = False
-                print("DONE HOR IN ",x , y)
                 if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
                     self.horizontal_wall[x][y] = 'E'
                     enter_already_placed = True
@@ -98,18 +96,11 @@ class generate_laby(object):
 
         for i in range((self.width*2)+1):
             if i&1 and cpt_ver < len(self.vertical_wall):
-                print("CPT_VER", self.vertical_wall[cpt_ver])
-                for value in self.vertical_wall[cpt_ver]:
-                    if value == True:
-                        _file.write('1')
-                    elif value == 'E':
-                        _file.write('E')
-                    else:
-                        _file.write('0')
+                a = "".join(map(lambda x: 'c' if x is True else list(map((lambda y: 'd' if not y else 'e'),[x]))[0], self.vertical_wall[cpt_ver]))
+                print(a)
                 _file.write('\n')
                 cpt_ver += 1
             elif not i&1 and cpt_hor < len(self.horizontal_wall):
-                print("CPT_HOR", self.horizontal_wall[cpt_hor])
                 for value in self.horizontal_wall[cpt_hor]:
                     if value == True:
                         _file.write('1')

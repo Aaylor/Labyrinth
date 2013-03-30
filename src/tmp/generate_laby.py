@@ -62,7 +62,7 @@ class generate_laby(object):
                     x = random.randrange(1, len(self.vertical_wall)-2, 2)
                     y = random.choice([0, len(self.vertical_wall[x])-1])
                 self.vertical_wall[x][y] = False
-                if (not enter_already_placed and (random.randint(0,1)==1 or i == 1)):
+                if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
                     self.vertical_wall[x][y] = 'E'
                     enter_already_placed = True
             else:
@@ -72,7 +72,7 @@ class generate_laby(object):
                     x = random.choice([0, len(self.horizontal_wall)-1])
                     y = random.randint(1, len(self.horizontal_wall[x])-2)
                 self.horizontal_wall[x][y] = False
-                if (not enter_already_placed and (random.randint(0,1)==1 or i == 1)):
+                if (not enter_already_placed and random.randint(0,1)==1) or (i == 1 and not enter_already_placed):
                     self.horizontal_wall[x][y] = 'E'
                     enter_already_placed = True
 
@@ -91,30 +91,14 @@ class generate_laby(object):
 
     def save_to_file(self):
         _file = open("rand_lab.txt", 'w')
-        cpt_hor = 0
-        cpt_ver = 0
+        for i in range((self.height*2)+1):
+            if i&1 and (i//2) < len(self.vertical_wall):
+                _file.write("".join(map(lambda x: '1' if x is True else \
+                                        list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2])) + "\n")
+            elif not i&1 and (i//2) < len(self.horizontal_wall):
+                _file.write("".join(map(lambda x: '1' if x is True else \
+                                        list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])) + "\n")
 
-        for i in range((self.width*2)+1):
-            if i&1 and cpt_ver < len(self.vertical_wall):
-                for value in self.vertical_wall[cpt_ver]:
-                    if value == True:
-                        _file.write('1')
-                    elif value == 'E':
-                        _file.write('E')
-                    else:
-                        _file.write('0')
-                _file.write('\n')
-                cpt_ver += 1
-            elif not i&1 and cpt_hor < len(self.horizontal_wall):
-                for value in self.horizontal_wall[cpt_hor]:
-                    if value == True:
-                        _file.write('1')
-                    elif value == 'E':
-                        _file.write('E')
-                    else:
-                        _file.write('0')
-                _file.write('\n')
-                cpt_hor += 1
 
 if __name__ == "__main__":
     l = generate_laby(20, 14)
