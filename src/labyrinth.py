@@ -2,11 +2,12 @@
 
 import random
 
+
 class labyrinth(object):
     """
     Classe mère ...
     """
-    
+
     def __init__(self, width_on_odd_line, height):
         self.width_on_odd_line = width_on_odd_line
         self.width_on_even_line = width_on_odd_line + 1
@@ -19,20 +20,20 @@ class labyrinth(object):
         for i, k in enumerate(self.labyrinth):
             for j in k:
                 if '1' in j:
-                    if (i+1)&1:
+                    if (i + 1) & 1:
                         type_line = "---"
                     else:
                         if 'P' in j:
                             type_line = "|P "
                         elif chr(9632) in j:
-                            type_line = "|"+chr(9632)+" "
+                            type_line = "|" + chr(9632) + " "
                         elif chr(9829) in j:
-                            type_line = "|"+chr(9829)+" "
+                            type_line = "|" + chr(9829) + " "
                         else:
                             type_line = "|  "
                     display_labyrinth += type_line
                 elif j == 'E':
-                    if (i+1)&1:
+                    if (i + 1) & 1:
                         if '*' in j:
                             type_line = " E*"
                         else:
@@ -47,9 +48,9 @@ class labyrinth(object):
                     if 'P' in j:
                         display_labyrinth += " P "
                     elif chr(9632) in j:
-                        display_labyrinth += " "+chr(9632)+" "
+                        display_labyrinth += " " + chr(9632) + " "
                     elif chr(9829) in j:
-                        display_labyrinth += " "+chr(9829)+" "
+                        display_labyrinth += " " + chr(9829) + " "
                     else:
                         display_labyrinth += "   "
             display_labyrinth += "\n"
@@ -139,7 +140,7 @@ class generate_random_labyrinth(labyrinth):
             (list(map(lambda x: '1' if x is True else \
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
 
-    
+
     def write_on_file(self, filename):
         _file = open("rand_lab.txt", 'w')
         for i in range((self.height*2)+1):
