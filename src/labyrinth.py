@@ -2,12 +2,11 @@
 
 import random
 
-
 class labyrinth(object):
     """
     Classe mère ...
     """
-
+    
     def __init__(self, width_on_odd_line, height):
         self.width_on_odd_line = width_on_odd_line
         self.width_on_even_line = width_on_odd_line + 1
@@ -16,41 +15,34 @@ class labyrinth(object):
 
     def __str__(self):
         display_labyrinth = ""
-        print(self.labyrinth)
         for i, k in enumerate(self.labyrinth):
             for j in k:
                 if '1' in j:
-                    if (i + 1) & 1:
+                    if not i&1:
                         type_line = "---"
                     else:
                         if 'P' in j:
                             type_line = "|P "
                         elif chr(9632) in j:
-                            type_line = "|" + chr(9632) + " "
+                            type_line = "|"+chr(9632)+" "
                         elif chr(9829) in j:
-                            type_line = "|" + chr(9829) + " "
+                            type_line = "|"+chr(9829)+" "
                         else:
                             type_line = "|  "
                     display_labyrinth += type_line
                 elif j == 'E':
-                    if (i + 1) & 1:
-                        if '*' in j:
-                            type_line = " E*"
-                        else:
-                            type_line = " E "
+                    if (i+1)&1:
+                        type_line = " E "
                     else:
-                        if '*' in j:
-                            type_line = "E* "
-                        else:
-                            type_line = "E  "
+                        type_line = "E  "
                     display_labyrinth += type_line
                 else:
                     if 'P' in j:
                         display_labyrinth += " P "
                     elif chr(9632) in j:
-                        display_labyrinth += " " + chr(9632) + " "
+                        display_labyrinth += " "+chr(9632)+" "
                     elif chr(9829) in j:
-                        display_labyrinth += " " + chr(9829) + " "
+                        display_labyrinth += " "+chr(9829)+" "
                     else:
                         display_labyrinth += "   "
             display_labyrinth += "\n"
@@ -60,8 +52,10 @@ class labyrinth(object):
         for i, line in enumerate(self.labyrinth):
             for j, char in enumerate(line):
                 if char == '0' and ((i == 0 or i == self.height) or (i&1 and (j == 0 or j == len(line)-1))):
+                    print("found exit")
                     self.exit_position = (i, j)
                 if char == 'E':
+                    print("found entry")
                     self.entry_position = (i, j)
 
 class generate_random_labyrinth(labyrinth):
@@ -77,7 +71,7 @@ class generate_random_labyrinth(labyrinth):
         self.exit_position = None
         self.labyrinth = []
         self.__create_labyrinth()
-        labyrinth.__init__(self, width, height)
+        labyrinth.__init__(self, width, 2*height)
 
     def __create_labyrinth(self):
         tmp_labyrinth = [[(j + (self.width * i)) for j in range(self.width)] for i in range(self.height)]
@@ -140,7 +134,7 @@ class generate_random_labyrinth(labyrinth):
             (list(map(lambda x: '1' if x is True else \
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
 
-
+    
     def write_on_file(self, filename):
         _file = open("rand_lab.txt", 'w')
         for i in range((self.height*2)+1):
@@ -204,7 +198,7 @@ class open_labyrinth(labyrinth):
         if not self.__create_labyrinth(filename):
             print("Could not create labyrinth")
             exit(1)
-        labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth))
+        labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)
 
     def __create_labyrinth(self, filename):
         try:
