@@ -84,8 +84,6 @@ if __name__ == "__main__":
     #a.game_labyrinth.write_on_file("b")
     while True:
         a.display()
-        print(a.game_labyrinth.labyrinth)
-        print(a.player_position)
         d = input("Move : ")
         if d == 'q':
             break
