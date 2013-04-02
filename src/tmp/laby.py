@@ -92,7 +92,6 @@ class Game:
             (cur_pos[0]-1 == 0 and direction == 'h'))):
             return 1
         return 2
-        
 
     def is_possible_move(self, direction, cur_pos):
         if direction == 'b':

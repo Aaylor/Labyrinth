@@ -11,6 +11,7 @@ class labyrinth(object):
         self.width_on_odd_line = width_on_odd_line
         self.width_on_even_line = width_on_odd_line + 1
         self.height = height
+        self.__find_entry_and_exit()
 
     def __str__(self):
         display_labyrinth = ""
@@ -53,8 +54,14 @@ class labyrinth(object):
                         display_labyrinth += "   "
             display_labyrinth += "\n"
         return display_labyrinth
-    
 
+    def __find_entry_and_exit(self):
+        for i, line in enumerate(self.labyrinth):
+            for j, char in enumerate(line):
+                if char == '0' and ((i == 0 or i == self.height) or (i&1 and (j == 0 or j == len(line)-1))):
+                    self.exit_position = (i, j)
+                if char == 'E':
+                    self.entry_position = (i, j)
 
 class generate_random_labyrinth(labyrinth):
     """
@@ -69,6 +76,7 @@ class generate_random_labyrinth(labyrinth):
         self.exit_position = None
         self.labyrinth = []
         self.__create_labyrinth()
+        labyrinth.__init__(self, width, height)
 
     def __create_labyrinth(self):
         tmp_labyrinth = [[(j + (self.width * i)) for j in range(self.width)] for i in range(self.height)]
@@ -212,22 +220,10 @@ class open_labyrinth(labyrinth):
             self.labyrinth.append([])
             for j, char in enumerate(line):
                 self.labyrinth[i].append(char)
-                if char == '0' and ((i == 0 or i == height) or (i&1 and (j == 0 or j == len(line)-1))):
-                    if self.exit_position:
-                        print("Exit already exist...")
-                        return False
-                    self.exit_position = (i, j)
-                if char == 'E':
-                    if self.entry_position:
-                        print("Entry already exist...")
-                        return False
-                    self.entry_position = (i, j)
         _file.close()
-        if not self.entry_position or not self.exit_position:
-            print("No entry or no exit position...")
-            return False
         return True
 
 if __name__ == "__main__":
-    b = open_labyrinth("test.txt")
-    print(b.labyrinth)
+    b = open_labyrinth("rand_lab.txt")
+    print(b)
+    print(b.entry_position)
