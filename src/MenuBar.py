@@ -1,4 +1,7 @@
+#!/usr/bin/env python3.3
+
 from tkinter import *
+from tkinter import messagebox
 
 class MenuBar(Frame) :
     def __init__(self, mainFrame) :
@@ -18,4 +21,12 @@ class MenuBar(Frame) :
         #Menu Aide
         aideMenu=Menu(self, tearoff=0)
         self.menuBar.add_cascade(label="Aide", menu=aideMenu)
-        aideMenu.add_command(label="A propos")
+        aideMenu.add_command(label="A propos", command=MenuBar.APropos)
+
+    def APropos() :
+        import random
+        if random.randint(0, 1) == 0 :
+            chaine = "\tMehdi Khelifi\n\tRunarvot Loic"
+        else :
+            chaine = "\tRunarvot Loic\n\tMehdi Khelifi"        
+        messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
