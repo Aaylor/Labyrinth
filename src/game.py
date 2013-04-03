@@ -119,12 +119,17 @@ class game(object):
         self.__construct_tree(tree_from_current_position,
                               tree_from_current_position)
         
-        way_list = []
-        self.__give_solution(way_list, tree_from_current_position)
+        self.way_list = []
+        self.__give_solution(self.way_list, tree_from_current_position)
 
-        for value in way_list:
+        for value in self.way_list:
             self.game_labyrinth.labyrinth[value[0]][value[1]] += chr(9632)
-        self.display()
+
+    def undisplay_solution(self):
+        for value in self.way_list:
+            if 'P' not in self.game_labyrinth.labyrinth[value[0]][value[1]]:
+                self.game_labyrinth.labyrinth[value[0]][value[1]] =\
+                    self.game_labyrinth.labyrinth[value[0]][value[1]][0]
 
 if __name__ == "__main__":
     """
@@ -142,6 +147,8 @@ if __name__ == "__main__":
         d = input("Move : ")
         if d == 's':
             a.display_solution()
+        if d == 'u':
+            a.undisplay_solution()
         if d == 'q':
             break
         a.move(d)

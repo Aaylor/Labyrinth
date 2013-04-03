@@ -2,9 +2,11 @@
 
 import random
 
+
 class labyrinth(object):
-    """
-    Classe mère ...
+    """La classe mère comportant toutes les informations nécessaire pour la
+    gestion du labyrinthe, que celui-ci soit généré automatiquement ou bien
+    généré à l'aide d'un fichier.
     """
     
     def __init__(self, width_on_odd_line, height):
@@ -75,33 +77,7 @@ class generate_random_labyrinth(labyrinth):
 
     def __create_labyrinth(self):
         tmp_labyrinth = [[(j + (self.width * i)) for j in range(self.width)] for i in range(self.height)]
-        """
-        WHY NOT WORK ? #TODO Check algorithm....
-        while not self.__end_of_init(tmp_labyrinth):
-            random_choice = random.randint(0,1)
-            if random_choice == 0:
-                while True:
-                    x, y = random.randint(1,self.height-1), random.randint(0,self.width-1)
-                    if self.horizontal_wall[x][y]:
-                        break
-                new_value, old_value = tmp_labyrinth[x][y], tmp_labyrinth[x-1][y]
-                if new_value != old_value:
-                    self.horizontal_wall[x][y] = False
-                    if old_value < new_value:
-                        new_value, old_value = old_value, new_value
-                    self.__change_value(old_value, new_value, tmp_labyrinth)
-            else:
-                while True:
-                    x, y = random.randint(0,self.height-1), random.randint(1,self.width-1)
-                    if self.vertical_wall[x][y]:
-                        break
-                new_value, old_value = tmp_labyrinth[x][y], tmp_labyrinth[x][y-1]
-                if new_value != old_value:
-                    self.vertical_wall[x][y] = False
-                    if old_value < new_value:
-                        new_value, old_value = old_value, new_value
-                        self.__change_value(old_value, new_value, tmp_labyrinth)
-        """
+        
         while not self.__end_of_init(tmp_labyrinth):
             random_choice = random.randint(0,1)
             if random_choice == 0:
@@ -133,7 +109,6 @@ class generate_random_labyrinth(labyrinth):
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2]))) if i&1 else \
             (list(map(lambda x: '1' if x is True else \
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
-
     
     def write_on_file(self, filename):
         _file = open("rand_lab.txt", 'w')
@@ -219,6 +194,4 @@ class open_labyrinth(labyrinth):
         return True
 
 if __name__ == "__main__":
-    b = open_labyrinth("rand_lab.txt")
-    print(b)
-    print(b.entry_position)
+    print("Le programme ne doit pas être lancé à partir...")
