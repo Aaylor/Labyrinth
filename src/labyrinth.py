@@ -60,6 +60,7 @@ class labyrinth(object):
                     print("found entry")
                     self.entry_position = (i, j)
 
+
 class generate_random_labyrinth(labyrinth):
     """
     Classe fille ... RANDOM

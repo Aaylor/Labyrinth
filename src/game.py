@@ -18,9 +18,17 @@ class game(object):
         self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
 
     def display(self):
+        """Affiche le labyrinthe"""
         print(self.game_labyrinth)
 
     def case_deplacement(self, position, direction):
+        """Calcul le déplacement autorisé selon la position et la direction
+        données.
+        
+        Arguments :
+        position    -- la position donnée (sous forme [x, y])
+        direction   -- direction dans laquelle on doit aller
+        """
         x, y = position
         if (((x == 0 or x == len(self.game_labyrinth.labyrinth) - 1)
             and not x & 1) or
@@ -31,6 +39,14 @@ class game(object):
         return 2
 
     def is_a_possible_movement(self, position, direction):
+        """Vérifie si le mouvement demandé à partir de la position et de la
+        direction est possible, et renvoie True si il est possible, False
+        sinon.
+
+        Arguments :
+        position    -- la position donnée (sous forme [x, y])
+        direction   -- la direction souhaitée ('h', 'b', 'g', 'd')
+        """
         x, y = position
         if direction == 'b':
             case = self.case_deplacement(position, 'b')
@@ -61,6 +77,12 @@ class game(object):
                 not('1' in self.game_labyrinth.labyrinth[x][y + 1] == "1")
 
     def move(self, direction):
+        """Bouge le pion du joueur dans la direction donnée si il est possible
+        d'effectuer le mouvement.
+
+        Argument:
+        direction   -- la direction souhaitée par le joueur
+        """
         if self.is_a_possible_movement(self.player_position, direction):
             self.game_labyrinth.\
                 labyrinth[self.player_position[0]][self.player_position[1]] =\
@@ -115,6 +137,7 @@ class game(object):
             liste.append(tree.value)
 
     def display_solution(self):
+        """Affiche la solution sur le labyrinthe"""
         tree_from_current_position = Tree(list(self.player_position))
         self.__construct_tree(tree_from_current_position,
                               tree_from_current_position)
@@ -126,6 +149,7 @@ class game(object):
             self.game_labyrinth.labyrinth[value[0]][value[1]] += chr(9632)
 
     def undisplay_solution(self):
+        """Enlève la solution du labyrinthe"""
         for value in self.way_list:
             if 'P' not in self.game_labyrinth.labyrinth[value[0]][value[1]]:
                 self.game_labyrinth.labyrinth[value[0]][value[1]] =\
