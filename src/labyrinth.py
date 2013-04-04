@@ -15,10 +15,11 @@ class labyrinth(object):
         self.height = height
         self.__find_entry_and_exit()
 
-    def __str__(self):
+    def disp_labyrinth(self, path=[]):
         display_labyrinth = ""
+        print(path)
         for i, k in enumerate(self.labyrinth):
-            for j in k:
+            for z, j in enumerate(k):
                 if '1' in j:
                     if not i&1:
                         type_line = "---"
@@ -29,6 +30,8 @@ class labyrinth(object):
                             type_line = "|"+chr(9632)+" "
                         elif chr(9829) in j:
                             type_line = "|"+chr(9829)+" "
+                        elif [i,z] in path:
+                            type_line = "|* "
                         else:
                             type_line = "|  "
                     display_labyrinth += type_line
@@ -45,6 +48,8 @@ class labyrinth(object):
                         display_labyrinth += " "+chr(9632)+" "
                     elif chr(9829) in j:
                         display_labyrinth += " "+chr(9829)+" "
+                    elif [i,z] in path:
+                        display_labyrinth += " * "
                     else:
                         display_labyrinth += "   "
             display_labyrinth += "\n"
@@ -62,8 +67,10 @@ class labyrinth(object):
 
 
 class generate_random_labyrinth(labyrinth):
-    """
-    Classe fille ... RANDOM
+    """Classe permettant de générer automatiquement des labyrinthes selon la
+    longueur et la largeur donnés par l'utilisateur.
+    Il définira automatiquement le parcours du labyrinthe, ainsi que l'entrée
+    et la sortie.
     """
 
     def __init__(self, width, height):
@@ -112,7 +119,7 @@ class generate_random_labyrinth(labyrinth):
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
     
     def write_on_file(self, filename):
-        _file = open("rand_lab.txt", 'w')
+        _file = open("rand_lab.lab", 'w')
         for i in range((self.height*2)+1):
             if i&1:
                 _file.write("".join(map(lambda x: '1' if x is True else \
@@ -163,8 +170,10 @@ class generate_random_labyrinth(labyrinth):
 
 
 class open_labyrinth(labyrinth):
-    """
-    Class fille ... OPEN
+    """Classe permettant l'ouverture d'un labyrinthe à partir d'un fichier
+    `.lab`, et ainsi de lancer le jeu.
+    TODO : Faire en sorte de pouvoir charger des parties en cours. (peut être à
+    partir d'une autre classe ?)
     """
 
     def __init__(self, filename):
@@ -193,6 +202,3 @@ class open_labyrinth(labyrinth):
                 self.labyrinth[i].append(char)
         _file.close()
         return True
-
-if __name__ == "__main__":
-    print("Le programme ne doit pas être lancé à partir...")
