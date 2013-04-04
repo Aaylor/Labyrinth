@@ -16,7 +16,6 @@ class MenuBar(Frame) :
         self.menuBar.add_cascade(label="Fichier", menu=fichierMenu)
         fichierMenu.add_command(label="Générer un Labyrinthe", command=MenuBar.GenererLabyrinthe)
         fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = MenuBar.OuvrirFichier)
-        #fichierMenu.add_command(label="Enregistrer Partie")
         fichierMenu.add_separator()
         fichierMenu.add_command(label="Quitter", command=MenuBar.Quitter)
 
