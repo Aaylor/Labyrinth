@@ -2,7 +2,7 @@
 
 import copy
 from labyrinth import *
-from tree import *
+from utility.tree import *
 
 
 class game(object):
@@ -16,10 +16,11 @@ class game(object):
         else:
             self.game_labyrinth = open_labyrinth(kwargs['filename'])
         self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
+        self.path_of_the_player = []
 
     def display(self):
         """Affiche le labyrinthe"""
-        print(self.game_labyrinth)
+        print(self.game_labyrinth.disp_labyrinth(self.path_of_the_player))
 
     def case_deplacement(self, position, direction):
         """Calcul le déplacement autorisé selon la position et la direction
@@ -89,24 +90,28 @@ class game(object):
                 (self.game_labyrinth.labyrinth
                     [self.player_position[0]]
                     [self.player_position[1]][0])
-            if d == 'b':
-                case = self.case_deplacement(self.player_position, d)
+            if direction == 'b':
+                case = self.case_deplacement(self.player_position, direction)
                 self.player_position = (self.player_position[0] + case,
                                         self.player_position[1])
                 self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-            if d == 'h':
-                case = self.case_deplacement(self.player_position, d)
+                self.path_of_the_player.append(list(self.player_position))
+            if direction == 'h':
+                case = self.case_deplacement(self.player_position, direction)
                 self.player_position = (self.player_position[0] - case,
                                         self.player_position[1])
                 self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-            if d == 'g':
+                self.path_of_the_player.append(list(self.player_position))
+            if direction == 'g':
                 self.player_position = (self.player_position[0],
                                         self.player_position[1] - 1)
                 self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-            if d == 'd':
+                self.path_of_the_player.append(list(self.player_position))
+            if direction == 'd':
                 self.player_position = (self.player_position[0],
                                         self.player_position[1] + 1)
                 self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
+                self.path_of_the_player.append(list(self.player_position))
 
     def __construct_tree(self, first_item, current_tree):
         tree_position = current_tree.value
@@ -164,7 +169,7 @@ if __name__ == "__main__":
         ->  Open a file
     """
     a = game(True, width=20, height=14)
-    #a = game(False, filename="rand_lab.txt")
+    #a = game(False, filename="rand_lab.lab")
     #a.game_labyrinth.write_on_file("b")
     while True:
         a.display()
@@ -176,3 +181,4 @@ if __name__ == "__main__":
         if d == 'q':
             break
         a.move(d)
+        print(a.path_of_the_player)
