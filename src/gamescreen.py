@@ -98,14 +98,28 @@ class GameScreen(Canvas) :
             #Incrementation Y
             compteurY += 2
         #Dessin des bords droit et bas
-        i,j=0,0
-        while i<(labWidth-1)*2 + 1 :
-            self.create_image(ecartHorizontal+(i*16), ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
+        i,j=0,1
+        while i <= labWidth - 2 :
+            if(lab[labHeight][i] == "1") :
+                case = tileVide
+            else :
+                case = tileSol
+            self.create_image(ecartHorizontal+(i*2*16), ecartVertical+(labHeight*16), anchor=NW, image=case)
+            self.create_image(ecartHorizontal+(i*2*16) +16, ecartVertical+(labHeight*16), anchor=NW, image=case)
             i += 1
-        while j<(labHeight-1) + 1 :
-            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=tileVide)
-            j += 1
-            
+        while j<= labHeight - 1 :
+            print(lab[j][labWidth - 2])
+            if(lab[j][labWidth - 1] == "1") :
+                case = tileVide
+            else :
+                case = tileSol
+            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j-1)*16, anchor=NW, image=case)
+            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=case)
+            j += 2
+        #Puis la case en bas à droite
+            self.create_image(ecartHorizontal + (labWidth-1)*2*16, ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
+        for ligne in lab :
+            print(ligne)
         #Dessin du personnage
 
         mainloop()
