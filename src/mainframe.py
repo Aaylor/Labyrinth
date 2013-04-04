@@ -13,9 +13,20 @@ class MainFrame(Tk) :
 
         #Zone d'Affichage
         self.gameScreen = GameScreen(self)
+        self.gameScreen.no_game()
         self.gameScreen.pack()
 
         #Zone de Controle
         self.inputArea = InputArea(self)
         self.inputArea.pack()
         
+    def no_game() :
+        pass
+
+    def top_view(self, game) :
+        self.game = game
+        self.game.display()
+        self.labyrinth = self.game.game_labyrinth.labyrinth)
+
+    def fps_view() :
+        pass
