@@ -4,15 +4,7 @@ from tkinter import *
 from labyrinth import *
 
 #A SUPPRIMER
-#GENERATION D'UN FAKE LABYRINTHE
-import random
-
-class Labyrinthe() :
-    def __init__(self) :
-        self.width = 20
-        self.height = 10
-        self.labyrinthe = "11111111111111111111\n100010010010101001011\n01010111101001110010\n110000110000000010001\n11011001000110110010\n110010100111011011111\n00111010010100101001\n001100011111001000001\n11000111100010111011\n11111111111111111111".split("\n")
-
+#GENERATION D'UN FAKE PERSONNAGE
 
 class Personnage() :
     def __init__() :
@@ -20,10 +12,6 @@ class Personnage() :
         self.posY = 5
 
 #############"
-
-lab = Labyrinthe().labyrinthe
-labWidth = Labyrinthe().width
-labHeight = Labyrinthe().height
 
 class GameScreen(Canvas) :
 
@@ -36,7 +24,13 @@ class GameScreen(Canvas) :
         coord = 1, 1, 800, 450, 1, 450, 800, 1, 1, 1
         self.create_line(coord, fill="red")
 
-    def topView(self) :
+    def top_view(self, game) :
+        ##Recupération des composants du jeu
+        lab = game.game_labyrinth.labyrinth
+        labWidth = game.game_labyrinth.width_on_odd_line
+        labHeight = game.game_labyrinth.height
+        
+        ##
         """Configure l'affichage en mode vue du dessus"""
         tileSol = PhotoImage(file="../img/tile_sol.gif")
         tileVide = PhotoImage(file="../img/tile_vide.gif")

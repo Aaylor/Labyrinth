@@ -35,7 +35,7 @@ class MenuBar(Frame) :
         messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
 
     def genererLabyrinthe(self) :
-        jeu = game.game(True, width=20, height=15)
+        jeu = game.game(True, width=20, height=10)
         self.mainFrame.top_view(jeu)
 
     

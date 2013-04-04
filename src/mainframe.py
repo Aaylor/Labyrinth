@@ -8,13 +8,13 @@ class MainFrame(Tk) :
         Tk.__init__(self)
 
         #MenuBar
-        self.menuBar = MenuBar(self)
-        self.menuBar.pack()
+        self.menubar = MenuBar(self)
+        self.menubar.pack()
 
         #Zone d'Affichage
-        self.gameScreen = GameScreen(self)
-        self.gameScreen.no_game()
-        self.gameScreen.pack()
+        self.gamescreen = GameScreen(self)
+        self.gamescreen.no_game()
+        self.gamescreen.pack()
 
         #Zone de Controle
         self.inputArea = InputArea(self)
@@ -26,7 +26,8 @@ class MainFrame(Tk) :
     def top_view(self, game) :
         self.game = game
         self.game.display()
-        self.labyrinth = self.game.game_labyrinth.labyrinth)
+        self.gamescreen.top_view(self.game)
+        
 
     def fps_view() :
         pass
