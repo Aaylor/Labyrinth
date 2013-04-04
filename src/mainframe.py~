@@ -1,7 +1,7 @@
 from tkinter import *
-from MenuBar import *
-from InputArea import *
-from GameScreen import *
+from menubar import *
+from inputarea import *
+from gamescreen import *
 
 class MainFrame(Tk) :
     def __init__(self) :
