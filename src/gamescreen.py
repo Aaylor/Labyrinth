@@ -17,6 +17,7 @@ class GameScreen(Canvas) :
 
     def __init__(self, mainFrame) :
         Canvas.__init__(self, mainFrame, bg="ivory", width=800, height=450)
+        self.mainFrame = mainFrame
 
     def no_game(self) :
         """Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
@@ -27,10 +28,14 @@ class GameScreen(Canvas) :
     def top_view(self, game) :
         ##Recupération des composants du jeu
         lab = game.game_labyrinth.labyrinth
-        labWidth = game.game_labyrinth.width_on_odd_line 
+        labWidth = game.game_labyrinth.width_on_odd_line + 1
         labHeight = game.game_labyrinth.height
         
-        ##
+        ##Debut de la construction du canevas
+        #Dessin de fond
+        self.create_rectangle(0,0, 801, 451, fill="ivory")
+
+        #Dessin du labyrinthe
         """Configure l'affichage en mode vue du dessus"""
         tileSol = PhotoImage(file="../img/tile_sol.gif")
         tileVide = PhotoImage(file="../img/tile_vide.gif")
@@ -38,12 +43,11 @@ class GameScreen(Canvas) :
 
         #Calcul des ecarts
         #Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
-        ecartHorizontal = (800 - 16*2*labWidth)/2
-        ecartVertical = (450 - 16*labHeight)/2
+        ecartHorizontal = (800 - 16*2*(labWidth+1))/2
+        ecartVertical = (450 - 16*(labHeight+1))/2
 
         #Dessin du lab
-        compteurX = 0
-        compteurY = 0
+        compteurX, compteurY = 0,0
         #Parcours vertical
         while compteurY <= labHeight - 2 :
             #Parcours horizontal
@@ -54,7 +58,7 @@ class GameScreen(Canvas) :
                     #Vertical : 0
                     if(lab[compteurY+1][compteurX] == "0") :
                         #Gestion du cas où un mur est présent en haut ainsi qu'à gauche
-                        if(lab[compteurY-1][compteurX] == "1" and lab[compteurY][compteurX-1] == "1") :
+                        if(compteurX>0 and compteurY>0 and lab[compteurY-1][compteurX] == "1" and lab[compteurY][compteurX-1] == "1") :
                             caseGH=tileVide
                         else :
                             caseGH=tileSol
@@ -93,7 +97,15 @@ class GameScreen(Canvas) :
                 compteurX += 1
             #Incrementation Y
             compteurY += 2
-
+        #Dessin des bords droit et bas
+        i,j=0,0
+        while i<(labWidth-1)*2 + 1 :
+            self.create_image(ecartHorizontal+(i*16), ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
+            i += 1
+        while j<(labHeight-1) + 1 :
+            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=tileVide)
+            j += 1
+            
         #Dessin du personnage
 
         mainloop()
