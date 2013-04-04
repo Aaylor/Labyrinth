@@ -108,7 +108,6 @@ class GameScreen(Canvas) :
             self.create_image(ecartHorizontal+(i*2*16) +16, ecartVertical+(labHeight*16), anchor=NW, image=case)
             i += 1
         while j<= labHeight - 1 :
-            print(lab[j][labWidth - 2])
             if(lab[j][labWidth - 1] == "1") :
                 case = tileVide
             else :
@@ -118,8 +117,6 @@ class GameScreen(Canvas) :
             j += 2
         #Puis la case en bas à droite
             self.create_image(ecartHorizontal + (labWidth-1)*2*16, ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
-        for ligne in lab :
-            print(ligne)
         #Dessin du personnage
 
         mainloop()
