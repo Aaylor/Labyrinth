@@ -37,7 +37,7 @@ class MenuBar(Frame) :
         pass
     
     def OuvrirFichier() :
-        directory = filedialog.askdirectory(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe')
+        directory = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
 
     def Quitter() :
-        pass
+        sys.exit()
