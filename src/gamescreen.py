@@ -27,7 +27,7 @@ class GameScreen(Canvas) :
     def top_view(self, game) :
         ##Recupération des composants du jeu
         lab = game.game_labyrinth.labyrinth
-        labWidth = game.game_labyrinth.width_on_odd_line
+        labWidth = game.game_labyrinth.width_on_odd_line 
         labHeight = game.game_labyrinth.height
         
         ##
@@ -53,33 +53,42 @@ class GameScreen(Canvas) :
                 if(lab[compteurY][compteurX] == "0") :
                     #Vertical : 0
                     if(lab[compteurY+1][compteurX] == "0") :
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
-
+                        #Gestion du cas où un mur est présent en haut ainsi qu'à gauche
+                        if(lab[compteurY-1][compteurX] == "1" and lab[compteurY][compteurX-1] == "1") :
+                            caseGH=tileVide
+                        else :
+                            caseGH=tileSol
+                        caseDH=tileSol
+                        caseGB=tileSol
+                        caseDB=tileSol
                     #Vertical : 1
                     if(lab[compteurY+1][compteurX] == "1") :
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileSol)
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        caseGH=tileVide
+                        caseDH=tileSol
+                        caseGB=tileVide
+                        caseDB=tileSol
                 #Horizontal : 1
                 elif(lab[compteurY][compteurX] == "1") :
                     #Vertical : 0
                     if(lab[compteurY+1][compteurX] == "0") :
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        caseGH=tileVide
+                        caseDH=tileVide
+                        caseGB=tileSol
+                        caseDB=tileSol
 
                     #Vertical : 1
                     if(lab[compteurY+1][compteurX] == "1") :
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileVide)
-                        self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=tileSol)
+                        caseGH=tileVide
+                        caseDH=tileVide
+                        caseGB=tileVide
+                        caseDB=tileSol
 
+                #AFFICHAGE DU  TRUC
+                self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=caseGH)
+                self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=caseDH)
+                self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseGB)
+                self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseDB)
+                
                 #Incrementation de X
                 compteurX += 1
             #Incrementation Y
