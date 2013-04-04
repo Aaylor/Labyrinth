@@ -1,0 +1,44 @@
+########################
+#   Compiled source    #
+########################
+*.class
+*.exe
+*.o
+*.out
+*.pyc
+
+###############
+#   Package   #
+###############
+*.7z
+*.tar*
+*.gz*
+*.jar
+*.iso
+*.rar
+*.tar*
+*.zip
+
+
+#########################
+#   Logs & Docs files   #
+#########################
+*.doc
+*.txt
+*.rtf
+
+
+##############
+#   Folder   #
+##############
+.classpath
+.project
+.setting
+build/*
+javadoc/*
+
+#######################
+#   Temporary files   #
+#######################
+*~
+*.swp
