@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-
 from tkinter import *
-from labyrinth import *
-
-#A SUPPRIMER
-#GENERATION D'UN FAKE PERSONNAGE
-
-class Personnage() :
-    def __init__() :
-        self.posX = 5
-        self.posY = 5
-
-#############"
 
 class GameScreen(Canvas) :
 
@@ -30,6 +18,7 @@ class GameScreen(Canvas) :
         lab = game.game_labyrinth.labyrinth
         labWidth = game.game_labyrinth.width_on_odd_line + 1
         labHeight = game.game_labyrinth.height
+        player_position = game.player_position
         
         ##Debut de la construction du canevas
         #Dessin de fond
@@ -117,8 +106,13 @@ class GameScreen(Canvas) :
             j += 2
         #Puis la case en bas à droite
             self.create_image(ecartHorizontal + (labWidth-1)*2*16, ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
-        #Dessin du personnage
 
+        #Dessin du personnage
+        perso = PhotoImage(file="../img/personnage.gif")
+        print(player_position)
+        perso_positionXCanvas = ecartVertical+(player_position[1])*32
+        perso_positionYCanvas = ecartHorizontal + player_position[0]*16
+        self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
         mainloop()
 
     def fpsView(self) :
