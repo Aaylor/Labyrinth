@@ -17,7 +17,6 @@ class labyrinth(object):
 
     def disp_labyrinth(self, path=[]):
         display_labyrinth = ""
-        print(path)
         for i, k in enumerate(self.labyrinth):
             for z, j in enumerate(k):
                 if '1' in j:
@@ -59,10 +58,8 @@ class labyrinth(object):
         for i, line in enumerate(self.labyrinth):
             for j, char in enumerate(line):
                 if char == '0' and ((i == 0 or i == self.height) or (i&1 and (j == 0 or j == len(line)-1))):
-                    print("found exit")
                     self.exit_position = (i, j)
                 if char == 'E':
-                    print("found entry")
                     self.entry_position = (i, j)
 
 

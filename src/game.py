@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import copy
+import player
 from labyrinth import *
 from utility.tree import *
 
@@ -16,6 +17,7 @@ class game(object):
         else:
             self.game_labyrinth = open_labyrinth(kwargs['filename'])
         self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
+        self.player = player.Player(self.player_position, 'd', None)
         self.path_of_the_player = []
 
     def display(self):
@@ -181,4 +183,3 @@ if __name__ == "__main__":
         if d == 'q':
             break
         a.move(d)
-        print(a.path_of_the_player)
