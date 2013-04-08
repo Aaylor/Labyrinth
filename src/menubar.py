@@ -16,8 +16,8 @@ class MenuBar(Frame) :
         #Menu Fichier
         fichierMenu = Menu(self, tearoff = 0)
         self.menuBar.add_cascade(label="Fichier", menu=fichierMenu)
-        fichierMenu.add_command(label="Générer un Labyrinthe", command= self.genererLabyrinthe)
-        fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.ouvrirFichier)
+        fichierMenu.add_command(label="Générer un Labyrinthe", command= self.genererLabyrinthe, accelerator="Ctrl-G")
+        fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.ouvrirFichier, accelerator="Ctrl-O")
         fichierMenu.add_separator()
         fichierMenu.add_command(label="Quitter", command=self.quitter)
 
@@ -34,12 +34,12 @@ class MenuBar(Frame) :
             chaine = "\tRunarvot Loic\n\tMehdi Khelifi"        
         messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
 
-    def genererLabyrinthe(self) :
+    def genererLabyrinthe(self, *arg) :
         jeu = game.game(True, width=20, height=10)
         self.mainFrame.top_view(jeu)
 
     
-    def ouvrirFichier(self) :
+    def ouvrirFichier(self, *arg) :
         filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
         jeu = game.game(False, filename=filename)
         self.mainFrame.top_view(jeu)

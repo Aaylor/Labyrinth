@@ -20,6 +20,10 @@ class MainFrame(Tk) :
         self.inputArea = InputArea(self)
         self.inputArea.pack()
         self.inputArea.display_no_game()
+
+        #Raccourcis clavier
+        self.bind('<Control-o>', self.menubar.ouvrirFichier)
+        self.bind('<Control-g>', self.menubar.genererLabyrinthe)
         
     def no_game() :
         pass
