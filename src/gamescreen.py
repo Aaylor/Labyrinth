@@ -88,21 +88,33 @@ class GameScreen(Canvas) :
             compteurY += 2
         #Dessin des bords droit et bas
         i,j=0,1
+        #Bord bas
         while i <= labWidth - 2 :
             if(lab[labHeight][i] == "1") :
-                case = tileVide
+                caseGH = tileVide
+                caseDH = tileVide
+            elif(lab[labHeight][i] == "E") :
+                caseGH = tileVide
+                caseDH = tileSol
             else :
-                case = tileSol
-            self.create_image(ecartHorizontal+(i*2*16), ecartVertical+(labHeight*16), anchor=NW, image=case)
-            self.create_image(ecartHorizontal+(i*2*16) +16, ecartVertical+(labHeight*16), anchor=NW, image=case)
+                caseGH = tileVide
+                caseDH = tileSol
+            self.create_image(ecartHorizontal+(i*2*16), ecartVertical+(labHeight*16), anchor=NW, image=caseGH)
+            self.create_image(ecartHorizontal+(i*2*16) +16, ecartVertical+(labHeight*16), anchor=NW, image=caseDH)
             i += 1
+        #Bord droit
         while j<= labHeight - 1 :
             if(lab[j][labWidth - 1] == "1") :
-                case = tileVide
+                caseGH = tileVide
+                caseGB = tileVide
+            elif(lab[j][labWidth - 1] == "E") :
+                caseGH = tileVide
+                caseGB = tileSol
             else :
-                case = tileSol
-            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j-1)*16, anchor=NW, image=case)
-            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=case)
+                caseGH = tileSol
+                caseGB = tileSol
+            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j-1)*16, anchor=NW, image=caseGH)
+            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=caseGB)
             j += 2
         #Puis la case en bas à droite
             self.create_image(ecartHorizontal + (labWidth-1)*2*16, ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
@@ -110,8 +122,8 @@ class GameScreen(Canvas) :
         #Dessin du personnage
         perso = PhotoImage(file="../img/personnage.gif")
         print(player_position)
-        perso_positionXCanvas = ecartVertical+(player_position[1])*32
-        perso_positionYCanvas = ecartHorizontal + player_position[0]*16
+        perso_positionXCanvas = ecartHorizontal+(player_position[1])*32
+        perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
         mainloop()
 
