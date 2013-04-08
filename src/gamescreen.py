@@ -38,90 +38,61 @@ class GameScreen(Canvas) :
         #Dessin du labyrinthe
         #Pour le dessin du labyrinthe, on utilise des carre de 2 tiles de longueur et 2 tiles de hauteur.
         #Le tile Haut-Gauche est toujours du mur (par soucis esthetique), le tile Bas-Droit est la case contenant le personnage, il contient donc toujours du sol
-        #Les tiles Haut-Droit et Bas-Gauche represente si il y a ou non un mur horizontal (Haut-Droit) ou un mur vertical (Bas-Gauche)
-        compteurX, compteurY = 0,0
-        #Parcours vertical
-        while compteurY <= labHeight - 2 :
-            #Parcours horizontal
-            compteurX = 0
-            while(compteurX <= labWidth - 2) :
-                #Horizontal : 0
-                if(lab[compteurY][compteurX] == "0") :
-                    #Vertical : 0
-                    if(lab[compteurY+1][compteurX] == "0") :
-                        #Gestion du cas où un mur est présent en haut ainsi qu'à gauche
-                        caseDH=tileSol
-                        caseGB=tileSol
-                    #Vertical : 1
-                    if(lab[compteurY+1][compteurX] == "1") :
-                        caseDH=tileSol
-                        caseGB=tileVide
-                #Horizontal : 1
-                elif(lab[compteurY][compteurX] == "1") :
-                    #Vertical : 0
-                    if(lab[compteurY+1][compteurX] == "0") :
-                        caseDH=tileVide
-                        caseGB=tileSol
-
-                    #Vertical : 1
-                    if(lab[compteurY+1][compteurX] == "1") :
-                        caseDH=tileVide
-                        caseGB=tileVide
-
-                #AFFICHAGE DU  TRUC
-                caseGH=tileVide
-                caseDB=tileSol
-                self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=caseGH)
-                self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=caseDH)
-                self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseGB)
-                self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseDB)
-                
-                #Incrementation de X
-                compteurX += 1
-            #Incrementation Y
-                
-            compteurY += 2
-        #Dessin des bords droit et bas
-        i,j=0,1
-        #Bord bas
-        while i <= labWidth - 2 :
-            if(lab[labHeight][i] == "1") :
-                caseGH = tileVide
-                caseDH = tileVide
-            elif(lab[labHeight][i] == "E") :
-                caseGH = tileVide
-                caseDH = tileSol
+        #Les tiles Haut-Droit et Bas-Gauche represente si il y a ou non un mur horizontal (Haut-Droit) ou un mur vertical (Bas-Gauche)    
+        caseGH=tileVide
+        caseDB=tileSol
+        #Initialisation de GB et DH, juste pour eviter une erreur d'execution
+        caseGB=tileVide
+        caseDH=tileVide
+        #On parcourt les lignes Vertical dans lesquelles ont lis directement les valeurs
+        for y,ligneVerticale in enumerate([ligneVerticale for y, ligneVerticale in enumerate(lab) if y%2==1]) :
+            for x, val in enumerate([val for val in ligneVerticale]) :
+                #Case DroiteHaut
+                if x != labWidth - 1 :
+                    if lab[y*2][x] == "1" :
+                        caseDH = tileVide
+                    else :
+                        caseDH = tileSol
+                #Case GaucheBas
+                #val est la valeur de la ligne des murs verticaux
+                if(val == "1") :
+                    caseGB = tileVide
+                else :
+                    caseGB = tileSol
+                #Dessin des 4 case, avec le cas ou on est a la derniere case :
+                if x != labWidth - 1 :
+                    self.drawTile(caseGH, caseDH, caseGB, caseDB, ecartHorizontal, ecartVertical, x, y)
+                else :
+                    self.drawTile(caseGH, "", caseGB, "", ecartHorizontal, ecartVertical, x, y)
+        #On parcourt la derniere ligne de lab, contenant le mur horizontal
+        for x, val in enumerate(lab[labHeight]) :
+            if val == "1" :
+                self.drawTile(tileVide, tileVide, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
+            elif val == "E" :
+                self.drawTile(tileVide, tileSol, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
             else :
-                caseGH = tileVide
-                caseDH = tileSol
-            self.create_image(ecartHorizontal+(i*2*16), ecartVertical+(labHeight*16), anchor=NW, image=caseGH)
-            self.create_image(ecartHorizontal+(i*2*16) +16, ecartVertical+(labHeight*16), anchor=NW, image=caseDH)
-            i += 1
-        #Bord droit
-        while j<= labHeight - 1 :
-            if(lab[j][labWidth - 1] == "1") :
-                caseGH = tileVide
-                caseGB = tileVide
-            elif(lab[j][labWidth - 1] == "E") :
-                caseGH = tileVide
-                caseGB = tileSol
-            else :
-                caseGH = tileSol
-                caseGB = tileSol
-            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j-1)*16, anchor=NW, image=caseGH)
-            self.create_image(ecartHorizontal + (labWidth - 1)*2*16, ecartVertical+(j*16), anchor=NW, image=caseGB)
-            j += 2
-        #Puis la case en bas à droite
-            self.create_image(ecartHorizontal + (labWidth-1)*2*16, ecartVertical+(labHeight*16), anchor=NW, image=tileVide)
-
+                self.drawTile(tileVide, tileSol, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
+        #Dessin du bord DroitBas
+        self.drawTile(tileVide, "", "", "", ecartHorizontal, ecartVertical, labWidth - 1, (labHeight)/2)
+                
         #Dessin du personnage
         perso = PhotoImage(file="../img/personnage.gif")
-        print(player_position)
         perso_positionXCanvas = ecartHorizontal+(player_position[1])*32
         perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
         mainloop()
 
+    def drawTile(self, caseGH, caseDH, caseGB, caseDB, ecartHorizontal, ecartVertical, x, y) :
+        #Dessin des cases
+        if caseGH != "" :
+            self.create_image(ecartHorizontal+(x*2*16), ecartVertical+(y*2*16), anchor=NW, image=caseGH)
+        if caseDH != "" :
+            self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16), anchor=NW, image=caseDH)
+        if caseGB != "" :
+            self.create_image(ecartHorizontal+(x*2*16), ecartVertical+(y*2*16) + 16, anchor=NW, image=caseGB)
+        if caseDB != "" :
+            self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16) + 16, anchor=NW, image=caseDB)
+        
     def fpsView(self) :
         """Configure l'affichage en mode FPS"""
         #C'EST DU TOTAL WIP POUR TESTER
