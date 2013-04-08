@@ -35,7 +35,10 @@ class GameScreen(Canvas) :
         ecartHorizontal = (800 - 16*2*(labWidth+1))/2
         ecartVertical = (450 - 16*(labHeight+1))/2
 
-        #Dessin du lab
+        #Dessin du labyrinthe
+        #Pour le dessin du labyrinthe, on utilise des carre de 2 tiles de longueur et 2 tiles de hauteur.
+        #Le tile Haut-Gauche est toujours du mur (par soucis esthetique), le tile Bas-Droit est la case contenant le personnage, il contient donc toujours du sol
+        #Les tiles Haut-Droit et Bas-Gauche represente si il y a ou non un mur horizontal (Haut-Droit) ou un mur vertical (Bas-Gauche)
         compteurX, compteurY = 0,0
         #Parcours vertical
         while compteurY <= labHeight - 2 :
@@ -47,37 +50,27 @@ class GameScreen(Canvas) :
                     #Vertical : 0
                     if(lab[compteurY+1][compteurX] == "0") :
                         #Gestion du cas où un mur est présent en haut ainsi qu'à gauche
-                        if(compteurX>0 and compteurY>0 and lab[compteurY-1][compteurX] == "1" and lab[compteurY][compteurX-1] == "1") :
-                            caseGH=tileVide
-                        else :
-                            caseGH=tileSol
                         caseDH=tileSol
                         caseGB=tileSol
-                        caseDB=tileSol
                     #Vertical : 1
                     if(lab[compteurY+1][compteurX] == "1") :
-                        caseGH=tileVide
                         caseDH=tileSol
                         caseGB=tileVide
-                        caseDB=tileSol
                 #Horizontal : 1
                 elif(lab[compteurY][compteurX] == "1") :
                     #Vertical : 0
                     if(lab[compteurY+1][compteurX] == "0") :
-                        caseGH=tileVide
                         caseDH=tileVide
                         caseGB=tileSol
-                        caseDB=tileSol
 
                     #Vertical : 1
                     if(lab[compteurY+1][compteurX] == "1") :
-                        caseGH=tileVide
                         caseDH=tileVide
                         caseGB=tileVide
-                        caseDB=tileSol
 
                 #AFFICHAGE DU  TRUC
                 caseGH=tileVide
+                caseDB=tileSol
                 self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=caseGH)
                 self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=caseDH)
                 self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseGB)
@@ -86,6 +79,7 @@ class GameScreen(Canvas) :
                 #Incrementation de X
                 compteurX += 1
             #Incrementation Y
+                
             compteurY += 2
         #Dessin des bords droit et bas
         i,j=0,1
