@@ -77,6 +77,7 @@ class GameScreen(Canvas) :
                         caseDB=tileSol
 
                 #AFFICHAGE DU  TRUC
+                caseGH=tileVide
                 self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16), anchor=NW, image=caseGH)
                 self.create_image(ecartHorizontal+(compteurX*2*16) +16, ecartVertical+(compteurY*16), anchor=NW, image=caseDH)
                 self.create_image(ecartHorizontal+(compteurX*2*16), ecartVertical+(compteurY*16) + 16, anchor=NW, image=caseGB)
