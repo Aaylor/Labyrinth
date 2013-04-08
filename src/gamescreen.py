@@ -32,7 +32,7 @@ class GameScreen(Canvas) :
 
         #Calcul des ecarts
         #Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
-        ecartHorizontal = (800 - 16*2*(labWidth+1))/2
+        ecartHorizontal = (800 - 16*2*(labWidth) + 16)/2
         ecartVertical = (450 - 16*(labHeight+1))/2
 
         #Dessin du labyrinthe
