@@ -28,10 +28,10 @@ class MainFrame(Tk) :
         #Raccourcis clavier
         self.bind('<Control-o>', self.menubar.ouvrirFichier)
         self.bind('<Control-g>', self.menubar.genererLabyrinthe)
-        self.bind('<Up>', self.inputArea.up)
-        self.bind('<Down>', self.inputArea.down)
-        self.bind('<Left>', self.inputArea.left)
-        self.bind('<Right>', self.inputArea.right)
+        self.bind('<Up>', self.move_up)
+        self.bind('<Down>', self.move_down)
+        self.bind('<Left>', self.move_left)
+        self.bind('<Right>', self.move_right)
         
     def no_game() :
         pass
@@ -58,7 +58,15 @@ class MainFrame(Tk) :
     def init_fps_view() :
         pass
 
-    #Les méthodes de controle du jeu jeu
+    #Les méthodes de controle du jeu
     def move(self, direction, *arg) :
         self.game.move(direction)
         self.gamescreen.draw()
+    def move_up(self, *arg) :
+        self.move("h")
+    def move_down(self, *arg) :
+        self.move("b")
+    def move_left(self, *arg) :
+        self.move("g")
+    def move_right(self, *arg) :
+        self.move("d")

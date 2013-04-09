@@ -97,7 +97,7 @@ class GameScreen(Canvas) :
         perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
         #On dessin la fenetre
-        self.mainloop()
+        self.update()
 
     def drawTile(self, caseGH, caseDH, caseGB, caseDB, ecartHorizontal, ecartVertical, x, y) :
         #Dessin des cases
