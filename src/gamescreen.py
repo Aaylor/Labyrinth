@@ -31,6 +31,8 @@ class GameScreen(Canvas) :
     
     def draw_top_view(self) :        
         lab = self.lab
+        for ligne in lab :
+            print(ligne)
         labWidth = self.labWidth
         labHeight = self.labHeight
         player_position = self.mainFrame.game.player_position
