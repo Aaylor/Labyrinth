@@ -66,13 +66,13 @@ class GameScreen(Canvas) :
             for x, val in enumerate([val for val in ligneVerticale]) :
                 #Case DroiteHaut
                 if x != labWidth - 1 :
-                    if lab[y*2][x] == "1" :
+                    if lab[y*2][x][0] == "1" :
                         caseDH = tileVide
                     else :
                         caseDH = tileSol
                 #Case GaucheBas
                 #val est la valeur de la ligne des murs verticaux
-                if(val == "1") :
+                if(val[0] == "1") :
                     caseGB = tileVide
                 else :
                     caseGB = tileSol
@@ -83,10 +83,8 @@ class GameScreen(Canvas) :
                     self.drawTile(caseGH, "", caseGB, "", ecartHorizontal, ecartVertical, x, y)
         #On parcourt la derniere ligne de lab, contenant le mur horizontal
         for x, val in enumerate(lab[labHeight]) :
-            if val == "1" :
+            if val[0] == "1" :
                 self.drawTile(tileVide, tileVide, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
-            elif val == "E" :
-                self.drawTile(tileVide, tileSol, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
             else :
                 self.drawTile(tileVide, tileSol, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
         #Dessin du bord DroitBas
@@ -96,6 +94,7 @@ class GameScreen(Canvas) :
         perso_positionXCanvas = ecartHorizontal+(player_position[1])*32
         perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
+        
         #On dessin la fenetre
         self.update()
 
