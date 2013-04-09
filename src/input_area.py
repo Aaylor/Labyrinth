@@ -45,18 +45,30 @@ class InputArea(Frame) :
         
 
         #Bouton Haut
-        upButton = Button(upFrame, text="Haut", width=7)
+        upButton = Button(upFrame, text="Haut", width=7, command=self.up)
         upButton.pack()
 
         #Bouton Gauche, Bas, Droite
-        leftButton = Button(bottomFrame, text="Gauche", width=7)
+        leftButton = Button(bottomFrame, text="Gauche", width=7, command=self.left)
         leftButton.pack(side=LEFT) 
-        downButton = Button(bottomFrame, text="Bas", width=7)
+        downButton = Button(bottomFrame, text="Bas", width=7, command=self.down)
         downButton.pack(side=LEFT)
-        rightButton = Button(bottomFrame, text="Droit", width=7)
+        rightButton = Button(bottomFrame, text="Droit", width=7, command=self.right)
         rightButton.pack(side=LEFT)
 
         return frame
+
+    def up(self, *arg) :
+        self.mainFrame.move("h")
+
+    def down(self, *arg) :
+        self.mainFrame.move("b")
+    
+    def left(self, *arg) :
+        self.mainFrame.move("g")
+    
+    def right(self, *arg) :
+        self.mainFrame.move("d")
 
     def fps_view_controls(self) :
         """Retourne la zone de controle en mode "Vue a la premiere personne" """

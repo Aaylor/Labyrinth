@@ -35,14 +35,11 @@ class MenuBar(Frame) :
         messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
 
     def genererLabyrinthe(self, *arg) :
-        jeu = game.game(True, width=20, height=10)
-        self.mainFrame.top_view(jeu)
+        self.mainFrame.generate_labyrinth()
 
     
     def ouvrirFichier(self, *arg) :
-        filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
-        jeu = game.game(False, filename=filename)
-        self.mainFrame.top_view(jeu)
+        self.mainFrame.openFile()
 
     def quitter(self) :
         sys.exit()

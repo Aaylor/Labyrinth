@@ -2,33 +2,50 @@
 from tkinter import *
 
 class GameScreen(Canvas) :
-
     def __init__(self, mainFrame) :
         Canvas.__init__(self, mainFrame, bg="ivory", width=800, height=450)
         self.mainFrame = mainFrame
+        self.mode = "no_game"
 
     def no_game(self) :
         """Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
         ###METTRE UNE IMAGE "DUNGEON AND PYTHON"
+        self.mode = "no_game"
         coord = 1, 1, 800, 450, 1, 450, 800, 1, 1, 1
         self.create_line(coord, fill="red")
 
-    def top_view(self, game) :
+    def init_top_view(self, *arg) :
         ##Recupération des composants du jeu
-        lab = game.game_labyrinth.labyrinth
-        labWidth = game.game_labyrinth.width_on_odd_line + 1
-        labHeight = game.game_labyrinth.height
-        player_position = game.player_position
+        self.mode = "top_view"
+        self.lab = self.mainFrame.game.game_labyrinth.labyrinth
+        self.labWidth = self.mainFrame.game.game_labyrinth.width_on_odd_line + 1
+        self.labHeight = self.mainFrame.game.game_labyrinth.height
+        ###Initialisation des images
+        self.tileSolIMG = PhotoImage(file="../img/tile_sol.gif")
+        self.tileVideIMG = PhotoImage(file="../img/tile_vide.gif")
+        self.persoIMG = PhotoImage(file="../img/personnage.gif")
+
+    def draw(self, *arg) :
+        if self.mode == "top_view" :
+            self.draw_top_view()
+    
+    def draw_top_view(self) :        
+        lab = self.lab
+        labWidth = self.labWidth
+        labHeight = self.labHeight
+        player_position = self.mainFrame.game.player_position
+        tileSol = self.tileSolIMG
+        tileVide= self.tileVideIMG
+        perso = self.persoIMG
         
         ##Debut de la construction du canevas
+        #On efface le contenu du canevas
+        self.delete("all")
         #Dessin de fond
         self.create_rectangle(0,0, 801, 451, fill="ivory")
 
         #Dessin du labyrinthe
         """Configure l'affichage en mode vue du dessus"""
-        tileSol = PhotoImage(file="../img/tile_sol.gif")
-        tileVide = PhotoImage(file="../img/tile_vide.gif")
-        persoImg = PhotoImage(file="../img/personnage.gif")
 
         #Calcul des ecarts
         #Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
@@ -74,13 +91,13 @@ class GameScreen(Canvas) :
                 self.drawTile(tileVide, tileSol, "", "", ecartHorizontal, ecartVertical, x, (labHeight)/2)
         #Dessin du bord DroitBas
         self.drawTile(tileVide, "", "", "", ecartHorizontal, ecartVertical, labWidth - 1, (labHeight)/2)
-                
+        
         #Dessin du personnage
-        perso = PhotoImage(file="../img/personnage.gif")
         perso_positionXCanvas = ecartHorizontal+(player_position[1])*32
         perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
-        mainloop()
+        #On dessin la fenetre
+        self.mainloop()
 
     def drawTile(self, caseGH, caseDH, caseGB, caseDB, ecartHorizontal, ecartVertical, x, y) :
         #Dessin des cases
@@ -149,6 +166,3 @@ class GameScreen(Canvas) :
             self.create_image(0, 0, anchor=NW, image=r4)
         if(self.lab[persoPosY+5][persoPosX+1] == 1) :
             self.create_image(0, 0, anchor=NW, image=r5)
-
-
-        mainloop()
