@@ -91,7 +91,11 @@ class GameScreen(Canvas) :
         self.drawTile(tileVide, "", "", "", ecartHorizontal, ecartVertical, labWidth - 1, (labHeight)/2)
         
         #Dessin du personnage
-        perso_positionXCanvas = ecartHorizontal+(player_position[1])*32
+        if(player_position[1] == labWidth-1) :
+            ajustementX = -16
+        else :
+            ajustementX = 0
+        perso_positionXCanvas = ecartHorizontal+(player_position[1])*32 + ajustementX
         perso_positionYCanvas = ecartVertical + player_position[0]*16 - 16
         self.create_image(perso_positionXCanvas, perso_positionYCanvas, anchor=NW, image=perso)
         
