@@ -150,37 +150,42 @@ class GameScreen(Canvas) :
         #Arriere plan
         self.create_image(0, 0, anchor=NW, image=self.bg)
 
+
+        #Calcul des variation
+        if direction == "h" :
+            varY = -1
+            varX = 0
         #Direction Haut
         if direction == "h" :
             #C5
-            if game.is_a_possible_movement((posY - 3, posX), "h") :
-                if not game.is_a_possible_movement((posY - 4*2, posX), "g") :
+            if game.is_a_possible_movement((posY + varY*2*3, posX + varX), "h") :
+                if not game.is_a_possible_movement((posY + 4*varY*2, posX + varX), "g") :
                     self.create_image(0, 0, anchor=NW, image=self.l5)
-                if not game.is_a_possible_movement((posY - 4*2, posX), "d") :
+                if not game.is_a_possible_movement((posY + 4*varY*2, posX + varX), "d") :
                     self.create_image(0, 0, anchor=NW, image=self.r5)
             #C4
-            if game.is_a_possible_movement((posY - 2, posX), "h") :
-                if not game.is_a_possible_movement((posY - 3*2, posX), "h") :
+            if game.is_a_possible_movement((posY + varY*2*2, posX + varX), "h") :
+                if not game.is_a_possible_movement((posY - 3*varY*2, posX + varX), "h") :
                     self.create_image(0, 0, anchor=NW, image=self.f4)
-                if not game.is_a_possible_movement((posY - 3*2, posX), "g") :
+                if not game.is_a_possible_movement((posY - 3*varY*2, posX + varX), "g") :
                     self.create_image(0, 0, anchor=NW, image=self.l4)
-                if not game.is_a_possible_movement((posY - 3*2, posX), "d") :
+                if not game.is_a_possible_movement((posY - 3*varY*2, posX + varX), "d") :
                     self.create_image(0, 0, anchor=NW, image=self.r4)
             #C3
-            if game.is_a_possible_movement((posY - 1, posX), "h") :
-                if not game.is_a_possible_movement((posY - 2*2, posX), "h") :
+            if game.is_a_possible_movement((posY + varY*2*1, posX + varX), "h") :
+                if not game.is_a_possible_movement((posY + 2*varY*2, posX + varX), "h") :
                     self.create_image(0, 0, anchor=NW, image=self.f3)
-                if not game.is_a_possible_movement((posY - 2*2, posX), "g") :
+                if not game.is_a_possible_movement((posY + 2*varY*2, posX + varX), "g") :
                     self.create_image(0, 0, anchor=NW, image=self.l3)
-                if not game.is_a_possible_movement((posY - 2*2, posX), "d") :
+                if not game.is_a_possible_movement((posY + 2*varY*2, posX + varX), "d") :
                     self.create_image(0, 0, anchor=NW, image=self.r3)
             #C2
             if game.is_a_possible_movement((posY, posX), "h") :
-                if not game.is_a_possible_movement((posY-2, posX), "h") :
+                if not game.is_a_possible_movement((posY+varY*2, posX + varX), "h") :
                     self.create_image(0, 0, anchor=NW, image=self.f2)
-                if not game.is_a_possible_movement((posY-2, posX), "g") :
+                if not game.is_a_possible_movement((posY+varY*2, posX + varX), "g") :
                     self.create_image(0, 0, anchor=NW, image=self.l2)
-                if not game.is_a_possible_movement((posY-2, posX), "d") :
+                if not game.is_a_possible_movement((posY+varY*2, posX + varX), "d") :
                     self.create_image(0, 0, anchor=NW, image=self.r2)
             #C1
             if not game.is_a_possible_movement((posY, posX), "h") :
