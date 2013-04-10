@@ -75,8 +75,42 @@ class MainFrame(Tk) :
 
     #Les méthodes de controle du jeu
     def move(self, direction, *arg) :
-        self.game.move(direction)
+        if self.gamescreen.mode == "top_view" :
+            self.game.move(direction)
+            self.game.player.direction = direction
+        elif self.gamescreen.mode == "fps_view" :
+            if direction == "h" :
+                self.game.move(self.game.player.direction)
+            elif direction == "b" :
+                if self.game.player.direction == "h" :
+                    self.game.move("b")
+                elif self.game.player.direction == "g" :
+                    self.game.move("d")
+                elif self.game.player.direction == "b" :
+                    self.game.move("h")
+                elif self.game.player.direction == "d" :
+                    self.game.move("g")
+            elif direction == "g" :
+                if self.game.player.direction == "h" :
+                    self.game.player.direction = "g"
+                elif self.game.player.direction == "g" :
+                    self.game.player.direction = "b"
+                elif self.game.player.direction == "b" :
+                    self.game.player.direction = "d"
+                elif self.game.player.direction == "d" :
+                    self.game.player.direction = "h"
+            elif direction == "d" :
+                if self.game.player.direction == "h" :
+                    self.game.player.direction = "d"
+                elif self.game.player.direction == "g" :
+                    self.game.player.direction = "h"
+                elif self.game.player.direction == "b" :
+                    self.game.player.direction = "g"
+                elif self.game.player.direction == "d" :
+                    self.game.player.direction = "b"
         self.gamescreen.draw()
+        self.game.display()
+                              
     def move_up(self, *arg) :
         self.move("h")
     def move_down(self, *arg) :
