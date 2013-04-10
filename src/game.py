@@ -162,6 +162,10 @@ class game(object):
                 self.game_labyrinth.labyrinth[value[0]][value[1]] =\
                     self.game_labyrinth.labyrinth[value[0]][value[1]][0]
 
+    def is_at_exit_point(self):
+        print(self.player_position, self.game_labyrinth.exit_position)
+        return self.player_position == self.game_labyrinth.exit_position
+
 if __name__ == "__main__":
     """
     TO READ
