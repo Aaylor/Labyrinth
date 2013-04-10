@@ -4,7 +4,7 @@ from tkinter import *
 class GameScreen(Canvas) :
     def __init__(self, mainFrame) :
         Canvas.__init__(self, mainFrame, bg="ivory", width=800, height=450)
-        self.mainFrame = mainFrame
+        self.mainframe = mainFrame
         self.mode = "no_game"
 
     def no_game(self) :
@@ -17,9 +17,9 @@ class GameScreen(Canvas) :
     def init_top_view(self, *arg) :
         ##Recupération des composants du jeu
         self.mode = "top_view"
-        self.lab = self.mainFrame.game.game_labyrinth.labyrinth
-        self.labWidth = self.mainFrame.game.game_labyrinth.width_on_odd_line + 1
-        self.labHeight = self.mainFrame.game.game_labyrinth.height
+        self.lab = self.mainframe.game.game_labyrinth.labyrinth
+        self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
+        self.labHeight = self.mainframe.game.game_labyrinth.height
         ###Initialisation des images
         self.tileSolIMG = PhotoImage(file="../img/tile_sol.gif")
         self.tileVideIMG = PhotoImage(file="../img/tile_vide.gif")
@@ -28,15 +28,14 @@ class GameScreen(Canvas) :
     def init_fps_view(self, *arg) :
         ##Recupération des composants du jeu
         self.mode = "fps_view"
-        self.lab = self.mainFrame.game.game_labyrinth.labyrinth
-        self.labWidth = self.mainFrame.game.game_labyrinth.width_on_odd_line + 1
-        self.labHeight = self.mainFrame.game.game_labyrinth.height
+        self.lab = self.mainframe.game.game_labyrinth.labyrinth
+        self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
+        self.labHeight = self.mainframe.game.game_labyrinth.height
         self.bg = PhotoImage(file="../img/background.gif")
         self.f1 = PhotoImage(file="../img/f1.gif")
         self.f2 = PhotoImage(file="../img/f2.gif")
         self.f3 = PhotoImage(file="../img/f3.gif")
         self.f4 = PhotoImage(file="../img/f4.gif")
-        self.f5 = PhotoImage(file="../img/f5.gif")
         self.l1 = PhotoImage(file="../img/l1.gif")
         self.l2 = PhotoImage(file="../img/l2.gif")
         self.l3 = PhotoImage(file="../img/l3.gif")
@@ -60,7 +59,7 @@ class GameScreen(Canvas) :
         #    print(ligne)
         labWidth = self.labWidth
         labHeight = self.labHeight
-        player_position = self.mainFrame.game.player_position
+        player_position = self.mainframe.game.player_position
         tileSol = self.tileSolIMG
         tileVide= self.tileVideIMG
         perso = self.persoIMG
@@ -142,12 +141,58 @@ class GameScreen(Canvas) :
         
     def draw_fps_view(self) :
         """Configure l'affichage en mode FPS"""
-        #C'EST DU TOTAL WIP POUR TESTER
-        #ON CONSIDERE POUR L'INSTANT QUE LE PERSONNAGE REGARDE VERS LE BAS
-        #initialisation des images
-        #RENDU FPS
+        direction = self.mainframe.game.player.direction #direction du personnage
+        posX = self.mainframe.game.player_position[1] #position X du personnage
+        posY = self.mainframe.game.player_position[0] #position Y du personnage
+        game = self.mainframe.game
         self.delete("all")
+        print("Pos X : {}, Pos Y : {}".format(posX, posY))
+        #Arriere plan
         self.create_image(0, 0, anchor=NW, image=self.bg)
+
+        #Direction Haut
+        if direction == "h" :
+            #C5
+            if game.is_a_possible_movement((posY - 3, posX), "h") :
+                if not game.is_a_possible_movement((posY - 4*2, posX), "g") :
+                    self.create_image(0, 0, anchor=NW, image=self.l5)
+                if not game.is_a_possible_movement((posY - 4*2, posX), "d") :
+                    self.create_image(0, 0, anchor=NW, image=self.r5)
+            #C4
+            if game.is_a_possible_movement((posY - 2, posX), "h") :
+                if not game.is_a_possible_movement((posY - 3*2, posX), "h") :
+                    self.create_image(0, 0, anchor=NW, image=self.f4)
+                if not game.is_a_possible_movement((posY - 3*2, posX), "g") :
+                    self.create_image(0, 0, anchor=NW, image=self.l4)
+                if not game.is_a_possible_movement((posY - 3*2, posX), "d") :
+                    self.create_image(0, 0, anchor=NW, image=self.r4)
+            #C3
+            if game.is_a_possible_movement((posY - 1, posX), "h") :
+                if not game.is_a_possible_movement((posY - 2*2, posX), "h") :
+                    self.create_image(0, 0, anchor=NW, image=self.f3)
+                if not game.is_a_possible_movement((posY - 2*2, posX), "g") :
+                    self.create_image(0, 0, anchor=NW, image=self.l3)
+                if not game.is_a_possible_movement((posY - 2*2, posX), "d") :
+                    self.create_image(0, 0, anchor=NW, image=self.r3)
+            #C2
+            if game.is_a_possible_movement((posY, posX), "h") :
+                if not game.is_a_possible_movement((posY-2, posX), "h") :
+                    self.create_image(0, 0, anchor=NW, image=self.f2)
+                if not game.is_a_possible_movement((posY-2, posX), "g") :
+                    self.create_image(0, 0, anchor=NW, image=self.l2)
+                if not game.is_a_possible_movement((posY-2, posX), "d") :
+                    self.create_image(0, 0, anchor=NW, image=self.r2)
+            #C1
+            if not game.is_a_possible_movement((posY, posX), "h") :
+                self.create_image(0, 0, anchor=NW, image=self.f1)
+            if not game.is_a_possible_movement((posY, posX), "g") :
+                self.create_image(0, 0, anchor=NW, image=self.l1)
+            if not game.is_a_possible_movement((posY, posX), "d") :
+                self.create_image(0, 0, anchor=NW, image=self.r1)
+            
+                
+                
 
         #On dessine la fenetre
         self.update()
+        
