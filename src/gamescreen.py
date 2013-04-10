@@ -25,14 +25,39 @@ class GameScreen(Canvas) :
         self.tileVideIMG = PhotoImage(file="../img/tile_vide.gif")
         self.persoIMG = PhotoImage(file="../img/personnage.gif")
 
+    def init_fps_view(self, *arg) :
+        ##Recupération des composants du jeu
+        self.mode = "fps_view"
+        self.lab = self.mainFrame.game.game_labyrinth.labyrinth
+        self.labWidth = self.mainFrame.game.game_labyrinth.width_on_odd_line + 1
+        self.labHeight = self.mainFrame.game.game_labyrinth.height
+        self.bg = PhotoImage(file="../img/background.gif")
+        self.f1 = PhotoImage(file="../img/f1.gif")
+        self.f2 = PhotoImage(file="../img/f2.gif")
+        self.f3 = PhotoImage(file="../img/f3.gif")
+        self.f4 = PhotoImage(file="../img/f4.gif")
+        self.f5 = PhotoImage(file="../img/f5.gif")
+        self.l1 = PhotoImage(file="../img/l1.gif")
+        self.l2 = PhotoImage(file="../img/l2.gif")
+        self.l3 = PhotoImage(file="../img/l3.gif")
+        self.l4 = PhotoImage(file="../img/l4.gif")
+        self.l5 = PhotoImage(file="../img/l5.gif")
+        self.r1 = PhotoImage(file="../img/r1.gif")
+        self.r2 = PhotoImage(file="../img/r2.gif")
+        self.r3 = PhotoImage(file="../img/r3.gif")
+        self.r4 = PhotoImage(file="../img/r4.gif")
+        self.r5 = PhotoImage(file="../img/r5.gif")
+
     def draw(self, *arg) :
         if self.mode == "top_view" :
             self.draw_top_view()
+        elif self.mode == "fps_view" :
+            self.draw_fps_view()
     
     def draw_top_view(self) :        
         lab = self.lab
-        for ligne in lab :
-            print(ligne)
+        #for ligne in lab :
+        #    print(ligne)
         labWidth = self.labWidth
         labHeight = self.labHeight
         player_position = self.mainFrame.game.player_position
@@ -115,59 +140,14 @@ class GameScreen(Canvas) :
         if caseDB != "" :
             self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16) + 16, anchor=NW, image=caseDB)
         
-    def fpsView(self) :
+    def draw_fps_view(self) :
         """Configure l'affichage en mode FPS"""
         #C'EST DU TOTAL WIP POUR TESTER
         #ON CONSIDERE POUR L'INSTANT QUE LE PERSONNAGE REGARDE VERS LE BAS
         #initialisation des images
-        bg = PhotoImage(file="../img/bg.gif")
-        f1 = PhotoImage(file="../img/f1.gif")
-        f2 = PhotoImage(file="../img/f2.gif")
-        f3 = PhotoImage(file="../img/f3.gif")
-        f4 = PhotoImage(file="../img/f4.gif")
-        f5 = PhotoImage(file="../img/f5.gif")
-        l1 = PhotoImage(file="../img/l1.gif")
-        l2 = PhotoImage(file="../img/l2.gif")
-        l3 = PhotoImage(file="../img/l3.gif")
-        l4 = PhotoImage(file="../img/l4.gif")
-        l5 = PhotoImage(file="../img/l5.gif")
-        r1 = PhotoImage(file="../img/r1.gif")
-        r2 = PhotoImage(file="../img/r2.gif")
-        r3 = PhotoImage(file="../img/r3.gif")
-        r4 = PhotoImage(file="../img/r4.gif")
-        r5 = PhotoImage(file="../img/r5.gif")
         #RENDU FPS
-        self.create_image(0, 0, anchor=NW, image=bg)
-        #Case en face
-        if(self.lab[persoPosY+1][persoPosX] == 1) :
-            self.create_image(0, 0, anchor=NW, image=f1)
-        elif(self.lab[persoPosY+2][persoPosX] == 1) :
-            self.create_image(0, 0, anchor=NW, image=f2)
-        elif(self.lab[persoPosY+3][persoPosX] == 1) :
-            self.create_image(0, 0, anchor=NW, image=f3)
-        elif(self.lab[persoPosY+4][persoPosX] == 1) :
-            self.create_image(0, 0, anchor=NW, image=f4)
-        elif(self.lab[persoPosY+5][persoPosX] == 1) :
-            self.create_image(0, 0, anchor=NW, image=f5)
-        #Case a gauce
-        if(self.lab[persoPosY+1][persoPosX-1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=l1)
-        if(self.lab[persoPosY+2][persoPosX-1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=l2)
-        if(self.lab[persoPosY+3][persoPosX-1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=l3)
-        if(self.lab[persoPosY+4][persoPosX-1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=l4)
-        if(self.lab[persoPosY+5][persoPosX-1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=l5)
-        #Case a droite
-        if(self.lab[persoPosY+1][persoPosX+1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=r1)
-        if(self.lab[persoPosY+2][persoPosX+1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=r2)
-        if(self.lab[persoPosY+3][persoPosX+1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=r3)
-        if(self.lab[persoPosY+4][persoPosX+1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=r4)
-        if(self.lab[persoPosY+5][persoPosX+1] == 1) :
-            self.create_image(0, 0, anchor=NW, image=r5)
+        self.delete("all")
+        self.create_image(0, 0, anchor=NW, image=self.bg)
+
+        #On dessine la fenetre
+        self.update()

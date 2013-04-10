@@ -40,7 +40,7 @@ class InputArea(Frame) :
         bottomFrame.pack(side=BOTTOM)
         
         #Bouton Changer de Vue
-        displayButton = Button(displayFrame, text="Changer de vue")
+        displayButton = Button(displayFrame, text="Changer de vue", command=self.mainFrame.change_view)
         displayButton.pack(side=RIGHT)
         
 
@@ -59,7 +59,7 @@ class InputArea(Frame) :
         return frame
 
     def fps_view_controls(self) :
-        """Retourne la zone de controle en mode "Vue a la premiere personne" """
+        """Retourne la zone de controle en mode "Vue du dessus" """
         #Construction des Frames
         frame = Frame(self)
         displayFrame = Frame(frame)
@@ -72,20 +72,20 @@ class InputArea(Frame) :
         bottomFrame.pack(side=BOTTOM)
         
         #Bouton Changer de Vue
-        displayButton = Button(displayFrame, text="Changer de vue")
+        displayButton = Button(displayFrame, text="Changer de vue", command=self.mainFrame.change_view)
         displayButton.pack(side=RIGHT)
         
 
         #Bouton Haut
-        upButton = Button(upFrame, text="Haut", width=7)
+        upButton = Button(upFrame, text="Avancer", width=7, command=self.mainFrame.move_up)
         upButton.pack()
 
         #Bouton Gauche, Bas, Droite
-        leftButton = Button(bottomFrame, text="Gauche", width=7)
+        leftButton = Button(bottomFrame, text="Tourner a gauche", width=13, command=self.mainFrame.move_left)
         leftButton.pack(side=LEFT) 
-        downButton = Button(bottomFrame, text="Bas", width=7)
+        downButton = Button(bottomFrame, text="Reculer", width=7, command=self.mainFrame.move_down)
         downButton.pack(side=LEFT)
-        rightButton = Button(bottomFrame, text="Droit", width=7)
+        rightButton = Button(bottomFrame, text="Tourner a droite", width=13, command=self.mainFrame.move_right)
         rightButton.pack(side=LEFT)
 
         return frame

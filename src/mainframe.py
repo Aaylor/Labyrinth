@@ -28,6 +28,7 @@ class MainFrame(Tk) :
         #Raccourcis clavier
         self.bind('<Control-o>', self.menubar.ouvrirFichier)
         self.bind('<Control-g>', self.menubar.genererLabyrinthe)
+        self.bind('<v>', self.change_view)
         self.bind('<Up>', self.move_up)
         self.bind('<Down>', self.move_down)
         self.bind('<Left>', self.move_left)
@@ -35,6 +36,8 @@ class MainFrame(Tk) :
         
     def no_game() :
         pass
+
+    #Ouverture d'une session de jeu
 
     def open_file(self) :
         filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
@@ -47,6 +50,14 @@ class MainFrame(Tk) :
         self.game = game.game(True, width=20, height=10)
         self.init_top_view()
 
+    #Methode de vues
+
+    def change_view(self, *arg) :
+        if self.gamescreen.mode == "top_view" :
+            self.init_fps_view()
+        elif self.gamescreen.mode == "fps_view" :
+            self.init_top_view()
+
     def init_top_view(self) :
         self.game.display() #A ENLEVER UNE FOIS QUE L'AFFICHAGE SERA NIQUEL
         #On passe la zone de controle en mode vue du dessus
@@ -55,8 +66,12 @@ class MainFrame(Tk) :
         self.gamescreen.init_top_view()
         self.gamescreen.draw()
 
-    def init_fps_view() :
-        pass
+    def init_fps_view(self) :
+        self.inputArea.display_fps_view()
+        self.gamescreen.init_fps_view()
+        self.gamescreen.draw()
+
+    
 
     #Les méthodes de controle du jeu
     def move(self, direction, *arg) :

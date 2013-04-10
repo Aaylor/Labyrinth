@@ -20,7 +20,12 @@ class MenuBar(Frame) :
         fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.ouvrirFichier, accelerator="Ctrl-O")
         fichierMenu.add_separator()
         fichierMenu.add_command(label="Quitter", command=self.quitter)
-
+        
+        #Menu Jeu
+        jeuMenu = Menu(self, tearoff = 0)
+        self.menuBar.add_cascade(label="Jeu", menu=jeuMenu)
+        jeuMenu.add_command(label="Changer de vue", command= self.mainFrame.change_view, accelerator="v")
+        
         #Menu Aide
         aideMenu=Menu(self, tearoff=0)
         self.menuBar.add_cascade(label="Aide", menu=aideMenu)
