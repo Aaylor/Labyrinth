@@ -11,8 +11,8 @@ class GameScreen(Canvas) :
         """Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
         ###METTRE UNE IMAGE "DUNGEON AND PYTHON"
         self.mode = "no_game"
-        coord = 1, 1, 800, 450, 1, 450, 800, 1, 1, 1
-        self.create_line(coord, fill="red")
+        self.ecran_titre = PhotoImage(file="../img/ecran_titre.gif")
+        self.create_image(0, 0, anchor=NW, image=self.ecran_titre)
 
     def init_top_view(self, *arg) :
         ##Recupération des composants du jeu
