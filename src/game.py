@@ -66,7 +66,7 @@ class game(object):
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x + case][y] != "1" or
                      (x + case) & 1)) ):
-                return (self.player_position[0] + case, self.player_position[1])
+                return (position[0] + case, position[1])
             return False
         if direction == 'h':
             case = self.case_deplacement(position, 'h')
@@ -78,19 +78,19 @@ class game(object):
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x - case][y] != "1" or
                      (x - case) & 1))):
-                return (self.player_position[0] - case, self.player_position[1])
+                return (position[0] - case, position[1])
             return False
         if direction == 'g':
             if ( ((y - 1) >= 0 and x < len(self.game_labyrinth.labyrinth)) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y]) and \
                 (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)):
-                return (self.player_position[0], self.player_position[1] - 1)
+                return (position[0], position[1] - 1)
             return False
         if direction == 'd':
             if ( (x < len(self.game_labyrinth.labyrinth) and \
                     (y + 1) < len(self.game_labyrinth.labyrinth[x])) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y + 1])):
-                return (self.player_position[0], self.player_position[1] + 1)
+                return (position[0], position[1] + 1)
             return False
 
     def move(self, direction):
