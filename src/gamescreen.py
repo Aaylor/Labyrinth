@@ -62,7 +62,7 @@ class GameScreen(Canvas) :
         #    print(ligne)
         labWidth = self.labWidth
         labHeight = self.labHeight
-        player_position = self.mainframe.game.player.position
+        player_position = self.mainframe.game.player_position
         tileSol = self.tileSolIMG
         tileVide= self.tileVideIMG
         direction = self.mainframe.game.player.direction #direction du personnage
@@ -155,8 +155,8 @@ class GameScreen(Canvas) :
     def draw_fps_view(self) :
         """Configure l'affichage en mode FPS"""
         direction = self.mainframe.game.player.direction #direction du personnage
-        posX = self.mainframe.game.player.position[1] #position X du personnage
-        posY = self.mainframe.game.player.position[0] #position Y du personnage
+        posX = self.mainframe.game.player_position[1] #position X du personnage
+        posY = self.mainframe.game.player_position[0] #position Y du personnage
         game = self.mainframe.game
         self.delete("all")
         print("Pos X : {}, Pos Y : {}, Direction : {}".format(posX, posY, direction))
@@ -190,34 +190,43 @@ class GameScreen(Canvas) :
             caseDroite = "b"
 
         #C5
-        if game.is_a_possible_movement((posY + varY*2*3, posX + varX), caseFace) :
-            if not game.is_a_possible_movement((posY + 4*varY*2, posX + 3*varX), caseGauche) :
+        if game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace), caseFace) :
+            y,x = game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace), caseFace)
+            if not game.is_a_possible_movement((y,x), caseGauche) :
                 self.create_image(0, 0, anchor=NW, image=self.l5)
-            if not game.is_a_possible_movement((posY + 4*varY*2, posX + 3*varX), caseDroite) :
+            if not game.is_a_possible_movement((y,x), caseDroite) :
                 self.create_image(0, 0, anchor=NW, image=self.r5)
         #C4
-        if game.is_a_possible_movement((posY + varY*2*2, posX + varX), caseFace) :
-            if not game.is_a_possible_movement((posY - 3*varY*2, posX + 3*varX), caseFace) :
+        if game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace) :
+            y,x = game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace)
+            if not game.is_a_possible_movement((y,x), caseFace) :
                 self.create_image(0, 0, anchor=NW, image=self.f4)
-            if not game.is_a_possible_movement((posY - 3*varY*2, posX + 3*varX), caseGauche) :
+            if not game.is_a_possible_movement((y,x), caseGauche) :
                 self.create_image(0, 0, anchor=NW, image=self.l4)
-            if not game.is_a_possible_movement((posY - 3*varY*2, posX + 3*varX), caseDroite) :
+            if not game.is_a_possible_movement((y,x), caseDroite) :
                 self.create_image(0, 0, anchor=NW, image=self.r4)
         #C3
-        if game.is_a_possible_movement((posY + varY*2*1, posX + varX), caseFace) :
-            if not game.is_a_possible_movement((posY + 2*varY*2, posX + 2*varX), caseFace) :
+                
+        if game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace) :
+            print(game.is_a_possible_movement((posY, posX), caseFace))
+            print(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace))
+            y,x = game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace)
+            print("Case 3 x : {}, y : {}".format(x, y));
+            if not game.is_a_possible_movement((y, x), caseFace) :
                 self.create_image(0, 0, anchor=NW, image=self.f3)
-            if not game.is_a_possible_movement((posY + 2*varY*2, posX + 2*varX), caseGauche) :
+            if not game.is_a_possible_movement((y, x), caseGauche) :
                 self.create_image(0, 0, anchor=NW, image=self.l3)
-            if not game.is_a_possible_movement((posY + 2*varY*2, posX + 2*varX), caseDroite) :
+            if not game.is_a_possible_movement((y, x), caseDroite) :
                 self.create_image(0, 0, anchor=NW, image=self.r3)
         #C2
         if game.is_a_possible_movement((posY, posX), caseFace) :
-            if not game.is_a_possible_movement((posY+varY*2, posX + varX), caseFace) :
+            y, x = game.is_a_possible_movement((posY, posX), caseFace)
+            print("Case 2 x : {}, y : {}".format(x, y));
+            if not game.is_a_possible_movement((y, x), caseFace) :
                 self.create_image(0, 0, anchor=NW, image=self.f2)
-            if not game.is_a_possible_movement((posY+varY*2, posX + varX), caseGauche) :
+            if not game.is_a_possible_movement((y, x), caseGauche) :
                 self.create_image(0, 0, anchor=NW, image=self.l2)
-            if not game.is_a_possible_movement((posY+varY*2, posX + varX), caseDroite) :
+            if not game.is_a_possible_movement((y, x), caseDroite) :
                 self.create_image(0, 0, anchor=NW, image=self.r2)
         #C1
         if not game.is_a_possible_movement((posY, posX), caseFace) :
