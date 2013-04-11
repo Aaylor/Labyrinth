@@ -17,7 +17,9 @@ class game(object):
         else:
             self.game_labyrinth = open_labyrinth(kwargs['filename'])
         self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
-        self.player = player.Player(self.player_position, 'd', None)
+        self.player = player.Player(self.player_position,
+                                    (self.game_labyrinth.height,
+                                     self.game_labyrinth.width_on_odd_line))
         self.path_of_the_player = []
         print(len(self.game_labyrinth.labyrinth))
 
@@ -54,32 +56,40 @@ class game(object):
         x, y = position
         if direction == 'b':
             case = self.case_deplacement(position, 'b')
-            return (((x + case < len(self.game_labyrinth.labyrinth)) and
+            if ( (((x + case < len(self.game_labyrinth.labyrinth)) and
                     (y < len(self.game_labyrinth.labyrinth[x + case]) - 1 ^
                         (x == len(self.game_labyrinth.labyrinth) - 1 and
                     y < len(self.game_labyrinth.labyrinth[x + case]) - 1))) and
                     (not('1' in self.game_labyrinth.labyrinth[x + 1][y]) or
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x + case][y] != "1" or
-                    (x + case) & 1))
+                     (x + case) & 1)) ):
+                return (self.player_position[0] + case, self.player_position[1])
+            return False
         if direction == 'h':
             case = self.case_deplacement(position, 'h')
-            return ((x - case >= 0 and x < len(self.game_labyrinth.labyrinth)) and
+            if ( ((x - case >= 0 and x < len(self.game_labyrinth.labyrinth)) and
                     (y < len(self.game_labyrinth.labyrinth[x - case]) - 1 or
                         (x == len(self.game_labyrinth.labyrinth) - 1 and
                         (y < len(self.game_labyrinth[x - case]) - 1))) and
                     (not('1' in self.game_labyrinth.labyrinth[x - 1][y]) or
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x - case][y] != "1" or
-                        (x - case) & 1))
+                     (x - case) & 1))):
+                return (self.player_position[0] - case, self.player_position[1])
+            return False
         if direction == 'g':
-            return ((y - 1) >= 0 and x < len(self.game_labyrinth.labyrinth)) and \
+            if ( ((y - 1) >= 0 and x < len(self.game_labyrinth.labyrinth)) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y]) and \
-                (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)
+                (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)):
+                return (self.player_position[0], self.player_position[1] - 1)
+            return False
         if direction == 'd':
-            return (x < len(self.game_labyrinth.labyrinth) and \
+            if ( (x < len(self.game_labyrinth.labyrinth) and \
                     (y + 1) < len(self.game_labyrinth.labyrinth[x])) and \
-                not('1' in self.game_labyrinth.labyrinth[x][y + 1])
+                not('1' in self.game_labyrinth.labyrinth[x][y + 1])):
+                return (self.player_position[0], self.player_position[1] + 1)
+            return False
 
     def move(self, direction):
         """Bouge le pion du joueur dans la direction donnée si il est possible
