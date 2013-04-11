@@ -62,7 +62,7 @@ class GameScreen(Canvas) :
         #    print(ligne)
         labWidth = self.labWidth
         labHeight = self.labHeight
-        player_position = self.mainframe.game.player_position
+        player_position = self.mainframe.game.player.position
         tileSol = self.tileSolIMG
         tileVide= self.tileVideIMG
         direction = self.mainframe.game.player.direction #direction du personnage

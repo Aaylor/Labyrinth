@@ -16,12 +16,10 @@ class game(object):
                 generate_random_labyrinth(kwargs['width'], kwargs['height'])
         else:
             self.game_labyrinth = open_labyrinth(kwargs['filename'])
-        self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
-        self.player = player.Player(self.player_position,
+        self.player = player.Player(copy.deepcopy(self.game_labyrinth.entry_position),
                                     (self.game_labyrinth.height,
                                      self.game_labyrinth.width_on_odd_line))
         self.path_of_the_player = []
-        print(len(self.game_labyrinth.labyrinth))
 
     def display(self):
         """Affiche le labyrinthe"""
@@ -64,7 +62,7 @@ class game(object):
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x + case][y] != "1" or
                      (x + case) & 1)) ):
-                return (self.player_position[0] + case, self.player_position[1])
+                return (self.player.position[0] + case, self.player.position[1])
             return False
         if direction == 'h':
             case = self.case_deplacement(position, 'h')
@@ -76,19 +74,19 @@ class game(object):
                     not(x & 1)) and
                     (self.game_labyrinth.labyrinth[x - case][y] != "1" or
                      (x - case) & 1))):
-                return (self.player_position[0] - case, self.player_position[1])
+                return (self.player.position[0] - case, self.player.position[1])
             return False
         if direction == 'g':
             if ( ((y - 1) >= 0 and x < len(self.game_labyrinth.labyrinth)) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y]) and \
                 (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)):
-                return (self.player_position[0], self.player_position[1] - 1)
+                return (self.player.position[0], self.player.position[1] - 1)
             return False
         if direction == 'd':
             if ( (x < len(self.game_labyrinth.labyrinth) and \
                     (y + 1) < len(self.game_labyrinth.labyrinth[x])) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y + 1])):
-                return (self.player_position[0], self.player_position[1] + 1)
+                return (self.player.position[0], self.player.position[1] + 1)
             return False
 
     def move(self, direction):
@@ -98,34 +96,34 @@ class game(object):
         Argument:
         direction   -- la direction souhaitée par le joueur
         """
-        if self.is_a_possible_movement(self.player_position, direction):
+        if self.is_a_possible_movement(self.player.position, direction):
             self.game_labyrinth.\
-                labyrinth[self.player_position[0]][self.player_position[1]] =\
+                labyrinth[self.player.position[0]][self.player.position[1]] =\
                 (self.game_labyrinth.labyrinth
-                    [self.player_position[0]]
-                    [self.player_position[1]][0])
+                    [self.player.position[0]]
+                    [self.player.position[1]][0])
             if direction == 'b':
-                case = self.case_deplacement(self.player_position, direction)
-                self.player_position = (self.player_position[0] + case,
-                                        self.player_position[1])
-                self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-                self.path_of_the_player.append(list(self.player_position))
+                case = self.case_deplacement(self.player.position, direction)
+                self.player.position = (self.player.position[0] + case,
+                                        self.player.position[1])
+                self.game_labyrinth.labyrinth[self.player.position[0]][self.player.position[1]] += 'P'
+                self.path_of_the_player.append(list(self.player.position))
             if direction == 'h':
-                case = self.case_deplacement(self.player_position, direction)
-                self.player_position = (self.player_position[0] - case,
-                                        self.player_position[1])
-                self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-                self.path_of_the_player.append(list(self.player_position))
+                case = self.case_deplacement(self.player.position, direction)
+                self.player.position = (self.player.position[0] - case,
+                                        self.player.position[1])
+                self.game_labyrinth.labyrinth[self.player.position[0]][self.player.position[1]] += 'P'
+                self.path_of_the_player.append(list(self.player.position))
             if direction == 'g':
-                self.player_position = (self.player_position[0],
-                                        self.player_position[1] - 1)
-                self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-                self.path_of_the_player.append(list(self.player_position))
+                self.player.position = (self.player.position[0],
+                                        self.player.position[1] - 1)
+                self.game_labyrinth.labyrinth[self.player.position[0]][self.player.position[1]] += 'P'
+                self.path_of_the_player.append(list(self.player.position))
             if direction == 'd':
-                self.player_position = (self.player_position[0],
-                                        self.player_position[1] + 1)
-                self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
-                self.path_of_the_player.append(list(self.player_position))
+                self.player.position = (self.player.position[0],
+                                        self.player.position[1] + 1)
+                self.game_labyrinth.labyrinth[self.player.position[0]][self.player.position[1]] += 'P'
+                self.path_of_the_player.append(list(self.player.position))
 
     def __construct_tree(self, first_item, current_tree):
         tree_position = current_tree.value
@@ -157,7 +155,7 @@ class game(object):
 
     def display_solution(self):
         """Affiche la solution sur le labyrinthe"""
-        tree_from_current_position = Tree(list(self.player_position))
+        tree_from_current_position = Tree(list(self.player.position))
         self.__construct_tree(tree_from_current_position,
                               tree_from_current_position)
         
@@ -175,8 +173,7 @@ class game(object):
                     self.game_labyrinth.labyrinth[value[0]][value[1]][0]
 
     def is_at_exit_point(self):
-        print(self.player_position, self.game_labyrinth.exit_position)
-        return self.player_position == self.game_labyrinth.exit_position
+        return self.player.position == self.game_labyrinth.exit_position
 
 if __name__ == "__main__":
     """
