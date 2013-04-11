@@ -19,6 +19,7 @@ class game(object):
         self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
         self.player = player.Player(self.player_position, 'd', None)
         self.path_of_the_player = []
+        print(len(self.game_labyrinth.labyrinth))
 
     def display(self):
         """Affiche le labyrinthe"""
@@ -51,6 +52,7 @@ class game(object):
         direction   -- la direction souhaitée ('h', 'b', 'g', 'd')
         """
         x, y = position
+        print(direction, x, y)
         if direction == 'b':
             case = self.case_deplacement(position, 'b')
             return (((x + case < len(self.game_labyrinth.labyrinth)) and
@@ -63,7 +65,7 @@ class game(object):
                     (x + case) & 1))
         if direction == 'h':
             case = self.case_deplacement(position, 'h')
-            return ((x - case >= 0) and
+            return ((x - case >= 0 and x < len(self.game_labyrinth.labyrinth)) and
                     (y < len(self.game_labyrinth.labyrinth[x - case]) - 1 or
                         (x == len(self.game_labyrinth.labyrinth) - 1 and
                         (y < len(self.game_labyrinth[x - case]) - 1))) and
@@ -72,11 +74,12 @@ class game(object):
                     (self.game_labyrinth.labyrinth[x - case][y] != "1" or
                         (x - case) & 1))
         if direction == 'g':
-            return (y - 1) >= 0 and \
+            return ((y - 1) >= 0 and x < len(self.game_labyrinth.labyrinth)) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y]) and \
                 (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)
         if direction == 'd':
-            return (y + 1) < len(self.game_labyrinth.labyrinth[x]) and \
+            return (x < len(self.game_labyrinth.labyrinth) and \
+                    (y + 1) < len(self.game_labyrinth.labyrinth[x])) and \
                 not('1' in self.game_labyrinth.labyrinth[x][y + 1])
 
     def move(self, direction):
