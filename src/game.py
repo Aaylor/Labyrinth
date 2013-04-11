@@ -53,6 +53,8 @@ class game(object):
         position    -- la position donnée (sous forme [x, y])
         direction   -- la direction souhaitée ('h', 'b', 'g', 'd')
         """
+        if position == False
+            return False
         x, y = position
         if direction == 'b':
             case = self.case_deplacement(position, 'b')
