@@ -77,7 +77,7 @@ class game(object):
                 (self.game_labyrinth.labyrinth[x][y - 1] != "1" or x & 1)
         if direction == 'd':
             return (y + 1) < len(self.game_labyrinth.labyrinth[x]) and \
-                not('1' in self.game_labyrinth.labyrinth[x][y + 1] == "1")
+                not('1' in self.game_labyrinth.labyrinth[x][y + 1])
 
     def move(self, direction):
         """Bouge le pion du joueur dans la direction donnée si il est possible
