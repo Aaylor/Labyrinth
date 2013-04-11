@@ -227,9 +227,6 @@ class GameScreen(Canvas) :
         if not game.is_a_possible_movement((posY, posX), caseDroite) :
             self.create_image(0, 0, anchor=NW, image=self.r1)
             
-                
-                
-
         #On dessine la fenetre
         self.update()
         
