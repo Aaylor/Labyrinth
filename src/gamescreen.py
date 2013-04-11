@@ -155,8 +155,8 @@ class GameScreen(Canvas) :
     def draw_fps_view(self) :
         """Configure l'affichage en mode FPS"""
         direction = self.mainframe.game.player.direction #direction du personnage
-        posX = self.mainframe.game.player_position[1] #position X du personnage
-        posY = self.mainframe.game.player_position[0] #position Y du personnage
+        posX = self.mainframe.game.player.position[1] #position X du personnage
+        posY = self.mainframe.game.player.position[0] #position Y du personnage
         game = self.mainframe.game
         self.delete("all")
         print("Pos X : {}, Pos Y : {}, Direction : {}".format(posX, posY, direction))
