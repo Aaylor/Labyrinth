@@ -188,7 +188,7 @@ class GameScreen(Canvas) :
             caseGauche = "h"
             caseFace = "d"
             caseDroite = "b"
-            
+
         #C5
         if game.is_a_possible_movement((posY + varY*2*3, posX + varX), caseFace) :
             if not game.is_a_possible_movement((posY + 4*varY*2, posX + 3*varX), caseGauche) :
