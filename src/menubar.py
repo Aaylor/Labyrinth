@@ -44,7 +44,7 @@ class MenuBar(Frame) :
 
     
     def ouvrirFichier(self, *arg) :
-        self.mainFrame.openFile()
+        self.mainFrame.open_file()
 
     def quitter(self) :
         sys.exit()

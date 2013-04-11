@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from menubar import *
 from input_area import *
 from gamescreen import *
@@ -41,9 +42,13 @@ class MainFrame(Tk) :
 
     def open_file(self) :
         filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
-        #On associe le jeu à la fenetre
-        self.game = game.game(False, filename=filename)
-        self.init_top_view()
+        if filename != "" :
+            #On associe le jeu à la fenetre
+            self.game = game.game(False, filename=filename)
+            if self.game.game_labyrinth.create == True :
+                self.init_top_view()
+            else :
+                messagebox.showinfo("Fichier .lab invalide", "Le fichier Labyrinthe que vous avez séléctionné n'est pas valide.\nVeuillez ouvrir un autre fichier.")
 
     def generate_labyrinth(self) :
         #On associe le jeu à la fenetre
@@ -75,41 +80,42 @@ class MainFrame(Tk) :
 
     #Les méthodes de controle du jeu
     def move(self, direction, *arg) :
-        if self.gamescreen.mode == "top_view" :
-            self.game.move(direction)
-            self.game.player.direction = direction
-        elif self.gamescreen.mode == "fps_view" :
-            if direction == "h" :
-                self.game.move(self.game.player.direction)
-            elif direction == "b" :
-                if self.game.player.direction == "h" :
-                    self.game.move("b")
-                elif self.game.player.direction == "g" :
-                    self.game.move("d")
-                elif self.game.player.direction == "b" :
-                    self.game.move("h")
-                elif self.game.player.direction == "d" :
-                    self.game.move("g")
-            elif direction == "g" :
-                if self.game.player.direction == "h" :
-                    self.game.player.direction = "g"
-                elif self.game.player.direction == "g" :
-                    self.game.player.direction = "b"
-                elif self.game.player.direction == "b" :
-                    self.game.player.direction = "d"
-                elif self.game.player.direction == "d" :
-                    self.game.player.direction = "h"
-            elif direction == "d" :
-                if self.game.player.direction == "h" :
-                    self.game.player.direction = "d"
-                elif self.game.player.direction == "g" :
-                    self.game.player.direction = "h"
-                elif self.game.player.direction == "b" :
-                    self.game.player.direction = "g"
-                elif self.game.player.direction == "d" :
-                    self.game.player.direction = "b"
-        self.gamescreen.draw()
-        self.game.display()
+        if self.gamescreen.mode != "no_game" :
+            if self.gamescreen.mode == "top_view" :
+                self.game.move(direction)
+                self.game.player.direction = direction
+            elif self.gamescreen.mode == "fps_view" :
+                if direction == "h" :
+                    self.game.move(self.game.player.direction)
+                elif direction == "b" :
+                    if self.game.player.direction == "h" :
+                        self.game.move("b")
+                    elif self.game.player.direction == "g" :
+                        self.game.move("d")
+                    elif self.game.player.direction == "b" :
+                        self.game.move("h")
+                    elif self.game.player.direction == "d" :
+                        self.game.move("g")
+                elif direction == "g" :
+                    if self.game.player.direction == "h" :
+                        self.game.player.direction = "g"
+                    elif self.game.player.direction == "g" :
+                        self.game.player.direction = "b"
+                    elif self.game.player.direction == "b" :
+                        self.game.player.direction = "d"
+                    elif self.game.player.direction == "d" :
+                        self.game.player.direction = "h"
+                elif direction == "d" :
+                    if self.game.player.direction == "h" :
+                        self.game.player.direction = "d"
+                    elif self.game.player.direction == "g" :
+                        self.game.player.direction = "h"
+                    elif self.game.player.direction == "b" :
+                        self.game.player.direction = "g"
+                    elif self.game.player.direction == "d" :
+                        self.game.player.direction = "b"
+            self.gamescreen.draw()
+            self.game.display()
                               
     def move_up(self, *arg) :
         self.move("h")
