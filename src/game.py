@@ -52,7 +52,6 @@ class game(object):
         direction   -- la direction souhaitée ('h', 'b', 'g', 'd')
         """
         x, y = position
-        print(direction, x, y)
         if direction == 'b':
             case = self.case_deplacement(position, 'b')
             return (((x + case < len(self.game_labyrinth.labyrinth)) and

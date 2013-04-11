@@ -177,10 +177,10 @@ class open_labyrinth(labyrinth):
         self.labyrinth = []
         self.entry_position = None
         self.exit_position = None
-        if not self.__create_labyrinth(filename):
-            print("Could not create labyrinth")
-            exit(1)
-        labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)
+        self.create = False
+        if self.__create_labyrinth(filename):
+            labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)
+            self.create = True
 
     def __create_labyrinth(self, filename):
         try:
