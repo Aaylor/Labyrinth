@@ -16,13 +16,16 @@ class game(object):
             self.game_labyrinth = \
                 generate_random_labyrinth(kwargs['width'], kwargs['height'])
         else:
-            self.game_labyrinth = open_labyrinth(kwargs['filename'])
-        self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
-        self.player = player.Player(self.player_position,
-                                    (self.game_labyrinth.height,
-                                     self.game_labyrinth.width_on_odd_line))
-        self.path_of_the_player = []
-        print(len(self.game_labyrinth.labyrinth))
+            if 'loadgame' in kwargs.keys() and kwargs['loadgame']:
+                self.load_game(kwargs['filename'])
+            else:
+                self.game_labyrinth = open_labyrinth(kwargs['filename'])
+        if not 'loadgame' in kwargs.keys():
+            self.player_position = copy.deepcopy(self.game_labyrinth.entry_position)
+            self.player = player.Player(self.player_position,
+                                        (self.game_labyrinth.height,
+                                         self.game_labyrinth.width_on_odd_line))
+            self.path_of_the_player = []
 
     def display(self):
         """Affiche le labyrinthe"""
@@ -207,9 +210,7 @@ class game(object):
             del info[-1]
         height = int((info[0].split("="))[1]) + 1
         self.game_labyrinth = read_labyrinth(info[1:height+1])
-        self.player_position = ((info[height+1].split("="))[1]).split(",")
-        self.player_position[0], self.player_position[1] = \
-            int(self.player_position[0]), int(self.player_position[1])
+        self.player_position = ast.literal_eval((info[height+1].split("="))[1])
         self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
         #ast.literal_eval, this function evaluate string and return list,
         #tuple or every literal evaluation
@@ -222,9 +223,11 @@ if __name__ == "__main__":
         ->  Generate random labyrinth
     a = game(False, filename="filename.lab")
         ->  Open a file
+    a = game(False, filename="filename.sav", loadgame=True)
     """
-    a = game(True, width=20, height=14)
-    #a = game(False, filename="test.sav")
+    #a = game(True, width=20, height=14)
+    #a = game(False, filename="rand_lab.lab")
+    a = game(False, filename="test.sav", loadgame=True)
     #a.game_labyrinth.write_on_file("b")
     while True:
         a.display()
