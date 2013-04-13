@@ -180,6 +180,35 @@ class game(object):
         print(self.player_position, self.game_labyrinth.exit_position)
         return self.player_position == self.game_labyrinth.exit_position
 
+    def save_game(self, filename):
+        try:
+            _file = open(filename, "w")
+        except IOError:
+            return False
+
+        _file.write("height=" + str(self.game_labyrinth.height) + "\n")
+        for i in self.game_labyrinth.labyrinth:
+            _file.write("".join(map(lambda x : '1' if '1' in x else
+                                list(map((lambda y : '0' if '0' in x else 'E'), [x]))[0], i)) + "\n")
+        _file.write("player_pos=" + str(self.player_position[0]) + "," +
+                    str(self.player_position[1]) + "\n")
+        #player_pos use here... maybe write Player object instead ?
+
+    def load_game(self, filename):
+        try:
+            _file = open(filename, "r")
+        except IOError:
+            return False
+
+        info = _file.read().split("\n")
+        if not info[-1]:
+            del info[-1]
+        height = int((info[0].split("="))[1]) + 1
+        self.game_labyrinth = read_labyrinth(info[1:height+1])
+        self.player_position = ((info[-1].split("="))[1]).split(",")
+        self.player_position[0], self.player_position[1] = \
+            int(self.player_position[0]), int(self.player_position[1])
+
 if __name__ == "__main__":
     """
     TO READ
@@ -189,7 +218,7 @@ if __name__ == "__main__":
         ->  Open a file
     """
     a = game(True, width=20, height=14)
-    #a = game(False, filename="rand_lab.lab")
+    #a = game(False, filename="test.sav")
     #a.game_labyrinth.write_on_file("b")
     while True:
         a.display()
@@ -200,4 +229,8 @@ if __name__ == "__main__":
             a.undisplay_solution()
         if d == 'q':
             break
+        if d == 'sa':
+            a.save_game("test.sav")
+        if d == 'lo':
+            a.load_game("test.sav")
         a.move(d)

@@ -199,3 +199,13 @@ class open_labyrinth(labyrinth):
                 self.labyrinth[i].append(char)
         _file.close()
         return True
+
+
+class read_labyrinth(labyrinth):
+    """Lis une liste.
+    """
+
+    def __init__(self, lab_list):
+        self.labyrinth = [list(line) for line in lab_list]
+        labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)
+        
