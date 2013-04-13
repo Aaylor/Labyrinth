@@ -2,6 +2,7 @@
 
 import copy
 import player
+import ast
 from labyrinth import *
 from utility.tree import *
 
@@ -193,6 +194,7 @@ class game(object):
         _file.write("player_pos=" + str(self.player_position[0]) + "," +
                     str(self.player_position[1]) + "\n")
         #player_pos use here... maybe write Player object instead ?
+        _file.write("path=" + str(self.path_of_the_player))
 
     def load_game(self, filename):
         try:
@@ -205,9 +207,13 @@ class game(object):
             del info[-1]
         height = int((info[0].split("="))[1]) + 1
         self.game_labyrinth = read_labyrinth(info[1:height+1])
-        self.player_position = ((info[-1].split("="))[1]).split(",")
+        self.player_position = ((info[height+1].split("="))[1]).split(",")
         self.player_position[0], self.player_position[1] = \
             int(self.player_position[0]), int(self.player_position[1])
+        self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
+        #ast.literal_eval, this function evaluate string and return list,
+        #tuple or every literal evaluation
+        self.path_of_the_player = ast.literal_eval((info[-1].split("="))[1])
 
 if __name__ == "__main__":
     """
