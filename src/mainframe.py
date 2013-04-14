@@ -84,10 +84,18 @@ class MainFrame(Tk) :
 	#Methode liée au jeu
 	
 	def display_path(self, *arg) :
-		pass
+		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
+			if self.gamescreen.display_path == False :
+				self.gamescreen.display_path = True
+			else :
+				self.gamescreen.display_path = False
 		
 	def display_solution(self, *arg) :
-		pass
+		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
+			if self.gamescreen.display_solution == False :
+				self.gamescreen.display_solution = True
+			else :
+				self.gamescreen.display_solution = False
 		
 	def game_over(self, *arg) :
 		messagebox.showinfo("Félicitation !", "Vous avez résolu le labyrinthe, félicitation !")
@@ -103,7 +111,6 @@ class MainFrame(Tk) :
 			self.init_top_view()
 
 	def init_top_view(self, *arg) :
-		self.game.display() #A ENLEVER UNE FOIS QUE L'AFFICHAGE SERA NIQUEL
 		#On passe la zone de controle en mode vue du dessus
 		self.inputArea.display_top_view()
 		#On passe l'ecran de jeu en mode jeu en vue du dessus
