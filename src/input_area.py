@@ -17,11 +17,11 @@ class InputArea(Frame) :
         frame = Frame(self)
         
         #Bouton Generer Labyrinthe
-        genererButton = Button(frame, text="Générer un Labyrinthe", command=self.mainFrame.menubar.genererLabyrinthe)
+        genererButton = Button(frame, text="Générer un Labyrinthe", command=self.mainFrame.generate_labyrinth)
         genererButton.pack(side=LEFT)
 
         #Bouton Ouvrir Labyrinthe
-        ouvrirButton = Button(frame, text="Ouvrir un Labyrinthe", command=self.mainFrame.menubar.ouvrirFichier)
+        ouvrirButton = Button(frame, text="Ouvrir un Labyrinthe", command=self.mainFrame.open_file)
         ouvrirButton.pack(side=RIGHT)
 
         return frame

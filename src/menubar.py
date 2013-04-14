@@ -5,7 +5,6 @@ from tkinter import messagebox
 from tkinter import filedialog
 import game
 import sys
-import mainframe
 
 class MenuBar(Frame) :
 	def __init__(self, mainFrame) :
@@ -17,12 +16,12 @@ class MenuBar(Frame) :
 		#Menu Fichier
 		fichierMenu = Menu(self, tearoff = 0)
 		self.menuBar.add_cascade(label="Fichier", menu=fichierMenu)
-		fichierMenu.add_command(label="Générer un Labyrinthe automatiquement", command= self.genererLabyrinthe, accelerator="Ctrl-G")
-		fichierMenu.add_command(label="Générer un Labyrinthe personnalisé", command= self.genererLabyrinthePersonnalise, accelerator="Ctrl-Shift-G")
-		fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.ouvrirFichier, accelerator="Ctrl-O")
+		fichierMenu.add_command(label="Générer un Labyrinthe automatiquement", command= self.mainFrame.generate_labyrinth, accelerator="Ctrl-G")
+		fichierMenu.add_command(label="Générer un Labyrinthe personnalisé", command= self.mainFrame.open_generate_labyrinth_perso, accelerator="Ctrl-Shift-G")
+		fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.mainFrame.open_file, accelerator="Ctrl-O")
 		fichierMenu.add_separator()
-		fichierMenu.add_command(label="Restaurer la session de jeu", command = self.ouvrirFichier, accelerator="Ctrl-Shift-O")
-		fichierMenu.add_command(label="Sauvegarder la session de jeu", command = self.ouvrirFichier, accelerator="Ctrl-S")
+		fichierMenu.add_command(label="Restaurer la session de jeu", command = self.mainFrame.open_session, accelerator="Ctrl-Shift-O")
+		fichierMenu.add_command(label="Sauvegarder la session de jeu", command = self.mainFrame.save_session, accelerator="Ctrl-S")
 		fichierMenu.add_separator()
 		fichierMenu.add_command(label="Quitter", command=self.quitter)
 		
@@ -47,21 +46,6 @@ class MenuBar(Frame) :
 		else :
 			chaine = "\tRunarvot Loic\n\tMehdi Khelifi"        
 		messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
-
-	def genererLabyrinthe(self, *arg) :
-		self.mainFrame.generate_labyrinth()
-
-	def genererLabyrinthePersonnalise(self, *arg) :
-		mainframe.CreateLabFrame(self.mainFrame);
-		
-	def ouvrirFichier(self, *arg) :
-		self.mainFrame.open_file()
-		
-	def ouvrirSession(self, *arg) :
-		pass
-
-	def sauvegarderSession(self, *arg) :
-		pass
 
 	def quitter(self) :
 		sys.exit()
