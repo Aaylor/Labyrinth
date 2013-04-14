@@ -56,8 +56,12 @@ class MainFrame(Tk) :
 		pass
 
 	def save_session(self, *arg) :
-		pass
-		
+		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
+			filename = filedialog.asksaveasfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
+			self.game.save_game(filename)
+		else :
+			messagebox.showwarning("Erreur", "Aucune session de jeu lancée.")
+			
 	def generate_labyrinth(self, *arg) :
 		#On associe le jeu à la fenetre
 		self.game = game.game(True, width=20, height=10)
