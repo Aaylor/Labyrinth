@@ -30,14 +30,12 @@ class MainFrame(Tk) :
 		self.bind('<Control-o>', self.menubar.ouvrirFichier)
 		self.bind('<Control-g>', self.menubar.genererLabyrinthe)
 		self.bind('<Control-Shift-G>', self.menubar.genererLabyrinthePersonnalise)
+		self.bind('<Control-Shift-g>', self.menubar.genererLabyrinthePersonnalise)
 		self.bind('<v>', self.change_view)
 		self.bind('<Up>', self.move_up)
 		self.bind('<Down>', self.move_down)
 		self.bind('<Left>', self.move_left)
 		self.bind('<Right>', self.move_right)
-        
-	def no_game() :
-		pass
 
 	#Ouverture d'une session de jeu
 

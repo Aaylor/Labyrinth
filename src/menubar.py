@@ -21,12 +21,19 @@ class MenuBar(Frame) :
 		fichierMenu.add_command(label="Générer un Labyrinthe personnalisé", command= self.genererLabyrinthePersonnalise, accelerator="Ctrl-Shift-G")
 		fichierMenu.add_command(label="Ouvrir un Labyrinthe", command = self.ouvrirFichier, accelerator="Ctrl-O")
 		fichierMenu.add_separator()
+		fichierMenu.add_command(label="Restaurer la session de jeu", command = self.ouvrirFichier, accelerator="Ctrl-Shift-O")
+		fichierMenu.add_command(label="Sauvegarder la session de jeu", command = self.ouvrirFichier, accelerator="Ctrl-S")
+		fichierMenu.add_separator()
 		fichierMenu.add_command(label="Quitter", command=self.quitter)
 		
 		#Menu Jeu
 		jeuMenu = Menu(self, tearoff = 0)
 		self.menuBar.add_cascade(label="Jeu", menu=jeuMenu)
 		jeuMenu.add_command(label="Changer de vue", command= self.mainFrame.change_view, accelerator="v")
+		jeuMenu.add_separator()
+		jeuMenu.add_command(label="Afficher le chemin parcouru", command= self.mainFrame.change_view, accelerator="x")
+		jeuMenu.add_command(label="Afficher la solution du labyrinthe", command= self.mainFrame.change_view, accelerator="c")
+		
 		
 		#Menu Aide
 		aideMenu=Menu(self, tearoff=0)
