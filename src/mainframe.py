@@ -53,8 +53,14 @@ class MainFrame(Tk) :
 
 		
 	def open_session(self, *arg) :
-		pass
-
+		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
+		if filename != "" :
+			self.game = game.load_game(filename)
+			if self.game.game_labyrinth.create == True :
+				self.init_top_view()
+			else :
+				messagebox.showinfo("Fichier .lab invalide", "Le fichier Labyrinthe que vous avez séléctionné n'est pas valide.\nVeuillez ouvrir un autre fichier.")
+				
 	def save_session(self, *arg) :
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
 			filename = filedialog.asksaveasfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
