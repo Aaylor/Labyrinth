@@ -31,8 +31,8 @@ class MenuBar(Frame) :
 		self.menuBar.add_cascade(label="Jeu", menu=jeuMenu)
 		jeuMenu.add_command(label="Changer de vue", command= self.mainFrame.change_view, accelerator="v")
 		jeuMenu.add_separator()
-		jeuMenu.add_command(label="Afficher le chemin parcouru", command= self.mainFrame.change_view, accelerator="x")
-		jeuMenu.add_command(label="Afficher la solution du labyrinthe", command= self.mainFrame.change_view, accelerator="c")
+		jeuMenu.add_command(label="Afficher le chemin parcouru", command= self.mainFrame.display_path, accelerator="d")
+		jeuMenu.add_command(label="Afficher la solution du labyrinthe", command= self.mainFrame.display_solution, accelerator="s")
 		
 		
 		#Menu Aide
@@ -54,9 +54,14 @@ class MenuBar(Frame) :
 	def genererLabyrinthePersonnalise(self, *arg) :
 		mainframe.CreateLabFrame(self.mainFrame);
 		
-	
 	def ouvrirFichier(self, *arg) :
 		self.mainFrame.open_file()
+		
+	def ouvrirSession(self, *arg) :
+		pass
+
+	def sauvegarderSession(self, *arg) :
+		pass
 
 	def quitter(self) :
 		sys.exit()

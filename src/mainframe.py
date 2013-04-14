@@ -30,7 +30,10 @@ class MainFrame(Tk) :
 		self.bind('<Control-o>', self.menubar.ouvrirFichier)
 		self.bind('<Control-g>', self.menubar.genererLabyrinthe)
 		self.bind('<Control-Shift-G>', self.menubar.genererLabyrinthePersonnalise)
-		self.bind('<Control-Shift-g>', self.menubar.genererLabyrinthePersonnalise)
+		self.bind('<Control-Shift-O>', self.menubar.ouvrirSession)
+		self.bind('<Control-s>', self.menubar.sauvegarderSession)
+		self.bind('<d>', self.display_path)
+		self.bind('<s>', self.display_solution)
 		self.bind('<v>', self.change_view)
 		self.bind('<Up>', self.move_up)
 		self.bind('<Down>', self.move_down)
@@ -58,6 +61,19 @@ class MainFrame(Tk) :
 		#On associe le jeu à la fenetre
 		self.game = game.game(True, width=hauteur, height=longueur)
 		self.init_top_view()
+	
+	#Parties
+	
+	def display_path(self, *arg) :
+		pass
+		
+	def display_solution(self, *arg) :
+		pass
+		
+	def game_over(self) :
+		messagebox.showinfo("Félicitation !", "Vous avez résolu le labyrinthe, félicitation !")
+		self.no_game()
+		
 		
 	#Methode de vues
 
@@ -80,7 +96,9 @@ class MainFrame(Tk) :
 		self.gamescreen.init_fps_view()
 		self.gamescreen.draw()
 
-    
+	def no_game(self) :
+		self.inputArea.display_no_game()
+		self.gamescreen.no_game()
 
 	#Les méthodes de controle du jeu
 	def move(self, direction, *arg) :
@@ -160,8 +178,8 @@ class CreateLabFrame(Toplevel) :
 			self.warning_value_non_correct()
 	
 	def warning_value_too_high(self) :
-		messagebox.showinfo("Erreur de saisie", "Les valeurs saisies sont trop élevées")
+		messagebox.showerror("Erreur de saisie", "Les valeurs saisies sont trop élevées")
 
 	def warning_value_non_correct(self) :
-		messagebox.showinfo("Erreur de saisie", "Les valeurs saisies comportent des caractères non autorisés")
+		messagebox.showerror("Erreur de saisie", "Les valeurs saisies comportent des caractères non autorisés")
 		
