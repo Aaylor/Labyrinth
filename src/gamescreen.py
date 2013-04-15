@@ -63,6 +63,7 @@ class GameScreen(Canvas) :
 			self.draw_fps_view()
 	
 	def draw_top_view(self) : 
+		print(self.mainframe.game.path_of_the_player)
 		lab = self.lab
 		labWidth = self.labWidth
 		labHeight = self.labHeight
