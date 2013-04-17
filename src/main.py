@@ -2,8 +2,10 @@
 
 from mainframe import *
 
-if __name__ == "__main__":
-    #Ouverture de la fenetre en mode "No Game"
+def main():
     fenetre = MainFrame()
     fenetre.mainloop()
+
+if __name__ == "__main__":
+    main()
 
