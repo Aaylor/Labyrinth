@@ -63,7 +63,6 @@ class GameScreen(Canvas) :
 			self.draw_fps_view()
 	
 	def draw_top_view(self) : 
-		print(self.mainframe.game.path_of_the_player)
 		lab = self.lab
 		labWidth = self.labWidth
 		labHeight = self.labHeight
@@ -134,6 +133,14 @@ class GameScreen(Canvas) :
 		#Dessin du bord DroitBas
 		self.drawTile(tileVide, "", "", "", ecartHorizontal, ecartVertical, labWidth - 1, (labHeight)/2)
 		
+		#Dessin du chemin parcouru
+		if self.display_path == True :
+			self.draw_path_top_view(self.mainframe.game.path_of_the_player, ecartHorizontal, ecartVertical)
+		
+		#Dessin de la solution
+		if self.display_solution == True :
+			self.draw_path_top_view(self.mainframe.game.way_list, ecartHorizontal, ecartVertical)
+			
 		#Dessin du personnage
 		if(player_position[1] == labWidth-1) :
 			ajustementX = -16
@@ -156,6 +163,33 @@ class GameScreen(Canvas) :
 			self.create_image(ecartHorizontal+(x*2*16), ecartVertical+(y*2*16) + 16, anchor=NW, image=caseGB)
 		if caseDB != "" :
 			self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16) + 16, anchor=NW, image=caseDB)
+			
+	def draw_path_top_view(self, liste_chemin, ecartHorizontal, ecartVertical) :
+		for indice, coord in enumerate(liste_chemin) :
+			#On se relie à la position précédente
+			if indice > 0 :
+				if(liste_chemin[indice - 1][0] == coord[0]) : #Sur la même ligne
+					if(liste_chemin[indice - 1][1] > coord[1]) : #Position précédente à droite
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right)
+					else : #Position précédente à gauche
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_left)
+				else : #Sur la même colone
+					if(liste_chemin[indice - 1][0] > coord[0]) : #Position précédente en haut
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_down)
+					else : #Position précédente à gauche
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_up)
+			#On se relie à la position précédente
+			if indice < len(liste_chemin) - 1 :
+				if(liste_chemin[indice + 1][0] == coord[0]) : #Sur la même ligne
+					if(liste_chemin[indice + 1][1] > coord[1]) : #Position suivante à droite
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right)
+					else : #Position suivante à gauche
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_left)
+				else : #Sur la même colone
+					if(liste_chemin[indice + 1][0] > coord[0]) : #Position suivant en haut
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_down)
+					else : #Position suivante à gauche
+						self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_up)
 		
 	def draw_fps_view(self) :
 		"""Configure l'affichage en mode FPS"""

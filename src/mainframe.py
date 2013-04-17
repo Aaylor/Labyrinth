@@ -89,6 +89,7 @@ class MainFrame(Tk) :
 				self.gamescreen.display_path = True
 			else :
 				self.gamescreen.display_path = False
+			self.gamescreen.draw()
 		
 	def display_solution(self, *arg) :
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
@@ -96,6 +97,7 @@ class MainFrame(Tk) :
 				self.gamescreen.display_solution = True
 			else :
 				self.gamescreen.display_solution = False
+			self.gamescreen.draw()
 		
 	def game_over(self, *arg) :
 		messagebox.showinfo("Félicitation !", "Vous avez résolu le labyrinthe, félicitation !")
