@@ -26,7 +26,7 @@ class game(object):
                                         (self.game_labyrinth.height,
                                          self.game_labyrinth.width_on_odd_line))
             self.path_of_the_player = []
-            self.way_list = []
+        self.give_solution() 
 
     def display(self):
         """Affiche le labyrinthe"""
@@ -162,7 +162,7 @@ class game(object):
             (list(self.game_labyrinth.exit_position) in liste)):
             liste.append(tree.value)
 
-    def display_solution(self):
+    def give_solution(self):
         """Affiche la solution sur le labyrinthe"""
         tree_from_current_position = Tree(list(self.player_position))
         self.__construct_tree(tree_from_current_position,
@@ -170,9 +170,6 @@ class game(object):
         
         self.way_list = []
         self.__give_solution(self.way_list, tree_from_current_position)
-
-        for value in self.way_list:
-            self.game_labyrinth.labyrinth[value[0]][value[1]] += chr(9632)
 
     def undisplay_solution(self):
         """Enlève la solution du labyrinthe"""
@@ -225,10 +222,11 @@ if __name__ == "__main__":
         ->  Open a file
     a = game(False, filename="filename.sav", loadgame=True)
     """
-    #a = game(True, width=20, height=14)
+    a = game(True, width=20, height=14)
     #a = game(False, filename="rand_lab.lab")
-    a = game(False, filename="test.sav", loadgame=True)
+    #a = game(False, filename="test.sav", loadgame=True)
     #a.game_labyrinth.write_on_file("b")
+    print(a.way_list)
     while True:
         a.display()
         d = input("Move : ")
