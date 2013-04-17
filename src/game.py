@@ -26,6 +26,7 @@ class game(object):
                                         (self.game_labyrinth.height,
                                          self.game_labyrinth.width_on_odd_line))
             self.path_of_the_player = []
+            self.way_list = []
 
     def display(self):
         """Affiche le labyrinthe"""
