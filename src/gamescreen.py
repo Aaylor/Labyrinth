@@ -199,7 +199,6 @@ class GameScreen(Canvas) :
 		posY = self.mainframe.game.player_position[0] #position Y du personnage
 		game = self.mainframe.game
 		self.delete("all")
-		print("Pos X : {}, Pos Y : {}, Direction : {}".format(posX, posY, direction))
 		#Arriere plan
 		self.create_image(0, 0, anchor=NW, image=self.bg)
 
@@ -248,10 +247,7 @@ class GameScreen(Canvas) :
 		#C3
 				
 		if game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace) :
-			#print(game.is_a_possible_movement((posY, posX), caseFace))
-			#print(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace))
 			y,x = game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace)
-			#print("Case 3 x : {}, y : {}".format(x, y));
 			if not game.is_a_possible_movement((y, x), caseFace) :
 				self.create_image(0, 0, anchor=NW, image=self.f3)
 			if not game.is_a_possible_movement((y, x), caseGauche) :
@@ -261,7 +257,6 @@ class GameScreen(Canvas) :
 		#C2
 		if game.is_a_possible_movement((posY, posX), caseFace) :
 			y, x = game.is_a_possible_movement((posY, posX), caseFace)
-			#print("Case 2 x : {}, y : {}".format(x, y));
 			if not game.is_a_possible_movement((y, x), caseFace) :
 				self.create_image(0, 0, anchor=NW, image=self.f2)
 			if not game.is_a_possible_movement((y, x), caseGauche) :
