@@ -166,6 +166,8 @@ class MainFrame(Tk) :
 						self.game.player.direction = "b"
 			self.gamescreen.draw()
 			self.game.display()
+			if self.game.is_at_exit_point() :
+				self.game_over()
 							  
 	def move_up(self, *arg) :
 		self.move("h")
