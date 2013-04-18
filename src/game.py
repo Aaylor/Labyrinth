@@ -200,6 +200,7 @@ class game(object):
         try:
             _file = open(filename, "r")
         except IOError:
+            self.game_labyrinth.create = False
             return False
 
         info = _file.read().split("\n")
@@ -227,6 +228,7 @@ if __name__ == "__main__":
     #a = game(False, filename="test.sav", loadgame=True)
     #a.game_labyrinth.write_on_file("b")
     print(a.way_list)
+    print(a.path_of_the_player)
     while True:
         a.display()
         d = input("Move : ")
