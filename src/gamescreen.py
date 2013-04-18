@@ -33,6 +33,10 @@ class GameScreen(Canvas) :
 		self.path_up = PhotoImage(file="../img/path-up.gif")
 		self.path_down = PhotoImage(file="../img/path-down.gif")
 		self.path_left = PhotoImage(file="../img/path-left.gif")
+		self.path_right_red = PhotoImage(file="../img/path-right_red.gif")
+		self.path_up_red = PhotoImage(file="../img/path-up_red.gif")
+		self.path_down_red = PhotoImage(file="../img/path-down_red.gif")
+		self.path_left_red = PhotoImage(file="../img/path-left_red.gif")
 
 	def init_fps_view(self, *arg) :
 		##Recupération des composants du jeu
@@ -59,6 +63,14 @@ class GameScreen(Canvas) :
 		self.f2_end = PhotoImage(file="../img/f2_end.gif")
 		self.f3_end = PhotoImage(file="../img/f3_end.gif")
 		self.f4_end = PhotoImage(file="../img/f4_end.gif")
+		#Vue GPS Jaune
+		self.gps_f1, self.gps_f2, self.gps_f3, self.gps_f4, self.gps_f5 = PhotoImage(file="../img/gps_f1.gif"), PhotoImage(file="../img/gps_f2.gif"), PhotoImage(file="../img/gps_f3.gif"), PhotoImage(file="../img/gps_f4.gif"), PhotoImage(file="../img/gps_f5.gif")
+		self.gps_r1, self.gps_r2, self.gps_r3, self.gps_r4, self.gps_r5 = PhotoImage(file="../img/gps_r1.gif"), PhotoImage(file="../img/gps_r2.gif"), PhotoImage(file="../img/gps_r3.gif"), PhotoImage(file="../img/gps_r4.gif"), PhotoImage(file="../img/gps_r5.gif")
+		self.gps_l1, self.gps_l2, self.gps_l3, self.gps_l4, self.gps_l5 = PhotoImage(file="../img/gps_l1.gif"), PhotoImage(file="../img/gps_l2.gif"), PhotoImage(file="../img/gps_l3.gif"), PhotoImage(file="../img/gps_l4.gif"), PhotoImage(file="../img/gps_l5.gif")
+		#Vue GPS Rouge
+		self.gps_f1_red, self.gps_f2_red, self.gps_f3_red, self.gps_f4_red, self.gps_f5_red = PhotoImage(file="../img/gps_f1_red.gif"), PhotoImage(file="../img/gps_f2_red.gif"), PhotoImage(file="../img/gps_f3_red.gif"), PhotoImage(file="../img/gps_f4_red.gif"), PhotoImage(file="../img/gps_f5_red.gif")
+		self.gps_r1_red, self.gps_r2_red, self.gps_r3_red, self.gps_r4_red, self.gps_r5_red = PhotoImage(file="../img/gps_r1_red.gif"), PhotoImage(file="../img/gps_r2_red.gif"), PhotoImage(file="../img/gps_r3_red.gif"), PhotoImage(file="../img/gps_r4_red.gif"), PhotoImage(file="../img/gps_r5_red.gif")
+		self.gps_l1_red, self.gps_l2_red, self.gps_l3_red, self.gps_l4_red, self.gps_l5_red = PhotoImage(file="../img/gps_l1_red.gif"), PhotoImage(file="../img/gps_l2_red.gif"), PhotoImage(file="../img/gps_l3_red.gif"), PhotoImage(file="../img/gps_l4_red.gif"), PhotoImage(file="../img/gps_l5_red.gif")
 
 	def draw(self, *arg) :
 		if self.mode == "top_view" :
@@ -137,12 +149,12 @@ class GameScreen(Canvas) :
 		
 		#Dessin du chemin parcouru
 		if self.display_path == True :
-			self.draw_path_top_view(self.mainframe.game.path_of_the_player, ecartHorizontal, ecartVertical)
+			self.draw_path_top_view(self.mainframe.game.path_of_the_player, ecartHorizontal, ecartVertical, couleur="yellow")
 		
 		#Dessin de la solution
 		if self.display_solution == True :
 			self.mainframe.game.give_solution()
-			self.draw_path_top_view(self.mainframe.game.way_list, ecartHorizontal, ecartVertical)
+			self.draw_path_top_view(self.mainframe.game.way_list, ecartHorizontal, ecartVertical, couleur="red")
 			
 		#Dessin du personnage
 		if(player_position[1] == labWidth-1) :
@@ -167,33 +179,37 @@ class GameScreen(Canvas) :
 		if caseDB != "" :
 			self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16) + 16, anchor=NW, image=caseDB)
 			
-	def draw_path_top_view(self, liste_chemin, ecartHorizontal, ecartVertical) :
+	def draw_path_top_view(self, liste_chemin, ecartHorizontal, ecartVertical, couleur) :
+		if couleur == "red" :
+			path_right, path_up, path_left, path_down = self.path_right_red, self.path_up_red, self.path_left_red, self.path_down_red
+		else :
+			path_right, path_up, path_left, path_down = self.path_right, self.path_up, self.path_left, self.path_down
 		for indice, coord in enumerate(liste_chemin) :
 			if coord[1] < self.labWidth - 1 : #Pour éviter que le chemin s'affiche en dehors du labyrinthe
 				#On se relie à la position précédente
 				if indice > 0 :
 					if(liste_chemin[indice - 1][0] == coord[0]) : #Sur la même ligne
 						if(liste_chemin[indice - 1][1] > coord[1]) : #Position précédente à droite
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_right)
 						else : #Position précédente à gauche
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_left)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_left)
 					else : #Sur la même colone
 						if(liste_chemin[indice - 1][0] > coord[0]) : #Position précédente en haut
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_down)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_down)
 						else : #Position précédente à gauche
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_up)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_up)
 				#On se relie à la position précédente
 				if indice < len(liste_chemin) - 1 :
 					if(liste_chemin[indice + 1][0] == coord[0]) : #Sur la même ligne
 						if(liste_chemin[indice + 1][1] > coord[1]) : #Position suivante à droite
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_right)
 						else : #Position suivante à gauche
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_left)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_left)
 					else : #Sur la même colone
 						if(liste_chemin[indice + 1][0] > coord[0]) : #Position suivant en haut
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_down)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_down)
 						else : #Position suivante à gauche
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_up)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=path_up)
 		
 	def draw_fps_view(self) :
 		"""Configure l'affichage en mode FPS"""
@@ -236,10 +252,17 @@ class GameScreen(Canvas) :
 		#C5
 		if game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace), caseFace) :
 			y,x = game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace), caseFace)
+			
+			if game.is_a_possible_movement((y,x), caseFace) :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseFace), 5, "haut")
 			if not game.is_a_possible_movement((y,x), caseGauche) :
 				self.create_image(0, 0, anchor=NW, image=self.l5)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseGauche), 5, "gauche")
 			if not game.is_a_possible_movement((y,x), caseDroite) :
 				self.create_image(0, 0, anchor=NW, image=self.r5)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseDroite), 5, "droite")
 		#C4
 		if game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace) :
 			y,x = game.is_a_possible_movement(game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace), caseFace)
@@ -249,10 +272,16 @@ class GameScreen(Canvas) :
 					self.create_image(0, 0, anchor=NW, image=self.f4_end)
 				else :
 					self.create_image(0, 0, anchor=NW, image=self.f4)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseFace), 4, "haut")
 			if not game.is_a_possible_movement((y,x), caseGauche) :
 				self.create_image(0, 0, anchor=NW, image=self.l4)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseGauche), 4, "gauche")
 			if not game.is_a_possible_movement((y,x), caseDroite) :
 				self.create_image(0, 0, anchor=NW, image=self.r4)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseDroite), 4, "droite")
 		#C3
 				
 		if game.is_a_possible_movement(game.is_a_possible_movement((posY, posX), caseFace), caseFace) :
@@ -262,10 +291,16 @@ class GameScreen(Canvas) :
 					self.create_image(0, 0, anchor=NW, image=self.f3_end)
 				else :
 					self.create_image(0, 0, anchor=NW, image=self.f3)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseFace), 3, "haut")
 			if not game.is_a_possible_movement((y, x), caseGauche) :
 				self.create_image(0, 0, anchor=NW, image=self.l3)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseGauche), 3, "gauche")
 			if not game.is_a_possible_movement((y, x), caseDroite) :
 				self.create_image(0, 0, anchor=NW, image=self.r3)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseDroite), 3, "droite")
 		#C2
 		if game.is_a_possible_movement((posY, posX), caseFace) :
 			y, x = game.is_a_possible_movement((posY, posX), caseFace)
@@ -274,21 +309,59 @@ class GameScreen(Canvas) :
 					self.create_image(0, 0, anchor=NW, image=self.f2_end)
 				else :
 					self.create_image(0, 0, anchor=NW, image=self.f2)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseFace), 2, "haut")
 			if not game.is_a_possible_movement((y, x), caseGauche) :
 				self.create_image(0, 0, anchor=NW, image=self.l2)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseGauche), 2, "gauche")
 			if not game.is_a_possible_movement((y, x), caseDroite) :
 				self.create_image(0, 0, anchor=NW, image=self.r2)
+			else :
+				self.draw_path_fps_view(game.is_a_possible_movement((y, x), caseDroite), 2, "droite")
 		#C1
 		if not game.is_a_possible_movement((posY, posX), caseFace) :
 			if posY == finalPosY and posX == finalPosX :
 				self.create_image(0, 0, anchor=NW, image=self.f1_end)
 			else :
 				self.create_image(0, 0, anchor=NW, image=self.f1)
+		else :
+			self.draw_path_fps_view(game.is_a_possible_movement((posY, posX), caseFace), 1, "haut")
 		if not game.is_a_possible_movement((posY, posX), caseGauche) :
 			self.create_image(0, 0, anchor=NW, image=self.l1)
+		else :
+			self.draw_path_fps_view(game.is_a_possible_movement((posY, posX), caseGauche), 1, "gauche")
 		if not game.is_a_possible_movement((posY, posX), caseDroite) :
 			self.create_image(0, 0, anchor=NW, image=self.r1)
+		else :
+			self.draw_path_fps_view(game.is_a_possible_movement((posY, posX), caseDroite), 1, "droite")
 			
 		#On dessine la fenetre
 		self.update()
 		
+	def draw_path_fps_view(self, position, profondeur, direction) :
+		#Definition des constantes à adopter
+		if profondeur == 1 :
+			f, l, r, f_red, l_red, r_red = self.gps_f1, self.gps_l1, self.gps_r1, self.gps_f1_red, self.gps_l1_red, self.gps_r1_red
+		elif profondeur == 2 :
+			f, l, r, f_red, l_red, r_red = self.gps_f2, self.gps_l2, self.gps_r2, self.gps_f2_red, self.gps_l2_red, self.gps_r2_red
+		elif profondeur == 3 :
+			f, l, r, f_red, l_red, r_red = self.gps_f3, self.gps_l3, self.gps_r3, self.gps_f3_red, self.gps_l3_red, self.gps_r3_red
+		elif profondeur == 4 :
+			f, l, r, f_red, l_red, r_red = self.gps_f4, self.gps_l4, self.gps_r4, self.gps_f4_red, self.gps_l4_red, self.gps_r4_red
+		elif profondeur == 5 :
+			f, l, r, f_red, l_red, r_red = self.gps_f5, self.gps_l5, self.gps_r5, self.gps_f5_red, self.gps_l5_red, self.gps_r5_red
+		if direction == "gauche" :
+			image, image_red = l, l_red
+		elif direction == "haut" :
+			image, image_red = f, f_red
+		elif direction == "droite" :
+			image, image_red = r, r_red
+		
+		#Affichage
+		if self.display_path == True :
+			if [position[0], position[1]] in self.mainframe.game.path_of_the_player :
+				self.create_image(0, 0, anchor=NW, image=image)
+		if self.display_solution == True :
+			if [position[0], position[1]] in self.mainframe.game.way_list :
+				self.create_image(0, 0, anchor=NW, image=image_red)
