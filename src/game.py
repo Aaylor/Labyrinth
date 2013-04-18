@@ -209,6 +209,9 @@ class game(object):
         height = int((info[0].split("="))[1]) + 1
         self.game_labyrinth = read_labyrinth(info[1:height+1])
         self.player_position = ast.literal_eval((info[height+1].split("="))[1])
+        self.player = player.Player(self.player_position,
+                                    (self.game_labyrinth.height,
+                                    self.game_labyrinth.width_on_odd_line))
         self.game_labyrinth.labyrinth[self.player_position[0]][self.player_position[1]] += 'P'
         #ast.literal_eval, this function evaluate string and return list,
         #tuple or every literal evaluation
