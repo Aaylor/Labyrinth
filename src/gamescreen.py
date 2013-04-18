@@ -219,6 +219,8 @@ class GameScreen(Canvas) :
 		finalPosX = self.mainframe.game.game_labyrinth.exit_position[1]
 		finalPosY = self.mainframe.game.game_labyrinth.exit_position[0]
 		game = self.mainframe.game
+		if self.display_solution == True :
+			self.mainframe.game.give_solution()
 		self.delete("all")
 		#Arriere plan
 		self.create_image(0, 0, anchor=NW, image=self.bg)
