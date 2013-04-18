@@ -174,7 +174,7 @@ class GameScreen(Canvas) :
 				if indice > 0 :
 					if(liste_chemin[indice - 1][0] == coord[0]) : #Sur la même ligne
 						if(liste_chemin[indice - 1][1] > coord[1]) : #Position précédente à droite
-							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right)
+							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_right, fill="red")
 						else : #Position précédente à gauche
 							self.create_image(ecartHorizontal+(coord[1]*2*16), ecartVertical+(coord[0]*16) - 16, anchor=NW, image=self.path_left)
 					else : #Sur la même colone

@@ -53,9 +53,9 @@ class MainFrame(Tk) :
 
 		
 	def open_session(self, *arg) :
-		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
+		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
 		if filename != "" :
-			self.game = game.load_game(filename)
+			self.game = game.game(False, filename=filename, loadgame=True)
 			if self.game.game_labyrinth.create == True :
 				self.init_top_view()
 			else :
@@ -63,7 +63,7 @@ class MainFrame(Tk) :
 				
 	def save_session(self, *arg) :
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
-			filename = filedialog.asksaveasfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
+			filename = filedialog.asksaveasfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
 			self.game.save_game(filename)
 		else :
 			messagebox.showwarning("Erreur", "Aucune session de jeu lancée.")
