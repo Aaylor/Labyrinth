@@ -7,7 +7,7 @@ class GameScreen(Canvas) :
 		self.mainframe = mainFrame
 		self.mode = "no_game"
 		self.display_path = False
-		self.display_solution = True
+		self.display_solution = False
 
 	def no_game(self) :
 		"""Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
@@ -141,6 +141,7 @@ class GameScreen(Canvas) :
 		
 		#Dessin de la solution
 		if self.display_solution == True :
+			self.mainframe.game.give_solution()
 			self.draw_path_top_view(self.mainframe.game.way_list, ecartHorizontal, ecartVertical)
 			
 		#Dessin du personnage
