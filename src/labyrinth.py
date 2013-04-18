@@ -207,5 +207,6 @@ class read_labyrinth(labyrinth):
 
     def __init__(self, lab_list):
         self.labyrinth = [list(line) for line in lab_list]
+        self.create = True
         labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)
         
