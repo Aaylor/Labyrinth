@@ -165,7 +165,6 @@ class MainFrame(Tk) :
 					elif self.game.player.direction == "d" :
 						self.game.player.direction = "b"
 			self.gamescreen.draw()
-			self.game.display()
 			if self.game.is_at_exit_point() :
 				self.game_over()
 							  

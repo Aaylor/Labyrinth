@@ -8,21 +8,8 @@ class GameScreen(Canvas) :
 		self.mode = "no_game"
 		self.display_path = False
 		self.display_solution = False
-
-	def no_game(self) :
-		"""Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
-		###METTRE UNE IMAGE "DUNGEON AND PYTHON"
-		self.mode = "no_game"
-		self.ecran_titre = PhotoImage(file="../img/ecran_titre.gif")
-		self.create_image(0, 0, anchor=NW, image=self.ecran_titre)
-
-	def init_top_view(self, *arg) :
-		##Recupération des composants du jeu
-		self.mode = "top_view"
-		self.lab = self.mainframe.game.game_labyrinth.labyrinth
-		self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
-		self.labHeight = self.mainframe.game.game_labyrinth.height
-		###Initialisation des images
+		#Initialisation des images pour reduire les temps de chargement ulterieurs
+		#Top view
 		self.tileSolIMG = PhotoImage(file="../img/tile_sol.gif")
 		self.tileVideIMG = PhotoImage(file="../img/tile_vide.gif")
 		self.perso_up = PhotoImage(file="../img/personnage-haut.gif")
@@ -37,13 +24,7 @@ class GameScreen(Canvas) :
 		self.path_up_red = PhotoImage(file="../img/path-up_red.gif")
 		self.path_down_red = PhotoImage(file="../img/path-down_red.gif")
 		self.path_left_red = PhotoImage(file="../img/path-left_red.gif")
-
-	def init_fps_view(self, *arg) :
-		##Recupération des composants du jeu
-		self.mode = "fps_view"
-		self.lab = self.mainframe.game.game_labyrinth.labyrinth
-		self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
-		self.labHeight = self.mainframe.game.game_labyrinth.height
+		#fps view
 		self.bg = PhotoImage(file="../img/background.gif")
 		self.f1 = PhotoImage(file="../img/f1.gif")
 		self.f2 = PhotoImage(file="../img/f2.gif")
@@ -71,6 +52,27 @@ class GameScreen(Canvas) :
 		self.gps_f1_red, self.gps_f2_red, self.gps_f3_red, self.gps_f4_red, self.gps_f5_red = PhotoImage(file="../img/gps_f1_red.gif"), PhotoImage(file="../img/gps_f2_red.gif"), PhotoImage(file="../img/gps_f3_red.gif"), PhotoImage(file="../img/gps_f4_red.gif"), PhotoImage(file="../img/gps_f5_red.gif")
 		self.gps_r1_red, self.gps_r2_red, self.gps_r3_red, self.gps_r4_red, self.gps_r5_red = PhotoImage(file="../img/gps_r1_red.gif"), PhotoImage(file="../img/gps_r2_red.gif"), PhotoImage(file="../img/gps_r3_red.gif"), PhotoImage(file="../img/gps_r4_red.gif"), PhotoImage(file="../img/gps_r5_red.gif")
 		self.gps_l1_red, self.gps_l2_red, self.gps_l3_red, self.gps_l4_red, self.gps_l5_red = PhotoImage(file="../img/gps_l1_red.gif"), PhotoImage(file="../img/gps_l2_red.gif"), PhotoImage(file="../img/gps_l3_red.gif"), PhotoImage(file="../img/gps_l4_red.gif"), PhotoImage(file="../img/gps_l5_red.gif")
+
+	def no_game(self) :
+		"""Configure l'affichage lorsque aucun labyrinthe n'est lancé"""
+		###METTRE UNE IMAGE "DUNGEON AND PYTHON"
+		self.mode = "no_game"
+		self.ecran_titre = PhotoImage(file="../img/ecran_titre.gif")
+		self.create_image(0, 0, anchor=NW, image=self.ecran_titre)
+
+	def init_top_view(self, *arg) :
+		##Recupération des composants du jeu
+		self.mode = "top_view"
+		self.lab = self.mainframe.game.game_labyrinth.labyrinth
+		self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
+		self.labHeight = self.mainframe.game.game_labyrinth.height
+
+	def init_fps_view(self, *arg) :
+		##Recupération des composants du jeu
+		self.mode = "fps_view"
+		self.lab = self.mainframe.game.game_labyrinth.labyrinth
+		self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
+		self.labHeight = self.mainframe.game.game_labyrinth.height
 
 	def draw(self, *arg) :
 		if self.mode == "top_view" :
