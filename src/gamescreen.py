@@ -3,7 +3,7 @@ from tkinter import *
 
 class GameScreen(Canvas) :
 	def __init__(self, boss, mainFrame, scrollbarX, scrollbarY) :
-		Canvas.__init__(self, boss, bg="ivory", width=800, height=450, xscrollcommand = scrollbarX.set, yscrollcommand=scrollbarY.set)
+		Canvas.__init__(self, boss, bg="#1A1A1A", width=800, height=450, xscrollcommand = scrollbarX.set, yscrollcommand=scrollbarY.set)
 		self.mainframe = mainFrame
 		self.mode = "no_game"
 		self.display_path = False
