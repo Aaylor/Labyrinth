@@ -141,6 +141,8 @@ class MainFrame(Tk) :
 
 	def init_fps_view(self, *arg) :
 		self.gamescreen.init_fps_view()
+		self.gamescreen.yview_moveto(0)
+		self.gamescreen.xview_moveto(0)
 		self.gamescreen.draw()
 		self.scrollbarX.pack_forget()
 		self.scrollbarY.pack_forget()
