@@ -2,8 +2,8 @@
 from tkinter import *
 
 class GameScreen(Canvas) :
-	def __init__(self, mainFrame) :
-		Canvas.__init__(self, mainFrame, bg="ivory", width=800, height=450)
+	def __init__(self, boss, mainFrame, scrollbarX, scrollbarY) :
+		Canvas.__init__(self, boss, bg="ivory", width=800, height=450, xscrollcommand = scrollbarX.set, yscrollcommand=scrollbarY.set)
 		self.mainframe = mainFrame
 		self.mode = "no_game"
 		self.display_path = False
@@ -66,6 +66,23 @@ class GameScreen(Canvas) :
 		self.lab = self.mainframe.game.game_labyrinth.labyrinth
 		self.labWidth = self.mainframe.game.game_labyrinth.width_on_odd_line + 1
 		self.labHeight = self.mainframe.game.game_labyrinth.height
+		#Calcul de la taille du terrain pour savoir si on affiche les scrollbar
+		#Calcul des ecarts
+		#Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
+		self.ecartHorizontal = (800 - 16*2*(self.labWidth) + 16)/2
+		self.ecartVertical = (450 - 16*(self.labHeight+1))/2
+		#ScrollBar Vertical
+		if self.ecartVertical < 0 :
+			self.ecartVertical = 0
+			self.mainframe.scrollbarY.pack(side=RIGHT, fill=Y)
+		else :
+			self.mainframe.scrollbarY.pack_forget()
+		#ScrollBar Horizontal
+		if self.ecartHorizontal < 0 :
+			self.ecartHorizontal = 0
+			self.mainframe.scrollbarX.pack()
+		else :
+			self.mainframe.scrollbarX.pack_forget()
 
 	def init_fps_view(self, *arg) :
 		##Recupération des composants du jeu
@@ -87,6 +104,7 @@ class GameScreen(Canvas) :
 		player_position = self.mainframe.game.player_position
 		tileSol = self.tileSolIMG
 		tileVide= self.tileVideIMG
+		ecartHorizontal, ecartVertical = self.ecartHorizontal, self.ecartVertical
 		direction = self.mainframe.game.player.direction #direction du personnage
 		if direction == "h" :
 			perso = self.perso_up
@@ -100,16 +118,10 @@ class GameScreen(Canvas) :
 		##Debut de la construction du canevas
 		#On efface le contenu du canevas
 		self.delete("all")
-		#Dessin de fond
-		self.create_rectangle(0,0, 801, 451, fill="ivory")
-
 		#Dessin du labyrinthe
 		"""Configure l'affichage en mode vue du dessus"""
 
-		#Calcul des ecarts
-		#Ecart = (Taille de l'écran - (taille d'un tiles * 2)*nb de case du labyrinte /2
-		ecartHorizontal = (800 - 16*2*(labWidth) + 16)/2
-		ecartVertical = (450 - 16*(labHeight+1))/2
+
 
 		#Dessin du labyrinthe
 		#Pour le dessin du labyrinthe, on utilise des carre de 2 tiles de longueur et 2 tiles de hauteur.

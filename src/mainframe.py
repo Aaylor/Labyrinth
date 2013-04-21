@@ -16,14 +16,20 @@ class MainFrame(Tk) :
 		self.game = None
 
 		#Zone d'Affichage
-		self.gamescreen = GameScreen(self)
-		self.gamescreen.no_game()
-		self.gamescreen.pack()
+		self.gamescreenPane = Frame(self)
+		self.gamescreenPane.pack()
+		self.scrollbarX = Scrollbar(self, orient=HORIZONTAL)
+		self.scrollbarY = Scrollbar(self.gamescreenPane, orient=VERTICAL)
+		self.gamescreen = GameScreen(self.gamescreenPane, self, self.scrollbarX, self.scrollbarY)
+		self.scrollbarX.config(command=self.gamescreen.xview)
+		self.scrollbarY.config(command=self.gamescreen.yview)
+		self.gamescreen.pack(side=LEFT)
+		self.scrollbarY.pack(side=RIGHT, fill=Y)
+		self.scrollbarX.pack(fill=X)
 
 		#Zone de Controle
 		self.inputArea = InputArea(self)
 		self.inputArea.pack()
-		self.inputArea.display_no_game()
 
 		#Raccourcis clavier
 		self.bind('<Control-o>', self.open_file)
@@ -39,6 +45,10 @@ class MainFrame(Tk) :
 		self.bind('<Left>', self.move_left)
 		self.bind('<Right>', self.move_right)
 
+		#On lance le mode no game
+		self.no_game()
+		
+		
 	#Ouverture d'une session de jeu
 
 	def open_file(self, *arg) :
@@ -123,10 +133,14 @@ class MainFrame(Tk) :
 		self.inputArea.display_fps_view()
 		self.gamescreen.init_fps_view()
 		self.gamescreen.draw()
+		self.scrollbarX.pack_forget()
+		self.scrollbarY.pack_forget()
 
 	def no_game(self, *arg) :
-		self.inputArea.display_no_game()
 		self.gamescreen.no_game()
+		self.inputArea.display_no_game()
+		self.scrollbarX.pack_forget()
+		self.scrollbarY.pack_forget()
 
 	#Les méthodes de controle du jeu
 	def move(self, direction, *arg) :
@@ -167,7 +181,7 @@ class MainFrame(Tk) :
 			self.gamescreen.draw()
 			if self.game.is_at_exit_point() :
 				self.game_over()
-							  
+								
 	def move_up(self, *arg) :
 		self.move("h")
 	def move_down(self, *arg) :
@@ -176,9 +190,9 @@ class MainFrame(Tk) :
 		self.move("g")
 	def move_right(self, *arg) :
 		self.move("d")
-        
-        
-        
+				
+				
+				
 class CreateLabFrame(Toplevel) :
 	def __init__(self, mainframe, *arg) :
 		self.mainframe = mainframe
