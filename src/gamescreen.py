@@ -80,7 +80,7 @@ class GameScreen(Canvas) :
 		#ScrollBar Horizontal
 		if self.ecartHorizontal < 0 :
 			self.ecartHorizontal = 0
-			self.mainframe.scrollbarX.pack()
+			self.mainframe.scrollbarX.pack(side=BOTTOM, fill=X)
 		else :
 			self.mainframe.scrollbarX.pack_forget()
 

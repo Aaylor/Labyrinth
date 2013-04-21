@@ -16,16 +16,18 @@ class MainFrame(Tk) :
 		self.game = None
 
 		#Zone d'Affichage
-		self.gamescreenPane = Frame(self)
-		self.gamescreenPane.pack()
-		self.scrollbarX = Scrollbar(self, orient=HORIZONTAL)
-		self.scrollbarY = Scrollbar(self.gamescreenPane, orient=VERTICAL)
-		self.gamescreen = GameScreen(self.gamescreenPane, self, self.scrollbarX, self.scrollbarY)
+		self.gamescreenPaneVertical = Frame(self)
+		self.gamescreenPaneHorizontal = Frame(self.gamescreenPaneVertical)
+		self.scrollbarX = Scrollbar(self.gamescreenPaneVertical, orient=HORIZONTAL)
+		self.scrollbarY = Scrollbar(self.gamescreenPaneHorizontal, orient=VERTICAL)
+		self.gamescreen = GameScreen(self.gamescreenPaneHorizontal, self, self.scrollbarX, self.scrollbarY)
 		self.scrollbarX.config(command=self.gamescreen.xview)
 		self.scrollbarY.config(command=self.gamescreen.yview)
 		self.gamescreen.pack(side=LEFT)
+		self.gamescreenPaneVertical.pack()
+		self.gamescreenPaneHorizontal.pack()
 		self.scrollbarY.pack(side=RIGHT, fill=Y)
-		self.scrollbarX.pack(fill=X)
+		self.scrollbarX.pack(side=BOTTOM, fill=X)
 
 		#Zone de Controle
 		self.inputArea = InputArea(self)
@@ -122,25 +124,27 @@ class MainFrame(Tk) :
 		elif self.gamescreen.mode == "fps_view" :
 			self.init_top_view()
 
+	def no_game(self, *arg) :
+		self.gamescreen.no_game()
+		self.gamescreen.yview_moveto(0)
+		self.gamescreen.xview_moveto(0)
+		self.scrollbarX.pack_forget()
+		self.scrollbarY.pack_forget()
+		self.inputArea.display_no_game()
+		
 	def init_top_view(self, *arg) :
-		#On passe la zone de controle en mode vue du dessus
-		self.inputArea.display_top_view()
 		#On passe l'ecran de jeu en mode jeu en vue du dessus
 		self.gamescreen.init_top_view()
 		self.gamescreen.draw()
+		#On passe la zone de controle en mode vue du dessus
+		self.inputArea.display_top_view()
 
 	def init_fps_view(self, *arg) :
-		self.inputArea.display_fps_view()
 		self.gamescreen.init_fps_view()
 		self.gamescreen.draw()
 		self.scrollbarX.pack_forget()
 		self.scrollbarY.pack_forget()
-
-	def no_game(self, *arg) :
-		self.gamescreen.no_game()
-		self.inputArea.display_no_game()
-		self.scrollbarX.pack_forget()
-		self.scrollbarY.pack_forget()
+		self.inputArea.display_fps_view()
 
 	#Les méthodes de controle du jeu
 	def move(self, direction, *arg) :
