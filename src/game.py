@@ -217,32 +217,3 @@ class game(object):
         #tuple or every literal evaluation
         self.path_of_the_player = ast.literal_eval((info[-1].split("="))[1])
 
-if __name__ == "__main__":
-    """
-    TO READ
-    a = game(True, width=PUT_INTEGER, height=PUT_INTEGER)
-        ->  Generate random labyrinth
-    a = game(False, filename="filename.lab")
-        ->  Open a file
-    a = game(False, filename="filename.sav", loadgame=True)
-    """
-    a = game(True, width=20, height=14)
-    #a = game(False, filename="rand_lab.lab")
-    #a = game(False, filename="test.sav", loadgame=True)
-    #a.game_labyrinth.write_on_file("b")
-    print(a.way_list)
-    print(a.path_of_the_player)
-    while True:
-        a.display()
-        d = input("Move : ")
-        if d == 's':
-            a.display_solution()
-        if d == 'u':
-            a.undisplay_solution()
-        if d == 'q':
-            break
-        if d == 'sa':
-            a.save_game("test.sav")
-        if d == 'lo':
-            a.load_game("test.sav")
-        a.move(d)
