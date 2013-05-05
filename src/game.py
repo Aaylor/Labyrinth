@@ -10,17 +10,7 @@ from utility.tree import *
 class game(object):
 
     def __init__(self, labyrinth_choice, **kwargs):
-        """Initialise l'objet game qui permettra le contrôle absolu sur le jeu,
-        c'est à dire la position du joueur, son déplacement ainsi que tout
-        calcul nécessaire au bon déroulement du jeu.
-        Les arguments correspondent au choix de l'utilisateur :
-            - labyrinthe généré aléatoirement : l'utilisateur n'a rien à choisir.
-            - labyrinthe chargé :
-                * soit par un .lab, qui correspond à un fichier labyrinthe, et
-                contenant le labyrinthe sous forme textuel
-                * soit un .sav correspondant à un fichier de sauvegarde,
-                gardant en mémoire toute information nécessaire au bon
-                déroulement du jeu.
+        """Initialise l'objet `game`... #TODO doc
         """
         if labyrinth_choice:
             self.game_labyrinth = \
@@ -145,7 +135,6 @@ class game(object):
                 self.path_of_the_player.append(list(self.player_position))
 
     def __construct_tree(self, first_item, current_tree):
-        """Construit l'arbre selon les déplacements possible"""
         tree_position = current_tree.value
         if self.is_a_possible_movement(tree_position, 'b'):
             case = self.case_deplacement(tree_position, 'b')
@@ -166,7 +155,6 @@ class game(object):
             self.__construct_tree(first_item, tree_sons)
 
     def __give_solution(self, liste, tree):
-        """Rempli la liste du chemin pour arriver à la sortie."""
         for values in tree.sons:
             if list(self.game_labyrinth.exit_position) not in liste:
                 self.__give_solution(liste, values)
@@ -191,11 +179,9 @@ class game(object):
                     self.game_labyrinth.labyrinth[value[0]][value[1]][0]
 
     def is_at_exit_point(self):
-        """Détermine si le joueur se trouve ou non à la sortie."""
         return self.player_position == self.game_labyrinth.exit_position
 
     def save_game(self, filename):
-        """Sauvegarde la partie."""
         try:
             _file = open(filename, "w")
         except IOError:
@@ -211,7 +197,6 @@ class game(object):
         _file.write("path=" + str(self.path_of_the_player))
 
     def load_game(self, filename):
-        """Charge la partie."""
         try:
             _file = open(filename, "r")
         except IOError:

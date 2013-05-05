@@ -54,7 +54,6 @@ class MainFrame(Tk) :
 	#Ouverture d'une session de jeu
 
 	def open_file(self, *arg) :
-        """Ouvre un fichier labyrinthe."""
 		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
 		if filename != "" :
 			#On associe le jeu à la fenetre
@@ -66,7 +65,6 @@ class MainFrame(Tk) :
 
 		
 	def open_session(self, *arg) :
-        """Ouvre un fichier sauvegarde."""
 		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
 		if filename != "" :
 			self.game = game.game(False, filename=filename, loadgame=True)
@@ -76,7 +74,6 @@ class MainFrame(Tk) :
 				messagebox.showinfo("Fichier .save invalide", "Le fichier Labyrinthe que vous avez séléctionné n'est pas valide.\nVeuillez ouvrir un autre fichier.")
 				
 	def save_session(self, *arg) :
-        """Sauvegarde dans un fichier."""
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
 			filename = filedialog.asksaveasfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
 			self.game.save_game(filename)
@@ -84,7 +81,6 @@ class MainFrame(Tk) :
 			messagebox.showwarning("Erreur", "Aucune session de jeu lancée.")
 			
 	def generate_labyrinth(self, *arg) :
-        """Génère la labyrinthe aléatoirement."""
 		#On associe le jeu à la fenetre
 		self.game = game.game(True, width=20, height=10)
 		self.init_top_view()
@@ -93,9 +89,6 @@ class MainFrame(Tk) :
 		CreateLabFrame(self);
 		
 	def generate_labyrinth_perso(self, hauteur, longueur, *arg):
-        """Génère le labyrinthe aléatoirement selon les données de
-        l'utilisateur.
-        """
 		#On associe le jeu à la fenetre
 		self.game = game.game(True, width=hauteur, height=longueur)
 		self.init_top_view()
@@ -103,7 +96,6 @@ class MainFrame(Tk) :
 	#Methode liée au jeu
 	
 	def display_path(self, *arg) :
-        """Affiche le déplacement du joueur."""
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
 			if self.gamescreen.display_path == False :
 				self.gamescreen.display_path = True
@@ -112,7 +104,6 @@ class MainFrame(Tk) :
 			self.gamescreen.draw()
 		
 	def display_solution(self, *arg) :
-        """Affiche la solution du labyrinthe."""
 		if self.gamescreen.mode == "top_view" or self.gamescreen.mode == "fps_view" :
 			if self.gamescreen.display_solution == False :
 				self.gamescreen.display_solution = True
@@ -121,7 +112,6 @@ class MainFrame(Tk) :
 			self.gamescreen.draw()
 		
 	def game_over(self, *arg) :
-        """Fin du jeu."""
 		messagebox.showinfo("Félicitation !", "Vous avez résolu le labyrinthe, félicitation !")
 		self.no_game()
 		
@@ -129,14 +119,12 @@ class MainFrame(Tk) :
 	#Methode de vues
 	
 	def change_view(self, *arg) :
-        """Change de vue."""
 		if self.gamescreen.mode == "top_view" :
 			self.init_fps_view()
 		elif self.gamescreen.mode == "fps_view" :
 			self.init_top_view()
 
 	def no_game(self, *arg) :
-        """Affiche le menu de base."""
 		self.gamescreen.no_game()
 		self.gamescreen.yview_moveto(0)
 		self.gamescreen.xview_moveto(0)
@@ -145,7 +133,6 @@ class MainFrame(Tk) :
 		self.inputArea.display_no_game()
 		
 	def init_top_view(self, *arg) :
-        """Initialise la vue du dessus."""
 		#On passe l'ecran de jeu en mode jeu en vue du dessus
 		self.gamescreen.init_top_view()
 		self.gamescreen.draw()
@@ -153,7 +140,6 @@ class MainFrame(Tk) :
 		self.inputArea.display_top_view()
 
 	def init_fps_view(self, *arg) :
-        """Initialise la vue fps"""
 		self.gamescreen.init_fps_view()
 		self.gamescreen.yview_moveto(0)
 		self.gamescreen.xview_moveto(0)
@@ -164,7 +150,6 @@ class MainFrame(Tk) :
 
 	#Les méthodes de controle du jeu
 	def move(self, direction, *arg) :
-        """Déplace le joueur."""
 		if self.gamescreen.mode != "no_game" :
 			if self.gamescreen.mode == "top_view" :
 				self.game.move(direction)
@@ -204,16 +189,12 @@ class MainFrame(Tk) :
 				self.game_over()
 								
 	def move_up(self, *arg) :
-        """Déplacement vers le haut."""
 		self.move("h")
 	def move_down(self, *arg) :
-        """Déplacement vers le bas."""
 		self.move("b")
 	def move_left(self, *arg) :
-        """Déplacement vers la gauche."""
 		self.move("g")
 	def move_right(self, *arg) :
-        """Déplacement vers la droite."""
 		self.move("d")
 				
 				
@@ -234,7 +215,6 @@ class CreateLabFrame(Toplevel) :
 		okButton.pack()
 
 	def verify_values(self, *arg) :
-        """Vérifie les valeurs de l'utilisateur."""
 		try :
 			longueur = int(self.longueurBox.get())
 			hauteur = int(self.hauteurBox.get())
@@ -247,10 +227,8 @@ class CreateLabFrame(Toplevel) :
 			self.warning_value_non_correct()
 	
 	def warning_value_too_high(self, *arg) :
-        """Affiche le message d'erreur si les valeurs sont incorrectes."""
 		messagebox.showerror("Erreur de saisie", "Les valeurs saisies sont trop élevées")
 
 	def warning_value_non_correct(self) :
-        """Affiche le message d'erreur si les valeurs ne sont pas autorisés."""
 		messagebox.showerror("Erreur de saisie", "Les valeurs saisies comportent des caractères non autorisés")
 		
