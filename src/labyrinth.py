@@ -10,12 +10,16 @@ class labyrinth(object):
     """
     
     def __init__(self, width_on_odd_line, height):
+        """Initialise le labyrinthe avec les valeurs nécessaire au bon
+        déroulement du jeu.
+        """
         self.width_on_odd_line = width_on_odd_line
         self.width_on_even_line = width_on_odd_line + 1
         self.height = height
         self.__find_entry_and_exit()
 
     def disp_labyrinth(self, path=[]):
+        """Affiche textuellement le labyrinthe"""
         display_labyrinth = ""
         for i, k in enumerate(self.labyrinth):
             for z, j in enumerate(k):
@@ -27,8 +31,6 @@ class labyrinth(object):
                             type_line = "|P "
                         elif chr(9632) in j:
                             type_line = "|"+chr(9632)+" "
-                        elif chr(9829) in j:
-                            type_line = "|"+chr(9829)+" "
                         elif [i,z] in path:
                             type_line = "|* "
                         else:
@@ -45,8 +47,6 @@ class labyrinth(object):
                         display_labyrinth += " P "
                     elif chr(9632) in j:
                         display_labyrinth += " "+chr(9632)+" "
-                    elif chr(9829) in j:
-                        display_labyrinth += " "+chr(9829)+" "
                     elif [i,z] in path:
                         display_labyrinth += " * "
                     else:
@@ -55,6 +55,7 @@ class labyrinth(object):
         return display_labyrinth
 
     def __find_entry_and_exit(self):
+        """Sert à trouver l'entrée et la sortie dans le labyrinthe."""
         for i, line in enumerate(self.labyrinth):
             for j, char in enumerate(line):
                 if char == '0' and ((i == 0 or i == self.height) or (i&1 and (j == 0 or j == len(line)-1))):
@@ -71,6 +72,7 @@ class generate_random_labyrinth(labyrinth):
     """
 
     def __init__(self, width, height):
+        """Initialise le labyrinthe aléatoire."""
         self.width, self.height = width, height
         self.vertical_wall = [[True for i in range(width+1)] for j in range(height)]
         self.horizontal_wall = [[True for i in range(width)] for j in range(height+1)]
@@ -81,6 +83,7 @@ class generate_random_labyrinth(labyrinth):
         labyrinth.__init__(self, width, 2*height)
 
     def __create_labyrinth(self):
+        """Fonction se chargeant de créer le labyrinthe."""
         tmp_labyrinth = [[(j + (self.width * i)) for j in range(self.width)] for i in range(self.height)]
         
         while not self.__end_of_init(tmp_labyrinth):
@@ -109,6 +112,7 @@ class generate_random_labyrinth(labyrinth):
         self.__write_on_labyrinth()
 
     def __write_on_labyrinth(self):
+        """Sauvegarde le labyrinthe."""
         self.labyrinth = \
             [(list(map(lambda x: '1' if x is True else \
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.vertical_wall[i//2]))) if i&1 else \
@@ -116,6 +120,7 @@ class generate_random_labyrinth(labyrinth):
                 list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2]))) for i in range((self.height*2)+1)]
     
     def write_on_file(self, filename):
+        """Sauvegarde le labyrinthe dans un fichier."""
         _file = open("rand_lab.lab", 'w')
         for i in range((self.height*2)+1):
             if i&1:
@@ -126,6 +131,7 @@ class generate_random_labyrinth(labyrinth):
                                         list(map((lambda y: '0' if not y else 'E'),[x]))[0], self.horizontal_wall[i//2])) + "\n")
 
     def __create_entry_and_exit(self):
+        """Crée une entrée et une sortie."""
         for i in range(2):
             if i&1:
                 while True:
@@ -153,12 +159,14 @@ class generate_random_labyrinth(labyrinth):
                     self.exit_position = (x,y)
 
     def __change_value(self, old_value, new_value, tmp_labyrinth):
+        """Sert à la génération du labyrinthe."""
         for i in range(self.height):
             for j in range(self.width):
                 if tmp_labyrinth[i][j] == old_value:
                     tmp_labyrinth[i][j] = new_value
 
     def __end_of_init(self, tmp_labyrinth):
+        """Renvoie si l'initialisation est terminée ou non."""
         for i in range(self.height):
             for j in range(self.width):
                 if tmp_labyrinth[i][j] != 0:
@@ -169,11 +177,10 @@ class generate_random_labyrinth(labyrinth):
 class open_labyrinth(labyrinth):
     """Classe permettant l'ouverture d'un labyrinthe à partir d'un fichier
     `.lab`, et ainsi de lancer le jeu.
-    TODO : Faire en sorte de pouvoir charger des parties en cours. (peut être à
-    partir d'une autre classe ?)
     """
 
     def __init__(self, filename):
+        """Oubre un labyrinthe à partir d'un fichier .lab"""
         self.labyrinth = []
         self.entry_position = None
         self.exit_position = None
@@ -206,6 +213,7 @@ class read_labyrinth(labyrinth):
     """
 
     def __init__(self, lab_list):
+        """Initialise un labyrinthe à partir d'une liste."""
         self.labyrinth = [list(line) for line in lab_list]
         self.create = True
         labyrinth.__init__(self, len(self.labyrinth[0]), len(self.labyrinth)-1)

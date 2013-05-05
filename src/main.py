@@ -3,6 +3,7 @@
 from mainframe import *
 
 def main():
+    """Lancement du jeu."""
     fenetre = MainFrame()
     fenetre.mainloop()
 

@@ -40,6 +40,7 @@ class MenuBar(Frame) :
 		aideMenu.add_command(label="A propos", command=self.aPropos)
 
 	def aPropos(self) :
+        """Affiche le à propos."""
 		import random
 		if random.randint(0, 1) == 0 :
 			chaine = "\tMehdi Khelifi\n\tRunarvot Loic"
@@ -48,4 +49,5 @@ class MenuBar(Frame) :
 		messagebox.showinfo("A propos", "Dungeon and Python est un projet universitaire développé par deux étudiants : \n" + chaine)
 
 	def quitter(self) :
+        """Quitte le jeu."""
 		sys.exit()

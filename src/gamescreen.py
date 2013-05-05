@@ -61,6 +61,7 @@ class GameScreen(Canvas) :
 		self.create_image(0, 0, anchor=NW, image=self.ecran_titre)
 
 	def init_top_view(self, *arg) :
+        """Initilise la top view"""
 		##Recupération des composants du jeu
 		self.mode = "top_view"
 		self.lab = self.mainframe.game.game_labyrinth.labyrinth
@@ -85,6 +86,7 @@ class GameScreen(Canvas) :
 			self.mainframe.scrollbarX.pack_forget()
 
 	def init_fps_view(self, *arg) :
+        """Initialise la vue FPS"""
 		##Recupération des composants du jeu
 		self.mode = "fps_view"
 		self.lab = self.mainframe.game.game_labyrinth.labyrinth
@@ -92,12 +94,14 @@ class GameScreen(Canvas) :
 		self.labHeight = self.mainframe.game.game_labyrinth.height
 
 	def draw(self, *arg) :
+        """Affiche la vue choisie par l'utilisateur."""
 		if self.mode == "top_view" :
 			self.draw_top_view()
 		elif self.mode == "fps_view" :
 			self.draw_fps_view()
 	
-	def draw_top_view(self) : 
+	def draw_top_view(self) :
+        """Affiche la vue du dessus."""
 		lab = self.lab
 		labWidth = self.labWidth
 		labHeight = self.labHeight
@@ -194,6 +198,7 @@ class GameScreen(Canvas) :
 			self.create_image(ecartHorizontal+(x*2*16) +16, ecartVertical+(y*2*16) + 16, anchor=NW, image=caseDB)
 			
 	def draw_path_top_view(self, liste_chemin, ecartHorizontal, ecartVertical, couleur) :
+        """Dessine le chemin dans la vue du dessus."""
 		if couleur == "red" :
 			path_right, path_up, path_left, path_down = self.path_right_red, self.path_up_red, self.path_left_red, self.path_down_red
 		else :
@@ -356,6 +361,7 @@ class GameScreen(Canvas) :
 		self.update()
 		
 	def draw_path_fps_view(self, position, profondeur, direction) :
+        """Dessine la vue à la première personne"""
 		#Definition des constantes à adopter
 		if profondeur == 1 :
 			f, l, r, f_red, l_red, r_red = self.gps_f1, self.gps_l1, self.gps_r1, self.gps_f1_red, self.gps_l1_red, self.gps_r1_red
