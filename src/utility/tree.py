@@ -29,13 +29,3 @@ class Tree(object):
             if not self.in_tree(new_son.value):
                 self.sons.append(new_son)
 
-if __name__ == "__main__":
-    child_1 = Tree([2,3])
-    child_2 = Tree([4,5])
-    child_3 = Tree([6,3], child_1, child_2)
-    child_1.add_son(Tree([12,3]))
-    t = Tree([1,2], child_3)
-
-    t.display_tree()
-    print(t.in_tree([4,5]), t.in_tree([1,3]))
-
