@@ -1,0 +1,9 @@
+Projet LS4,
+Runarvot Loïc, Khelifi Mehdi.
+
+Pour lancer le programme, il suffit d'executer le fichier `main.py`.
+La fenêtre s'ouvrira donc, et toutes les options y seront présentes.
+
+Des fichiers tests ont été placés des les dossiers `/save` (pour les
+sauvegardes de parties) et `/lab` (pour l'ouverture de labyrinthe à partir de
+fichiers labyrinthe).
