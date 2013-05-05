@@ -1,0 +1,9 @@
+Projet LS4,
+Runarvot Loïc, Khelifi Mehdi.
+
+Pour lancer le projet, il suffit d'executer le fichier `main.py`.
+L'interface graphique se lancera et toutes les options seront disponnible à
+partir de celle-ci.
+
+Des fichiers tests ont été placés dans les dossiers `/save` (pour tester le
+chargement de fichiers) et `/lab` (pour l'ouverture de fichier labyrinthe).
