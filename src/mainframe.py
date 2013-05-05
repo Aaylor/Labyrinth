@@ -51,7 +51,10 @@ class MainFrame(Tk) :
 		self.no_game()
 		
 		
-    def open_file(self, *arg) :
+	#Ouverture d'une session de jeu
+
+	def open_file(self, *arg) :
+        """Ouvre un fichier labyrinthe."""
 		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Fichier Labyrinthe', '.lab')])
 		if filename != "" :
 			#On associe le jeu à la fenetre
@@ -64,7 +67,7 @@ class MainFrame(Tk) :
 		
 	def open_session(self, *arg) :
         """Ouvre un fichier sauvegarde."""
-        filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
+		filename = filedialog.askopenfilename(parent=None,initialdir="../",title='Veuillez choisir un fichier labyrinthe', filetypes = [('Sauvegarde de Session de jeu', '.sav')])
 		if filename != "" :
 			self.game = game.game(False, filename=filename, loadgame=True)
 			if self.game.game_labyrinth.create == True :
